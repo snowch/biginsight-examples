@@ -1,4 +1,5 @@
 apply plugin: 'groovy'
+apply plugin: 'java'
 
 buildscript {
     repositories {
@@ -19,6 +20,9 @@ dependencies {
     compile 'org.codehaus.groovy:groovy-all:2.0.5'
     compile 'org.apache.knox:gateway-shell:0.6.0'
     compile 'commons-io:commons-io:2.4'
+    // hadoop examples
+    compile(group: 'org.apache.hadoop', name: 'hadoop-common', version:'2.2.0') { }
+    compile(group: 'org.apache.hadoop', name: 'hadoop-mapreduce-client-core', version:'2.2.0') { }
 }
 
 task wrapper(type: Wrapper) {
@@ -33,6 +37,12 @@ sourceSets {
     }
 }
 
+// hadoop examples
+jar {
+    archiveName = 'hadoop-examples.jar'
+    destinationDir = file('samples')
+}
+
 /* Task to run script */
 tasks.addRule("Pattern: filename.groovy") { String taskName ->
 
@@ -41,7 +51,7 @@ tasks.addRule("Pattern: filename.groovy") { String taskName ->
         tree.each {File file ->
             if (file.absolutePath.endsWith(taskName)) {
 
-                task(taskName, dependsOn:'classes', type: JavaExec) {
+                task(taskName, dependsOn:'jar', type: JavaExec) {
 
                     Properties props = new Properties()
                     props.load(new FileInputStream("$projectDir/connection.properties"))
