@@ -1,3 +1,7 @@
+# E.g. https://bi-hadoop-prod-4066.services.dal.bluemix.net:8443/gateway/default
 gateway:changeme
+
+# E.g. biadmin
 username:changeme
+
 password:changeme
