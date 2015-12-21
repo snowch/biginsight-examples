@@ -1,0 +1,62 @@
+apply plugin: 'groovy'
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'org.codehaus.groovy:groovy-all:2.0.5'
+        classpath 'org.apache.knox:gateway-shell:0.6.0'
+        classpath 'commons-io:commons-io:2.4'
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'org.codehaus.groovy:groovy-all:2.0.5'
+    compile 'org.apache.knox:gateway-shell:0.6.0'
+    compile 'commons-io:commons-io:2.4'
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.9'
+}
+
+sourceSets {
+    main {
+        groovy {
+            srcDirs = ['scripts']
+        }
+    }
+}
+
+/* Task to run script */
+tasks.addRule("Pattern: filename.groovy") { String taskName ->
+
+    if (taskName.endsWith('.groovy')) {
+        FileTree tree = fileTree('./scripts/').include('**/*.groovy')
+        tree.each {File file ->
+            if (file.absolutePath.endsWith(taskName)) {
+
+                task(taskName, dependsOn:'classes', type: JavaExec) {
+
+                    Properties props = new Properties()
+                    props.load(new FileInputStream("$projectDir/connection.properties"))
+
+                    environment 'gateway', props.gateway
+                    environment 'username', props.username
+                    environment 'password', props.password
+
+                    // the classname is the scriptname minus the extension
+                    main = org.apache.commons.io.FilenameUtils.getBaseName(taskName)
+                    classpath = sourceSets.main.runtimeClasspath
+                }
+            }
+        }
+    }
+}
+
+
