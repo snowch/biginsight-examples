@@ -117,5 +117,9 @@ if( status == "SUCCEEDED" ) {
   text = Hdfs.ls( session ).dir( jobDir + "/output" ).now().string
   json = (new JsonSlurper()).parseText( text )
   println json.FileStatuses.FileStatus.pathSuffix
+
+  println "Mapreduce output:"
+  println Hdfs.get( session ).from( jobDir + "/output/part-r-00000" ).now().string
 }
 
+session.shutdown()

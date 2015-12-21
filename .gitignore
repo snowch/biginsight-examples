@@ -1,3 +1,4 @@
 connection.properties
 build/
 .gradle/
+samples/
