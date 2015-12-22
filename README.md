@@ -1,5 +1,5 @@
 *********************************************************************
-README
+## README
 *********************************************************************
 
 This project contains sample scripts to help you quickly get started with BigInsights. Following the steps below, it should take you about 10 mins to perform the following actions programmatically against a BigInsights cluster:
