@@ -8,6 +8,7 @@ This project contains sample scripts to help you quickly get started with BigIns
 - Execute a Mapreduce job using Oozie
 - Create and manipulate a HBase table
 
+These scripts are tested on BigInsights on Cloud (bluemix) but they should also work for BigInsights on-premise.
 
 ### Instructions
 
