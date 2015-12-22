@@ -23,10 +23,9 @@ This project contains sample scripts to help you quickly get started with BigIns
 
 ```
 snowch$ ./gradlew scripts/ExampleWebHdfsLs.groovy
+...
 ... [some lines removed from output]
---------------
-Command `ls /`
---------------
+...
 >> [app-logs, apps, iop, mapred, mr-history, securedir, tmp, user]
 ```
 ---
