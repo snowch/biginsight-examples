@@ -19,6 +19,16 @@ This project contains sample scripts to help you quickly get started with BigIns
 ./gradlew scripts/{scriptname}.groovy
 ```
 
+### Example
+
+```
+snowch$ ./gradlew scripts/ExampleWebHdfsLs.groovy
+... [some lines removed from output]
+--------------
+Command `ls /`
+--------------
+>> [app-logs, apps, iop, mapred, mr-history, securedir, tmp, user]
+```
 ---
 
 NOTE:  scripts are based on knox-0.5.1: https://github.com/apache/knox/tree/v0.5.1/gateway-release/home/samples
