@@ -14,10 +14,16 @@ These scripts are tested on BigInsights on Cloud (bluemix) but they should also 
 
 - Copy connection.properties_template to connection.properties
 - Edit connection.properties to point to your BigInsights instance
-- Run sample scripts using:
+- Run sample scripts on *nix using:
 
 ```
 ./gradlew scripts/{scriptname}.groovy
+```
+
+- or on Windows using:
+
+```
+gradlew.bat scripts/{scriptname}.groovy
 ```
 
 ### Example
