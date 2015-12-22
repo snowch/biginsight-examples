@@ -1,11 +1,19 @@
 *********************************************************************
-Samples README
+README
 *********************************************************************
+
+This project contains sample scripts to help you quickly get started with BigInsights. Following the steps below, it should take you about 10 mins to perform the following actions programmatically against a BigInsights cluster:
+
+- List HDFS folders
+- Execute a Mapreduce job using Oozie
+- Create and manipulate a HBase table
+
+
+### Instructions
 
 - Copy connection.properties_template to connection.properties
 - Edit connection.properties to point to your BigInsights instance
-
-Run sample scripts using:
+- Run sample scripts using:
 
 ```
 ./gradlew scripts/{scriptname}.groovy
@@ -13,5 +21,5 @@ Run sample scripts using:
 
 ---
 
-Info:  scripts are based on knox-0.5.1: https://github.com/apache/knox/tree/v0.5.1/gateway-release/home/samples
+NOTE:  scripts are based on knox-0.5.1: https://github.com/apache/knox/tree/v0.5.1/gateway-release/home/samples
 
