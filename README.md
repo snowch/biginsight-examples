@@ -17,21 +17,19 @@ These scripts are tested on BigInsights on Cloud (bluemix) but they should also 
 - Run sample scripts on *nix using:
 
 ```
-./gradlew scripts/{scriptname}.groovy
+./gradlew -q scripts/{scriptname}.groovy
 ```
 
 - or on Windows using:
 
 ```
-gradlew.bat scripts/{scriptname}.groovy
+gradlew.bat -q scripts/{scriptname}.groovy
 ```
 
 ### Example
 
 ```
-snowch$ ./gradlew scripts/ExampleWebHdfsLs.groovy
-...
-... [some lines removed from output]
+snowch$ ./gradlew -q scripts/ExampleWebHdfsLs.groovy
 ...
 >> [app-logs, apps, iop, mapred, mr-history, securedir, tmp, user]
 ```

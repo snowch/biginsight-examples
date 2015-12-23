@@ -26,7 +26,7 @@ session = Hadoop.login( env.gateway, env.username, env.password )
 text = Hdfs.ls( session ).dir( "/" ).now().string
 json = (new JsonSlurper()).parseText( text )
 println "--------------"
-println "Command `ls /`"
+println "Command `ls /`:"
 println "--------------"
 println ">> " + json.FileStatuses.FileStatus.pathSuffix
 session.shutdown()
