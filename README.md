@@ -12,7 +12,7 @@ These scripts are tested on BigInsights on Cloud (bluemix) but they should also 
 
 ### Pre-requisites
 
-- Java 7 or 8 installed and JAVA_HOME configured
+- Java 7 or 8 installed and JAVA_HOME environment variable set
 
 ### Instructions
 
