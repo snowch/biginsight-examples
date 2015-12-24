@@ -10,6 +10,10 @@ This project contains sample scripts to help you quickly get started with BigIns
 
 These scripts are tested on BigInsights on Cloud (bluemix) but they should also work for BigInsights on-premise.
 
+### Pre-requisites
+
+- Java 7 or 8 installed and JAVA_HOME configured
+
 ### Instructions
 
 - Copy connection.properties_template to connection.properties
