@@ -6,6 +6,8 @@ This project contains sample scripts to help you quickly get started with BigIns
 
 - List HDFS folders
 - Execute a Mapreduce job using Oozie
+- Execute a Spark Java job using Oozie (see known issues)
+- Execute a Spark Python job using Oozie (see known issues)
 - Create and manipulate a HBase table
 
 These scripts are tested on BigInsights on Cloud (bluemix) but they should also work for BigInsights on-premise.
@@ -39,6 +41,21 @@ snowch$ ./gradlew -q examples/WebHdfsLs Example
 ...
 >> [app-logs, apps, iop, mapred, mr-history, securedir, tmp, user]
 ```
+
+### Known issues
+
+#### Execute a Spark Java job using Oozie 
+
+
+#### Execute a Spark Python job using Oozie 
+
+The documentation for my cluster at https://hostname:8443/gateway/oozieui/oozie/docs/DG_SparkActionExtension.html - suggests that Spark actions are available, however, I receive this error trying to run a spark action:
+
+`java.lang.RuntimeException: java.lang.ClassNotFoundException: Class org.apache.oozie.action.hadoop.SparkMain not found`
+
+spark-assembly.jar is added to the ./lib folder, but on inspection I noticed that spark-assembly.jar does NOT contain a SparkMain class.
+
+
 ---
 
 NOTE:  scripts are based on knox-0.5.1: https://github.com/apache/knox/tree/v0.5.1/gateway-release/home/samples
