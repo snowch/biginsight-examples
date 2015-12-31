@@ -32,15 +32,13 @@ inputFile = "LICENSE"
 jobDir = "/user/" + username + "/test"
 jarFile = "./build/libs/OozieWorkflowSpark.jar"
 
-///////////////
-// INSTRUCTIONS: uncomment the appropriate sparkAssyJar for your environemnt
-//
-// BigInsights on Cloud
-// sparkAssyJar = "/iop/apps/4.1.0.0/spark/jars/spark-assembly.jar"
-//
-// Analytics for Apache Hadoop
-sparkAssyJar = "/iop/apps/4.0.0.0/spark/jars/spark-assembly.jar"
-///////////////
+session = Hadoop.login( gateway, username, password )
+
+// we need to inpsect the /iop/apps/ dir to find out where spark-assembly.jar is located
+dirText = Hdfs.ls( session ).dir( "/iop/apps/" ).now().string
+json = (new JsonSlurper()).parseText( dirText )
+biVersion = json.FileStatuses.FileStatus.pathSuffix[0]
+sparkAssyJar = "/iop/apps/${biVersion}/spark/jars/spark-assembly.jar"
 
 definition = """\
 <workflow-app xmlns="uri:oozie:workflow:0.2" name="wordcount-workflow">
@@ -112,7 +110,6 @@ configuration = """\
 </configuration>
 """
 
-session = Hadoop.login( gateway, username, password )
 
 println "Delete " + jobDir + ": " + Hdfs.rm( session ).file( jobDir ).recursive().now().statusCode
 println "Mkdir " + jobDir + ": " + Hdfs.mkdir( session ).dir( jobDir ).now().statusCode
