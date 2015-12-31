@@ -15,10 +15,7 @@
 
 package org.apache.spark.examples;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
-
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
@@ -36,7 +33,8 @@ public class WordCount {
 	
 	private final static Logger LOGGER = Logger.getLogger(WordCount.class.getName()); 
 	
-    public static void main(String[] args) {
+    @SuppressWarnings("serial")
+	public static void main(String[] args) {
     	
     	LOGGER.setLevel(Level.INFO); 
     	
@@ -49,40 +47,18 @@ public class WordCount {
         SparkConf sparkConf = new SparkConf().setAppName("Word count");
         
         JavaSparkContext ctx = new JavaSparkContext(sparkConf);
-        
-        ArrayList<String> list = new ArrayList<String>();
-        list.add("A");
-        list.add("B");
-        list.add("C");
-        
-        JavaRDD<String> rdd = ctx.parallelize(list);
-        
-        try {
-        	 List<String> items = rdd.collect();
-             for (String i : items) {
-             	LOGGER.info(i);
-     		}
-        } catch (Exception e) {
-        	LOGGER.severe(".collect(): " + e.getMessage());
-        }
-        
-        try {
-        	rdd.saveAsTextFile(outputPath); // <-- Yarn logs show INFO scheduler.DAGScheduler: ResultStage 0 (saveAsTextFile at WordCount.java:45) failed in 14.908 s
-        } catch (Exception e) {
-        	LOGGER.severe(".saveAsTextFile(): " + e.getMessage());
-        }
         	
-//    	JavaRDD<String> textFile = ctx.textFile(inputPath);
-//    	JavaRDD<String> words = textFile.flatMap(new FlatMapFunction<String, String>() {
-//    	  public Iterable<String> call(String s) { return Arrays.asList(s.split(" ")); }
-//    	});
-//    	JavaPairRDD<String, Integer> pairs = words.mapToPair(new PairFunction<String, String, Integer>() {
-//    	  public Tuple2<String, Integer> call(String s) { return new Tuple2<String, Integer>(s, 1); }
-//    	});
-//    	JavaPairRDD<String, Integer> counts = pairs.reduceByKey(new Function2<Integer, Integer, Integer>() {
-//    	  public Integer call(Integer a, Integer b) { return a + b; }
-//    	});
-//    	counts.saveAsTextFile(outputPath); 
+    	JavaRDD<String> textFile = ctx.textFile(inputPath);
+    	JavaRDD<String> words = textFile.flatMap(new FlatMapFunction<String, String>() {
+    	  public Iterable<String> call(String s) { return Arrays.asList(s.split(" ")); }
+    	});
+    	JavaPairRDD<String, Integer> pairs = words.mapToPair(new PairFunction<String, String, Integer>() {
+    	  public Tuple2<String, Integer> call(String s) { return new Tuple2<String, Integer>(s, 1); }
+    	});
+    	JavaPairRDD<String, Integer> counts = pairs.reduceByKey(new Function2<Integer, Integer, Integer>() {
+    	  public Integer call(Integer a, Integer b) { return a + b; }
+    	});
+    	counts.saveAsTextFile(outputPath); 
         
         ctx.close();
     }
