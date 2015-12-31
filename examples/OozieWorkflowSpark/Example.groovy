@@ -30,7 +30,7 @@ password = env.password
 
 inputFile = "LICENSE"
 jobDir = "/user/" + username + "/test"
-jarFile = "./build/libs/OozieWorkflowSpark-all.jar"
+jarFile = "./build/libs/OozieWorkflowSpark.jar"
 
 definition = """\
 <workflow-app xmlns="uri:oozie:workflow:0.2" name="wordcount-workflow">
@@ -39,9 +39,23 @@ definition = """\
         <java>
             <job-tracker>\${jobTracker}</job-tracker>
             <name-node>\${nameNode}</name-node>
-            <main-class>org.apache.spark.examples.WordCount</main-class>
-            <arg>\${inputDir}</arg>
+            <main-class>org.apache.spark.deploy.SparkSubmit</main-class>
+            <arg>--class</arg>
+            <arg>org.apache.spark.examples.WordCount</arg>
+            <arg>--deploy-mode</arg>
+            <arg>cluster</arg>
+            <arg>--master</arg>
+            <arg>yarn-cluster</arg>
+            <arg>--queue</arg>
+            <arg>default</arg>
+            <arg>--num-executors</arg>
+            <arg>1</arg>
+            <arg>spark-wordcount-example.jar</arg>
+            <arg>\${inputDir}/FILE</arg>
             <arg>\${outputDir}</arg>
+            <file>\${jobDir}/lib/spark-wordcount-example.jar</file>
+            <file>/iop/apps/4.1.0.0/spark/jars/spark-assembly.jar</file>
+            <capture-output/>
         </java>
         <ok to="end"/>
         <error to="fail"/>
@@ -68,6 +82,10 @@ configuration = """\
         <value>default</value>
     </property>
     <property>
+        <name>jobDir</name>
+        <value>$jobDir</value>
+    </property>
+    <property>
         <name>inputDir</name>
         <value>$jobDir/input</value>
     </property>
@@ -86,14 +104,7 @@ session = Hadoop.login( gateway, username, password )
 
 println "Delete " + jobDir + ": " + Hdfs.rm( session ).file( jobDir ).recursive().now().statusCode
 println "Mkdir " + jobDir + ": " + Hdfs.mkdir( session ).dir( jobDir ).now().statusCode
-
-println "Downloading spark-assembly.jar - this could take some time..."
-getSparkAssembly = Hdfs.get( session ).from( '/iop/apps/4.1.0.0/spark/jars/spark-assembly.jar' ).file( './spark-assembly.jar' ).now().statusCode
-  println "Get " + jobDir + "/iop/apps/4.1.0.0/spark/jars/spark-assembly.jar:" + getSparkAssembly
-
-println "Uploading spark-assembly.jar - this could take some time..."
-putSparkAssembly = Hdfs.put(session).file( './spark-assembly.jar' ).to( jobDir + "/lib/spark-assembly.jar" ).now().statusCode
-  println "Put " + jobDir + "/lib/spark-assembly.jar: " + putSparkAssembly
+println "Mkdir " + jobDir + "/output: " + Hdfs.mkdir( session ).dir( jobDir + '/output' ).now().statusCode
 
 putData = Hdfs.put(session).file( inputFile ).to( jobDir + "/input/FILE" ).later() {
   println "Put " + jobDir + "/input/FILE: " + it.statusCode }
@@ -113,7 +124,7 @@ println "Submitted job: " + jobId
 println "Polling up to 60s for job completion..."
 status = "RUNNING";
 count = 0;
-while( status == "RUNNING" && count++ < 60 ) {
+while( status == "RUNNING" && count++ < 300 ) {
   sleep( 1000 )
   json = Workflow.status(session).jobId( jobId ).now().string
   status = JsonPath.read( json, "\$.status" )

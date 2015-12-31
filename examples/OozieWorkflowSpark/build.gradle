@@ -32,10 +32,8 @@ dependencies {
     compile 'org.apache.spark:spark-core_2.10:1.4.1'
 }
 
-compileJava {
-  sourceCompatibility = 1.7
-  targetCompatibility = 1.7
-}
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
 
 // tell gradle the groovy script is in the same folder as the build.gradle file
 sourceSets {
