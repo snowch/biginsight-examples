@@ -104,7 +104,6 @@ session = Hadoop.login( gateway, username, password )
 
 println "Delete " + jobDir + ": " + Hdfs.rm( session ).file( jobDir ).recursive().now().statusCode
 println "Mkdir " + jobDir + ": " + Hdfs.mkdir( session ).dir( jobDir ).now().statusCode
-println "Mkdir " + jobDir + "/output: " + Hdfs.mkdir( session ).dir( jobDir + '/output' ).now().statusCode
 
 putData = Hdfs.put(session).file( inputFile ).to( jobDir + "/input/FILE" ).later() {
   println "Put " + jobDir + "/input/FILE: " + it.statusCode }
@@ -138,8 +137,8 @@ if( status == "SUCCEEDED" ) {
   json = (new JsonSlurper()).parseText( text )
   println json.FileStatuses.FileStatus.pathSuffix
 
-  println "Mapreduce output:"
-  println Hdfs.get( session ).from( jobDir + "/output/part-r-00000" ).now().string
+  //println "Mapreduce output:"
+  //println Hdfs.get( session ).from( jobDir + "/output/part-r-00000" ).now().string
 }
 
 session.shutdown()

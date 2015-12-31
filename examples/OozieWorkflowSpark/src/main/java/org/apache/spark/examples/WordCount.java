@@ -17,6 +17,8 @@ package org.apache.spark.examples;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
@@ -27,11 +29,22 @@ import org.apache.spark.api.java.function.PairFunction;
 
 import scala.Tuple2;
 
-public class WordCount {
-    public static void main(String[] args) {
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
+public class WordCount {
+	
+	private final static Logger LOGGER = Logger.getLogger(WordCount.class.getName()); 
+	
+    public static void main(String[] args) {
+    	
+    	LOGGER.setLevel(Level.INFO); 
+    	
     	String inputPath = args[0];
         String outputPath = args[1];
+        
+        LOGGER.info("inputPath: " + inputPath);
+        LOGGER.info("outputPath: " + outputPath);
         
         SparkConf sparkConf = new SparkConf().setAppName("Word count");
         
@@ -42,8 +55,23 @@ public class WordCount {
         list.add("B");
         list.add("C");
         
-        ctx.parallelize(list).saveAsTextFile(outputPath); // <-- Yarn logs show INFO scheduler.DAGScheduler: ResultStage 0 (saveAsTextFile at WordCount.java:45) failed in 14.908 s
-  
+        JavaRDD<String> rdd = ctx.parallelize(list);
+        
+        try {
+        	 List<String> items = rdd.collect();
+             for (String i : items) {
+             	LOGGER.info(i);
+     		}
+        } catch (Exception e) {
+        	LOGGER.severe(".collect(): " + e.getMessage());
+        }
+        
+        try {
+        	rdd.saveAsTextFile(outputPath); // <-- Yarn logs show INFO scheduler.DAGScheduler: ResultStage 0 (saveAsTextFile at WordCount.java:45) failed in 14.908 s
+        } catch (Exception e) {
+        	LOGGER.severe(".saveAsTextFile(): " + e.getMessage());
+        }
+        	
 //    	JavaRDD<String> textFile = ctx.textFile(inputPath);
 //    	JavaRDD<String> words = textFile.flatMap(new FlatMapFunction<String, String>() {
 //    	  public Iterable<String> call(String s) { return Arrays.asList(s.split(" ")); }
@@ -55,5 +83,7 @@ public class WordCount {
 //    	  public Integer call(Integer a, Integer b) { return a + b; }
 //    	});
 //    	counts.saveAsTextFile(outputPath); 
+        
+        ctx.close();
     }
 }
