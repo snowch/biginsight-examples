@@ -45,8 +45,9 @@ snowch$ ./gradlew -p examples/WebHdfsLs Example
 
 ### Known issues
 
-#### Execute a Spark Java job using Oozie 
+#### Execute a Spark Java job using Oozie
 
+This script works on 'Analytics for Apache Hadoop', but not on 'Paygo BigInsights on Cloud'.  Debug output can be found in https://your-hostname:8443/gateway/yarnui/yarn/apps
 
 #### Execute a Spark Python job using Oozie 
 
