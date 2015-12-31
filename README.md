@@ -25,19 +25,19 @@ A design decision was taken that the build scripts should be independent as poss
 - Run sample scripts on *nix using:
 
 ```
-./gradlew -q examples/{dirname} Example
+./gradlew -p examples/{dirname} Example
 ```
 
 - or on Windows using:
 
 ```
-gradlew.bat -q examples/{dirname} Example
+gradlew.bat -p examples/{dirname} Example
 ```
 
 ### Example
 
 ```
-snowch$ ./gradlew -q examples/WebHdfsLs Example
+snowch$ ./gradlew -p examples/WebHdfsLs Example
 ...
 >> [app-logs, apps, iop, mapred, mr-history, securedir, tmp, user]
 ```
