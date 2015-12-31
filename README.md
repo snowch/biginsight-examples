@@ -6,8 +6,8 @@ This project contains sample scripts to help you quickly get started with BigIns
 
 - List HDFS folders
 - Execute a Mapreduce job using Oozie
-- Execute a Spark Java job using Oozie (see known issues)
-- Execute a Spark Python job using Oozie (see known issues)
+- Execute a Spark Java job using Oozie (see [Known Issues](#known-issues))
+- Execute a Spark Python job using Oozie (see [Known Issues](#known-issues))
 - Create and manipulate a HBase table
 
 These scripts are tested on BigInsights on Cloud (bluemix) but they should also work for BigInsights on-premise.
