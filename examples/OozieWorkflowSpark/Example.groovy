@@ -31,10 +31,16 @@ password = env.password
 inputFile = "LICENSE"
 jobDir = "/user/" + username + "/test"
 jarFile = "./build/libs/OozieWorkflowSpark.jar"
+
+///////////////
+// INSTRUCTIONS: uncomment the appropriate sparkAssyJar for your environemnt
+//
 // BigInsights on Cloud
-sparkAssyJar = "/iop/apps/4.1.0.0/spark/jars/spark-assembly.jar"
+// sparkAssyJar = "/iop/apps/4.1.0.0/spark/jars/spark-assembly.jar"
+//
 // Analytics for Apache Hadoop
-// sparkAssyJar = "/iop/apps/4.0.0.0/spark/jars/spark-assembly.jar"
+sparkAssyJar = "/iop/apps/4.0.0.0/spark/jars/spark-assembly.jar"
+///////////////
 
 definition = """\
 <workflow-app xmlns="uri:oozie:workflow:0.2" name="wordcount-workflow">
