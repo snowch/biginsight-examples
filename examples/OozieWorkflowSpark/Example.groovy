@@ -129,7 +129,7 @@ session.waitFor( putWorkflow, putData, putJar )
 jobId = Workflow.submit(session).text( configuration ).now().jobId
 println "Submitted job: " + jobId
 
-println "Polling up to 60s for job completion..."
+println "Polling up to 300s for job completion..."
 status = "RUNNING";
 count = 0;
 while( status == "RUNNING" && count++ < 300 ) {
@@ -146,8 +146,9 @@ if( status == "SUCCEEDED" ) {
   json = (new JsonSlurper()).parseText( text )
   println json.FileStatuses.FileStatus.pathSuffix
 
-  //println "Mapreduce output:"
-  //println Hdfs.get( session ).from( jobDir + "/output/part-r-00000" ).now().string
+  println "Spark output:"
+  println Hdfs.get( session ).from( jobDir + "/output/part-00000" ).now().string
+  println Hdfs.get( session ).from( jobDir + "/output/part-00001" ).now().string
 }
 
 session.shutdown()
