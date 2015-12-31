@@ -49,7 +49,9 @@ definition = """\
             <arg>--queue</arg>
             <arg>default</arg>
             <arg>--num-executors</arg>
-            <arg>1</arg>
+            <arg>2</arg>
+            <arg>--executor-cores</arg>
+            <arg>2</arg>
             <arg>spark-wordcount-example.jar</arg>
             <arg>\${inputDir}/FILE</arg>
             <arg>\${outputDir}</arg>
