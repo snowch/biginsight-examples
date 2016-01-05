@@ -32,7 +32,7 @@ inputFile = "LICENSE"
 jobDir = "/user/" + username + "/test"
 
 definition = """\
-<workflow-app xmlns="uri:oozie:workflow:0.2" name="wordcount-workflow">
+<workflow-app xmlns="uri:oozie:workflow:0.5" name="wordcount-workflow">
     <start to="root-node"/>
     <action name="root-node">
         <spark xmlns="uri:oozie:spark-action:0.1">
@@ -42,7 +42,7 @@ definition = """\
             <name>Spark-Wordcount</name>
             <class>\${inputDir}/word_count.py</class>
             <jar>\${inputDir}/word_count.py,/iop/apps/4.1.0.0/spark/jars/spark-assembly.jar</jar>
-            <spark-opts>–conf spark.driver.extraJavaOptions=-Diop.version=4.1.0.0</spark-opts>
+            <spark-opts>--conf spark.driver.extraJavaOptions=-Diop.version=4.1.0.0</spark-opts>
             <arg>\${inputDir}/FILE</arg>
             <arg>\${outputDir}/output/FILE</arg>
         </spark>
@@ -89,18 +89,13 @@ configuration = """\
 </configuration>
 """
 
+println definition
+println configuration
+
 session = Hadoop.login( gateway, username, password )
 
 println "Delete " + jobDir + ": " + Hdfs.rm( session ).file( jobDir ).recursive().now().statusCode
 println "Mkdir " + jobDir + ": " + Hdfs.mkdir( session ).dir( jobDir ).now().statusCode
-
-println "Uploading spark-assembly.jar - this could take some time..."
-getSparkAssembly = Hdfs.get( session ).from( '/iop/apps/4.1.0.0/spark/jars/spark-assembly.jar' ).file( './spark-assembly.jar' ).now().statusCode
-  println "Get " + jobDir + "/iop/apps/4.1.0.0/spark/jars/spark-assembly.jar:" + getSparkAssembly
-
-println "Uploading spark-assembly.jar - this could take some time..."
-putSparkAssembly = Hdfs.put(session).file( './spark-assembly.jar' ).to( jobDir + "/lib/spark-assembly.jar" ).now().statusCode
-  println "Put " + jobDir + "/input/spark-assembly.jar: " + putSparkAssembly
 
 putData = Hdfs.put(session).file( inputFile ).to( jobDir + "/input/FILE" ).later() {
   println "Put " + jobDir + "/input/FILE: " + it.statusCode }
@@ -133,8 +128,13 @@ if( status == "SUCCEEDED" ) {
   json = (new JsonSlurper()).parseText( text )
   println json.FileStatuses.FileStatus.pathSuffix
 
-  println "Mapreduce output:"
+  println "Spark output:"
   println Hdfs.get( session ).from( jobDir + "/output/part-r-00000" ).now().string
+} else {
+  // extract scheme, host and port from gateway url
+  def matcher = gateway =~ /^(https?:\/\/)([^:^\/]*)(:\d*)?(.*)?.*$/
+  def root_url = matcher[0][1] + matcher[0][2]  + matcher[0][3] 
+  println "Job Failed. Debug output can be found at $root_url/gateway/yarnui/yarn/apps"
 }
 
 session.shutdown()
