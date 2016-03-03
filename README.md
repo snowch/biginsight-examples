@@ -18,6 +18,7 @@ A design decision was taken that the build scripts should be independent as poss
 ### Pre-requisites
 
 - Java 7 or 8 installed and JAVA_HOME environment variable set
+- You do NOT need to install gradle, the gradlew scripts will setup gradle for you
 
 ### Instructions
 
