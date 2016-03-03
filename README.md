@@ -8,7 +8,8 @@ This project contains sample scripts (based on [knox-0.5.1](https://github.com/a
 - Execute a Mapreduce job using Oozie
 - Execute a Spark Java job using Oozie (see [Known Issues](#known-issues))
 - Execute a Spark Python job using Oozie (see [Known Issues](#known-issues))
-- Create and manipulate a HBase table
+- Create and manipulate a HBase table (using Groovy)
+- Connect to HBase (using Java)
 
 These scripts are tested on BigInsights on Cloud (bluemix) but they should also work for BigInsights on-premise.
 
