@@ -20,6 +20,7 @@ A design decision was taken that the build scripts should be independent as poss
 
 ### Instructions
 
+- Clone this repository
 - Copy connection.properties_template to connection.properties
 - Edit connection.properties to point to your BigInsights instance
 - View the Example.groovy script you want to run to understand what it does
