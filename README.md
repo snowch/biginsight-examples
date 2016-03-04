@@ -62,6 +62,8 @@ groovy:000> import groovy.json.JsonSlurper
 groovy:000> slurper = new JsonSlurper()
 groovy:000> files = slurper.parseText(Hdfs.ls(session).dir('/').now().string)
 groovy:000> files.FileStatuses.FileStatus.pathSuffix
+
+===> [app-logs, apps, ... ]
 ```
 
 See https://knox.apache.org/books/knox-0-6-0/user-guide.html#Service+Details for more knox commands.
