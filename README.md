@@ -8,8 +8,8 @@ This project contains sample scripts (based on [knox-0.5.1](https://github.com/a
 - Execute a Mapreduce job using Oozie
 - Execute a Spark Java job using Oozie (see [Known Issues](#known-issues))
 - Execute a Spark Python job using Oozie (see [Known Issues](#known-issues))
-- Create and manipulate a HBase table (using Groovy)
-- Connect to HBase (using Java)
+- Connect to HBase using Java (see [Known Issues](#known-issues))
+- Connect to HBase and create and manipulate a HBase table using Groovy (see [Known Issues](#known-issues))
 - Setup a knox shell client session
 
 These scripts are tested on BigInsights on Cloud (bluemix) but they should also work for BigInsights on-premise.
@@ -79,4 +79,10 @@ The documentation for my cluster at https://hostname:8443/gateway/oozieui/oozie/
 
 spark-assembly.jar is added to the ./lib folder, but on inspection I noticed that spark-assembly.jar does NOT contain a SparkMain class.
 
+#### Create and manipulate a HBase table (using Groovy)
 
+When running this against a standard BigInsights on Cloud cluster, the service returns `HTTP/1.1 500 Server Error`
+
+#### Connect to HBase (using Java)
+
+When running this against a standard BigInsights on Cloud cluster, the service returns `HTTP/1.1 500 Server Error`
