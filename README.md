@@ -58,10 +58,10 @@ The shell logs in and saves the session in the variable `session`
 ### Example knox shell session
 
 ```
-import groovy.json.JsonSlurper
-slurper = new JsonSlurper()
-files = slurper.parseText(Hdfs.ls(session).dir('/').now().string)
-files.FileStatuses.FileStatus.pathSuffix
+groovy:000> import groovy.json.JsonSlurper
+groovy:000> slurper = new JsonSlurper()
+groovy:000> files = slurper.parseText(Hdfs.ls(session).dir('/').now().string)
+groovy:000> files.FileStatuses.FileStatus.pathSuffix
 ```
 
 See https://knox.apache.org/books/knox-0-6-0/user-guide.html#Service+Details for more knox commands.
