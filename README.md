@@ -39,7 +39,7 @@ A design decision was taken that the build scripts should be independent as poss
 gradlew.bat -p examples/{dirname} Example
 ```
 
-### Example
+### Example of running a script
 
 ```
 snowch$ ./gradlew -p examples/WebHdfsLs Example
@@ -55,7 +55,7 @@ Run the knox shell with:
 
 The shell logs in and saves the session in the variable `session` 
 
-### Knox shell example
+### Example knox shell session
 
 ```
 import groovy.json.JsonSlurper
@@ -64,6 +64,8 @@ slurper = new JsonSlurper()
 files = slurper.parseText(Hdfs.ls(session).dir('/').now().string)
 files.FileStatuses.FileStatus.pathSuffix
 ```
+
+See https://knox.apache.org/books/knox-0-6-0/user-guide.html#Service+Details for more knox commands.
 
 ### Known issues
 
