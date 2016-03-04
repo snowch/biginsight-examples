@@ -67,6 +67,8 @@ files.FileStatuses.FileStatus.pathSuffix
 
 See https://knox.apache.org/books/knox-0-6-0/user-guide.html#Service+Details for more knox commands.
 
+*********************************************************************
+
 ### Known issues
 
 #### Execute a Spark Java job using Oozie
