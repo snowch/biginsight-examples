@@ -60,4 +60,10 @@ The documentation for my cluster at https://hostname:8443/gateway/oozieui/oozie/
 
 spark-assembly.jar is added to the ./lib folder, but on inspection I noticed that spark-assembly.jar does NOT contain a SparkMain class.
 
+#### Create and manipulate a HBase table (using Groovy)
 
+When running this against a standard BigInsights on Cloud cluster, the service returns `HTTP/1.1 500 Server Error`
+
+#### Connect to HBase (using Java)
+
+When running this against a standard BigInsights on Cloud cluster, the service returns `HTTP/1.1 500 Server Error`
