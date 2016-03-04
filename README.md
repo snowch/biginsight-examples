@@ -10,6 +10,7 @@ This project contains sample scripts (based on [knox-0.5.1](https://github.com/a
 - Execute a Spark Python job using Oozie (see [Known Issues](#known-issues))
 - Create and manipulate a HBase table (using Groovy)
 - Connect to HBase (using Java)
+- Setup a knox shell client session
 
 These scripts are tested on BigInsights on Cloud (bluemix) but they should also work for BigInsights on-premise.
 
@@ -44,6 +45,24 @@ gradlew.bat -p examples/{dirname} Example
 snowch$ ./gradlew -p examples/WebHdfsLs Example
 ...
 >> [app-logs, apps, iop, mapred, mr-history, securedir, tmp, user]
+```
+
+### Knox shell
+
+Run the knox shell with:
+
+```./gradlew -q --no-daemon -p knoxshell shell```
+
+The shell logs in and saves the session in the variable `session` 
+
+### Knox shell example
+
+```
+import groovy.json.JsonSlurper
+
+slurper = new JsonSlurper()
+files = slurper.parseText(Hdfs.ls(session).dir('/').now().string)
+files.FileStatuses.FileStatus.pathSuffix
 ```
 
 ### Known issues
