@@ -59,7 +59,6 @@ The shell logs in and saves the session in the variable `session`
 
 ```
 import groovy.json.JsonSlurper
-
 slurper = new JsonSlurper()
 files = slurper.parseText(Hdfs.ls(session).dir('/').now().string)
 files.FileStatuses.FileStatus.pathSuffix
