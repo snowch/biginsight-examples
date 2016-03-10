@@ -1,6 +1,9 @@
 #!/usr/bin/env python2.7
 
-# need to install swiftclient: `pip install python-swiftclient`
+# This scripts lists all files in an ObjectStore container and
+# moves them one at a time to HDFS using the webhdfs protocol.
+#
+# You may need to install swiftclient: `pip install python-swiftclient`
 
 import swiftclient
 import requests
