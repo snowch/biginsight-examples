@@ -50,6 +50,9 @@ for os_data in getConn().get_container(os_container)[1]:
 
     url = "{0}/webhdfs/v1/{1}/{2}?op=CREATE".format(bi_url, bi_folder, filename)
 
+    # WARNING! certification verifcation is disabled `verify = False` as per the bluemix
+    # documentation example that uses curl with the -k flag
+
     response = requests.put(
         url, 
         auth = (bi_user, bi_pass), 
