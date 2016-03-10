@@ -45,6 +45,9 @@ for os_data in getConn().get_container(os_container)[1]:
     filesize = os_data['bytes']
 
     print("Retrieving: {0} size {1} bytes".format(filename, filesize))
+
+    # NOTE! This reads the whole file into memory - it may
+    # crash if you have large files
     
     obj = getConn().get_object('Filecontainer', filename)
 
