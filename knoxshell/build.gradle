@@ -39,8 +39,10 @@ groovysh {
             'import org.apache.hadoop.gateway.shell.job.Job;' +
             'import org.apache.hadoop.gateway.shell.workflow.Workflow;' +
             'import org.apache.hadoop.gateway.shell.yarn.Yarn;' +
+            'import groovy.json.JsonSlurper;' +
             'import java.util.concurrent.TimeUnit;\n' + 
-            """session = Hadoop.login( "${props.gateway}", "${props.username}", "${props.password}" );\n"""
+            """session = Hadoop.login( "${props.gateway}", "${props.username}", "${props.password}" );\n""" +
+            'slurper = new JsonSlurper();\n'
         ]
     }
 }
