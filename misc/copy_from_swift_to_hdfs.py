@@ -51,14 +51,29 @@ for os_data in getConn().get_container(os_container)[1]:
     
     obj = getConn().get_object('Filecontainer', filename)
 
+    print("Object size: {0}".format(len(obj[1])))
+
     url = "{0}/webhdfs/v1/{1}/{2}?op=CREATE".format(bi_url, bi_folder, filename)
 
     # WARNING! certification verifcation is disabled `verify = False` as per the bluemix
     # documentation example that uses curl with the -k flag
 
+    # First request is to get 'Location' header which contains URL for PUT'ting the data
     response = requests.put(
-        url, 
-        auth = (bi_user, bi_pass), 
+        url,
+        auth = (bi_user, bi_pass),
+        verify = False,
+        allow_redirects = False
+    )
+
+    if not response.status_code == requests.codes.ok:
+        print(response.content)
+        response.raise_for_status()
+
+    # Save the file to the url obtained from the previous request
+    response = requests.put(
+        response.headers['Location'],
+        auth = (bi_user, bi_pass),
         data = obj[1],
         verify = False
     )
