@@ -21,13 +21,18 @@ A design decision was taken that the build scripts should be independent as poss
 - Java 7 or 8 installed and JAVA_HOME environment variable set
 - You do NOT need to install gradle, the gradlew scripts will setup gradle for you
 
-### Instructions
+### Setup Instructions
 
 - Clone this repository
 - Copy connection.properties_template to connection.properties
 - Edit connection.properties to point to your BigInsights instance
+
+*********************************************************************
+
+### Running a script
+
 - View the Example.groovy script you want to run to understand what it does
-- Run sample scripts on *nix using:
+- Run the sample script on *nix using:
 
 ```
 ./gradlew -p examples/{dirname} Example
@@ -47,7 +52,9 @@ snowch$ ./gradlew -p examples/WebHdfsLs Example
 >> [app-logs, apps, iop, mapred, mr-history, securedir, tmp, user]
 ```
 
-### Knox shell
+*********************************************************************
+
+### Running the Knox shell
 
 Run the knox shell with:
 
