@@ -79,6 +79,12 @@ groovy:000> files.FileStatuses.FileStatus.pathSuffix
 
 See https://knox.apache.org/books/knox-0-6-0/user-guide.html#Service+Details for more knox commands.
 
+TODO: add example Knox scripts for:
+
+- uploading files from local folder to the cluster
+- downloading files from cluster to local machine
+- what else?
+
 *********************************************************************
 
 ### Known issues
