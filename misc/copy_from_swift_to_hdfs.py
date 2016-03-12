@@ -17,6 +17,8 @@ os_region    = 'dallas'
 os_pass      = ''
 os_container = 'Filecontainer'
 
+ignore_files = ['somefile','someotherfile']
+
 bi_host      = ''
 bi_port      = '8443'
 bi_user      = 'biadmin'
@@ -43,6 +45,9 @@ def getConn():
 for os_data in getConn().get_container(os_container)[1]:
     filename = os_data['name']
     filesize = os_data['bytes']
+
+    if filename in ignore_files:
+        continue    
 
     print("Retrieving: {0} size {1} bytes".format(filename, filesize))
 
