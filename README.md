@@ -20,6 +20,8 @@ These scripts are tested on BigInsights on Cloud (bluemix) but they should also 
 
 A design decision was taken that the build scripts should be independent as possible to allow developers to take a standalone example and reuse it with minimal effort.  A side effect of this design decision is that there is quite a lot of duplicated code in the build scripts.
 
+*********************************************************************
+
 ### Pre-requisites
 
 - Java 7 or 8 installed and JAVA_HOME environment variable set
