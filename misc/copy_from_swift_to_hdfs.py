@@ -1,4 +1,4 @@
-#!/usr/bin/env python2.7
+#!/usr/bin/env python
 
 # This scripts lists all files in an ObjectStore container and
 # moves them one at a time to HDFS using the webhdfs protocol.
