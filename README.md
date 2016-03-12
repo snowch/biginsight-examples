@@ -31,7 +31,7 @@ A design decision was taken that the build scripts should be independent as poss
 
 - Clone this repository
 - Copy connection.properties_template to connection.properties
-- Edit connection.properties to point to your BigInsights instance
+- Edit connection.properties to add your BigInsights instance hostname and credentials
 
 *********************************************************************
 
