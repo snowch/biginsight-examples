@@ -25,7 +25,7 @@ bi_user      = 'biadmin'
 bi_pass      = ''
 bi_folder    = '' # destination folder in hdfs   
 
-overwrite    = 'true' # true|false
+overwrite    = 'true' # overwrite file if it already exists in hdfs, true|false
 
 #### end config ####
 
