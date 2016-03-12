@@ -10,7 +10,11 @@ This project contains sample scripts (based on [knox-0.5.1](https://github.com/a
 - Execute a Spark Python job using Oozie (see [Known Issues](#known-issues))
 - Connect to HBase using Java (see [Known Issues](#known-issues))
 - Connect to HBase and create and manipulate a HBase table using Groovy (see [Known Issues](#known-issues))
-- Setup a knox shell client session
+- TODO BigR example
+- TODO BigSQL example
+- TODO Kafka example
+- TODO add lots more examples
+- Easily run a knox shell client session
 
 These scripts are tested on BigInsights on Cloud (bluemix) but they should also work for BigInsights on-premise.
 
