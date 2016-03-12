@@ -65,7 +65,8 @@ The shell logs in and saves the session in the variable `session`
 ### Example knox shell session
 
 ```
-groovy:000> slurper.parseText(Hdfs.ls(session).dir('/').now().string).FileStatuses.FileStatus.pathSuffix
+groovy:000> files = slurper.parseText(Hdfs.ls(session).dir('/').now().string)
+groovy:000> files.FileStatuses.FileStatus.pathSuffix
 
 ===> [app-logs, apps, ... ]
 ```
