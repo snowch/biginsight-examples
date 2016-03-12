@@ -62,6 +62,8 @@ snowch$ ./gradlew -p examples/WebHdfsLs Example
 
 ### Running the Knox shell
 
+The Knox shell allows connects to your cluster and allows you to run commands against the cluster using a groovy API.
+
 Run the knox shell with:
 
 ```./gradlew -q --no-daemon -p knoxshell shell```
@@ -70,7 +72,7 @@ The shell logs in and saves the session in the variable `session`
 
 ### Example knox shell session
 
-This session lists all files and folders on the cluster in the '/' folder.
+This example lists all files and folders on the cluster in the '/' folder.
 
 ```
 groovy:000> files = slurper.parseText(Hdfs.ls(session).dir('/').now().string)
