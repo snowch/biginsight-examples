@@ -25,6 +25,8 @@ bi_user      = 'biadmin'
 bi_pass      = ''
 bi_folder    = '' # destination folder in hdfs   
 
+overwrite    = 'true' # true|false
+
 #### end config ####
 
 bi_url  = 'https://{0}:{1}/gateway/default'.format(bi_host, bi_port)
@@ -58,7 +60,7 @@ for os_data in getConn().get_container(os_container)[1]:
 
     print("Object size: {0}".format(len(obj[1])))
 
-    url = "{0}/webhdfs/v1/{1}/{2}?op=CREATE".format(bi_url, bi_folder, filename)
+    url = "{0}/webhdfs/v1/{1}/{2}?op=CREATE&overwrite={3}.format(bi_url, bi_folder, filename, overwrite)
 
     # WARNING! certification verifcation is disabled `verify = False` as per the bluemix
     # documentation example that uses curl with the -k flag
