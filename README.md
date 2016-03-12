@@ -64,6 +64,8 @@ The shell logs in and saves the session in the variable `session`
 
 ### Example knox shell session
 
+This session lists all files and folders on the cluster in the '/' folder.
+
 ```
 groovy:000> files = slurper.parseText(Hdfs.ls(session).dir('/').now().string)
 groovy:000> files.FileStatuses.FileStatus.pathSuffix
