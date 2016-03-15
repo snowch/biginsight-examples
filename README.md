@@ -48,6 +48,12 @@ A design decision was taken that the build scripts should be independent as poss
 
 - Java 7 or 8 installed and JAVA_HOME environment variable set
 - You do NOT need to install gradle, the gradlew scripts will setup gradle for you
+- Export the cluster certificate from your browser. The following steps apply to Firefox:
+  - Click the lock icon in your browser's address bar.
+  - Click More Information and then View Certificate on the Security page.
+  - In the Certificate Viewer, select the Details tab and then click Export.
+  - Save the certificate to the filename 'certificate' in this folder
+
 
 ### Setup Instructions
 
