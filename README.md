@@ -10,9 +10,9 @@ A design decision was taken that the build scripts should be independent as poss
 
 #### WebHdfs (Using Knox API)
 
-- List folder contents [[examples/WebHdfsLs](./examples/WebHdfsLs/Example.groovy)]
-- Create a folder [[examples/WebHdfsMkdir](./examples/WebHdfsMkdir/Example.groovy)]
-- Upload a file [[examples/WebHdfsPut](./examples/WebHdfsPut/Example.groovy)]
+- List folder contents [[examples/WebHdfsLs](./examples/WebHdfsLs/)]
+- Create a folder [[examples/WebHdfsMkdir](./examples/WebHdfsMkdir/)]
+- Upload a file [[examples/WebHdfsPut](./examples/WebHdfsPut/)]
 
 #### Oozie (Using Knox API)
 
