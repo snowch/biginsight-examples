@@ -62,29 +62,8 @@ A design decision was taken that the build scripts should be independent as poss
   - Save the certificate to the filename 'certificate' in this folder
 
 *********************************************************************
+See the README.md file in each example folder for instructions how to run the script.
 
-### Running a script
-
-- View the Example.groovy script you want to run to understand what it does
-- Run the sample script on *nix using:
-
-```
-./gradlew -p examples/{dirname} Example
-```
-
-- or on Windows using:
-
-```
-gradlew.bat -p examples/{dirname} Example
-```
-
-### Example of running a script
-
-```
-snowch$ ./gradlew -p examples/WebHdfsLs Example
-...
->> [app-logs, apps, iop, mapred, mr-history, securedir, tmp, user]
-```
 
 *********************************************************************
 
