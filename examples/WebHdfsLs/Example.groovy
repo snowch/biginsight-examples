@@ -20,13 +20,15 @@ import groovy.json.JsonSlurper
 import org.apache.hadoop.gateway.shell.Hadoop
 import org.apache.hadoop.gateway.shell.hdfs.Hdfs
 
-def env = System.getenv()
+env = System.getenv()
 
 session = Hadoop.login( env.gateway, env.username, env.password )
+
+// list files in the root folder
 text = Hdfs.ls( session ).dir( "/" ).now().string
 json = (new JsonSlurper()).parseText( text )
-println "--------------"
-println "Command `ls /`:"
-println "--------------"
+
+// print out the contents
 println ">> " + json.FileStatuses.FileStatus.pathSuffix
+
 session.shutdown()
