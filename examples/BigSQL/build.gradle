@@ -4,17 +4,12 @@ apply plugin: 'groovy'
 buildscript {
     repositories {
         mavenCentral()
-        //maven {
-        //    url 'https://artifacts.alfresco.com/nexus/content/groups/public'
-        //}
     }
     dependencies {
         classpath 'org.codehaus.groovy:groovy-all:2.0.5'
         classpath 'org.apache.knox:gateway-shell:0.6.0'
         classpath 'commons-io:commons-io:2.4'
         classpath 'org.apache.ant:ant-jsch:1.9.4'
-//        classpath 'com.ibm.db2.jcc:db2jcc4:10.1'
-//        classpath fileTree(dir: 'lib', include: '*.jar')
     }
 }
 
