@@ -4,13 +4,13 @@
 
 This project contains sample scripts  to help you quickly get started with BigInsights. Following the steps below on your client machine, it should take you about 10 mins to perform the following actions programmatically against a BigInsights cluster:
 
-#### WebHdfs (Knox based)
+#### WebHdfs (Using Knox API)
 
 - List folder contents [[examples/WebHdfsLs](./examples/WebHdfsLs/Example.groovy)]
 - Create a folder [[examples/WebHdfsMkdir](./examples/WebHdfsMkdir/Example.groovy)]
 - Upload a file [[examples/WebHdfsPut](./examples/WebHdfsPut/Example.groovy)]
 
-#### Oozie (Knox based)
+#### Oozie (Using Knox API)
 
 - Execute a Mapreduce job using Oozie
 - Execute a Spark Java job using Oozie (see [Known Issues](#known-issues))
