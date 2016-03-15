@@ -46,6 +46,7 @@ sourceSets {
 
 clean {
     delete './lib'
+    delete './truststore.jks'
 }
 
 // task to run a script
@@ -57,8 +58,25 @@ task('Example', type: JavaExec) {
     def matcher = props.gateway =~ /^(https?:\/\/)([^:^\/]*)(:\d*)?(.*)?.*$/
     def hostname = matcher[0][2] 
 
+    // BigSQL listens on the master-2 node
     hostname = hostname.replace('mastermanager', 'master-2')
 
+    // import the BigInsights manager certificate
+    ant.exec(executable: 'keytool') {
+        arg(value: '-import')
+        arg(value: '-trustcacerts')
+        arg(value: '-alias')
+        arg(value: 'biginsights')
+        arg(value: '-file')
+        arg(value: '../../certificate')
+        arg(value: '-keystore')
+        arg(value: './truststore.jks')
+        arg(value: '-storepass')
+        arg(value: 'mypassword')
+        arg(value: '-noprompt')
+    }
+
+    // setup the ant scp task
     ant.taskdef(
             name: 'scp',
             classname: 'org.apache.tools.ant.taskdefs.optional.ssh.Scp',
