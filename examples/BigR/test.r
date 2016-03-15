@@ -17,9 +17,9 @@ hostname <- Sys.getenv("hostname")
 username <- Sys.getenv("username")
 password <- Sys.getenv("password")
 
-print(hostname)
-
 library(bigr)
+
+# truststore is created by the build.gradle script
 
 bigr.connect(
     host=hostname, 
