@@ -2,11 +2,9 @@
 ### README
 *********************************************************************
 
-This project contains sample scripts  to help you quickly get started with BigInsights. Following the steps below on your client machine, it should take you about 10 mins to perform any of the following actions programmatically against a BigInsights cluster.
+This project contains sample scripts  to help you quickly get started with BigInsights. Following the steps below on your client machine, it should take you about 10 mins to perform any of the following actions programmatically against a BigInsights cluster. These scripts are tested on BigInsights on Cloud (bluemix) but they should also work for BigInsights on-premise.
 
-These scripts are tested on BigInsights on Cloud (bluemix) but they should also work for BigInsights on-premise.
-
-A design decision was taken that the build scripts should be independent as possible to allow developers to take a standalone example and reuse it with minimal effort.  A side effect of this design decision is that there is quite a lot of duplicated code in the build scripts.
+A design decision was taken that the build scripts should be as independent as possible to allow developers to take a standalone example script project and reuse it with minimal effort.  A side effect of this design decision is that there is quite a lot of duplicated code in the build scripts.
 
 #### WebHdfs (Using Knox API)
 
