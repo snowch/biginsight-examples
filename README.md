@@ -53,8 +53,8 @@ A design decision was taken that the build scripts should be independent as poss
 ### Setup Instructions
 
 - Clone this repository
-- Copy connection.properties_template to connection.properties
-- Edit connection.properties to add your BigInsights instance hostname and credentials
+- Copy `connection.properties_template` to `connection.properties`
+- Edit `connection.properties` to add your BigInsights instance hostname and credentials
 - Export the cluster certificate from your browser. The following steps apply to Firefox:
   - Click the lock icon in your browser's address bar.
   - Click More Information and then View Certificate on the Security page.
