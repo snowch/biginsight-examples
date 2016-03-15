@@ -31,6 +31,5 @@ sql = Sql.newInstance(db.url, db.user, db.password, db.driver)
 
 // test connectivity
 
-sql.eachRow("SELECT 'connected' FROM SYSIBM.SYSDUMMY1") { row ->
-     println "${row}"
- }
+def rows = sql.rows("SELECT 'connected' FROM SYSIBM.SYSDUMMY1")
+assert rows.size() == 1
