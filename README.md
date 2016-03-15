@@ -2,22 +2,31 @@
 ### README
 *********************************************************************
 
-This project contains sample scripts (based on [knox-0.5.1](https://github.com/apache/knox/tree/v0.5.1/gateway-release/home/samples)) to help you quickly get started with BigInsights. Following the steps below on your client machine, it should take you about 10 mins to perform the following actions programmatically against a BigInsights cluster:
+This project contains sample scripts  to help you quickly get started with BigInsights. Following the steps below on your client machine, it should take you about 10 mins to perform the following actions programmatically against a BigInsights cluster:
 
-#### WebHdfs
+#### WebHdfs (Using Knox API)
 
 - List folder contents [[examples/WebHdfsLs](./examples/WebHdfsLs/Example.groovy)]
 - Create a folder [[examples/WebHdfsMkdir](./examples/WebHdfsMkdir/Example.groovy)]
 - Upload a file [[examples/WebHdfsPut](./examples/WebHdfsPut/Example.groovy)]
 
-#### Misc
+#### Oozie (Using Knox API)
 
 - Execute a Mapreduce job using Oozie
 - Execute a Spark Java job using Oozie (see [Known Issues](#known-issues))
 - Execute a Spark Python job using Oozie (see [Known Issues](#known-issues))
+
+#### HBase
+
 - Connect to HBase using Java (see [Known Issues](#known-issues))
 - Connect to HBase and create and manipulate a HBase table using Groovy (see [Known Issues](#known-issues))
-- TODO BigR example
+
+#### BigR 
+
+- Connect to BigR (requires R installed locally) [[examples/BigR](examples/BigR/test.r)]
+ 
+#### Other
+
 - TODO BigSQL example
 - TODO Kafka example
 - TODO add lots more examples
