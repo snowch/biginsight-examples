@@ -14,6 +14,14 @@ A design decision was taken that the build scripts should be independent as poss
 - Create a folder [[examples/WebHdfsMkdir](./examples/WebHdfsMkdir/)]
 - Upload a file [[examples/WebHdfsPut](./examples/WebHdfsPut/)]
 
+#### BigR 
+
+- Connect to BigR (requires R installed locally) [[examples/BigR](examples/BigR)]
+
+#### BigSQL
+
+- Connect to BigSQL from Groovy [[examples/BigSQL](examples/BigSQL)]
+
 #### Oozie (Using Knox API)
 
 - Execute a Mapreduce job using Oozie
@@ -25,14 +33,6 @@ A design decision was taken that the build scripts should be independent as poss
 - Connect to HBase using Java (see [Known Issues](#known-issues))
 - Connect to HBase and create and manipulate a HBase table using Groovy (see [Known Issues](#known-issues))
 
-#### BigR 
-
-- Connect to BigR (requires R installed locally) [[examples/BigR](examples/BigR)]
-
-#### BigSQL
-
-- Connect to BigSQL from Groovy [[examples/BigSQL](examples/BigSQL)]
- 
 #### Other
 
 - TODO Kafka example
