@@ -21,13 +21,10 @@ import org.apache.hadoop.gateway.shell.Hadoop
 import org.apache.hadoop.gateway.shell.hdfs.Hdfs
 
 env = System.getenv()
-gateway = env.gateway
-username = env.username
-password = env.password
 
 session = Hadoop.login( env.gateway, env.username, env.password )
 
-tmpDir = "/user/${username}/test-${new Date().getTime()}"
+tmpDir = "/user/${env.username}/test-${new Date().getTime()}"
 tmpFile1 = "${tmpDir}/file1"
 tmpFile2 = "${tmpDir}/file2"
 
@@ -35,7 +32,7 @@ tmpFile2 = "${tmpDir}/file2"
 Hdfs.mkdir( session ).dir( tmpDir ).now()
 
 // create a file from a string
-Hdfs.put( session ).text( "some data" ).to( tmpFile1 ).now()
+Hdfs.put( session ).text( "hello world!" ).to( tmpFile1 ).now()
 
 // upload a local file
 Hdfs.put( session ).file( "example.txt" ).to( tmpFile2 ).now()
