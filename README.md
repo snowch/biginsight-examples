@@ -5,6 +5,7 @@
 This project contains sample scripts (based on [knox-0.5.1](https://github.com/apache/knox/tree/v0.5.1/gateway-release/home/samples)) to help you quickly get started with BigInsights. Following the steps below on your client machine, it should take you about 10 mins to perform the following actions programmatically against a BigInsights cluster:
 
 - List HDFS folders
+- Push a file to HDFS
 - Execute a Mapreduce job using Oozie
 - Execute a Spark Java job using Oozie (see [Known Issues](#known-issues))
 - Execute a Spark Python job using Oozie (see [Known Issues](#known-issues))
