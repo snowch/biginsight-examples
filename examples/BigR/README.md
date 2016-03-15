@@ -1,4 +1,4 @@
-Run this example from the current directory:
+Run this example by changing into the current directory then executing:
 
 - on *nix using:
 
@@ -10,4 +10,12 @@ Run this example from the current directory:
 
 ```
 gradlew.bat Example
+```
+
+*********************************************************************
+
+Note: you can run this script from the top level project folder using:
+
+```
+./gradlew -p examples/BigR Example
 ```
