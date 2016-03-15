@@ -3,6 +3,8 @@ dir.create('./lib')
 install.packages('rJava', repos='http://cran.us.r-project.org', lib='./lib', quiet=FALSE)
 install.packages('base64enc', repos='http://cran.us.r-project.org', lib='./lib', quiet=FALSE)
 install.packages('data.table', repos='http://cran.us.r-project.org', lib='./lib', quiet=FALSE)
+
+# The BigR package is downloaded for you by the build.gradle script
 install.packages('bigr.tar.gz', type="source", repos=NULL, lib='./lib', quiet=FALSE)
 
 hostname <- Sys.getenv("hostname")
