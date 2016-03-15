@@ -4,7 +4,7 @@
 
 This project contains sample scripts (based on [knox-0.5.1](https://github.com/apache/knox/tree/v0.5.1/gateway-release/home/samples)) to help you quickly get started with BigInsights. Following the steps below on your client machine, it should take you about 10 mins to perform the following actions programmatically against a BigInsights cluster:
 
-#### HDFS
+#### WebHdfs
 
 - List folder contents [[examples/WebHdfsLs](./examples/WebHdfsLs/Example.groovy)]
 - Create a folder [[examples/WebHdfsMkdir](./examples/WebHdfsMkdir/Example.groovy)]
