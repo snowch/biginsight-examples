@@ -3,13 +3,13 @@ Run this example by changing into the current directory then executing:
 - on *nix using:
 
 ```
-./gradlew Example
+../../gradlew Example
 ```
 
 - on Windows using:
 
 ```
-gradlew.bat Example
+../../gradlew.bat Example
 ```
 
 *********************************************************************
