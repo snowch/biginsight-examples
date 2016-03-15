@@ -52,15 +52,20 @@ task('Example', type: Exec) {
     def matcher = props.gateway =~ /^(https?:\/\/)([^:^\/]*)(:\d*)?(.*)?.*$/
     def hostname = matcher[0][2] 
 
+    // import the BigInsights manager certificate
+    ant.exec(executable: 'keytool', dir:'./') {
+        arg(line: '-import -trustcacerts -alias biginsights -file ../../certificate -keystore ./truststore.jks -storepass mypassword -noprompt')
+    }
+
+    ant.taskdef(
+            name: 'scp',
+            classname: 'org.apache.tools.ant.taskdefs.optional.ssh.Scp',
+            classpath: configurations.sshAntTask.asPath
+            )
+
     if (!(new File('./bigr.tar.gz').exists())) {
 
         // download BigR R package
-        ant.taskdef(
-                name: 'scp',
-                classname: 'org.apache.tools.ant.taskdefs.optional.ssh.Scp',
-                classpath: configurations.sshAntTask.asPath
-                )
-
         ant.scp(
             file: "${props.username}@${hostname}:/usr/ibmpacks/current/bigr/bigr/bigr_*.tar.gz",
             todir: "bigr.tar.gz",
