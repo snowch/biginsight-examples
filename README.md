@@ -24,7 +24,7 @@ This project contains sample scripts  to help you quickly get started with BigIn
 #### BigR 
 
 - Connect to BigR (requires R installed locally) [[examples/BigR](examples/BigR/test.r)]
-- 
+ 
 #### Other
 
 - TODO BigSQL example
