@@ -7,7 +7,7 @@ buildscript {
     }
     dependencies {
         classpath 'org.codehaus.groovy:groovy-all:2.0.5'
-        classpath 'org.apache.knox:gateway-shell:0.6.0'
+        classpath 'org.apache.knox:gateway-shell:0.5.1'
         classpath 'commons-io:commons-io:2.4'
     }
 }
@@ -19,7 +19,7 @@ repositories {
 
 dependencies {
     compile 'org.codehaus.groovy:groovy-all:2.0.5'
-    compile 'org.apache.knox:gateway-shell:0.6.0'
+    compile 'org.apache.knox:gateway-shell:0.5.1'
     compile 'commons-io:commons-io:2.4'
 }
 
@@ -29,6 +29,11 @@ sourceSets {
         groovy {
             srcDirs = ['.']
         }
+        // uncomment to enable http debugging
+
+        // resources {
+        //    srcDirs = ['resources']
+        // }
     }
 }
 
