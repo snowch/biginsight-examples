@@ -29,18 +29,8 @@ db = [ url:url, user:env.username, password:env.password, driver:'com.ibm.db2.jc
 
 sql = Sql.newInstance(db.url, db.user, db.password, db.driver)
 
-// test connectivity by creating and dropping a table
+// test connectivity
 
-def tmpTableName = "${env.username}-tmp-${new Date().getTime()}"
-
-sql.execute """
-     create table "${tmpTableName}" (
-         id integer not null,
-         name varchar(50),
-         url varchar(100)
-     )
-""".toString()
-
-sql.execute """
-    drop table "${tmpTableName}"
-""".toString()
+sql.eachRow("SELECT 'connected' FROM SYSIBM.SYSDUMMY1") { row ->
+     println "${row}"
+ }
