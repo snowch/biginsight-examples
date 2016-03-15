@@ -1,7 +1,11 @@
 # E.g. https://bi-hadoop-prod-4066.services.dal.bluemix.net:8443/gateway/default
-gateway:changeme
+#
+# Important!  ensure you use a domain name and not an IP address for the host
+#
+gateway:https://changeme:8443/gateway/default
 
 # E.g. biadmin
 username:changeme
 
 password:changeme
+
