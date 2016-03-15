@@ -28,12 +28,19 @@ password = env.password
 session = Hadoop.login( env.gateway, env.username, env.password )
 
 tmpDir = "/user/${username}/test-${new Date().getTime()}"
-tmpFile = "${tmpDir}/file"
+tmpFile1 = "${tmpDir}/file1"
+tmpFile2 = "${tmpDir}/file2"
 
+// create a temporary dir
 Hdfs.mkdir( session ).dir( tmpDir ).now()
 
-Hdfs.put( session ).text( "some data" ).to( tmpFile ).now()
+// create a file from a string
+Hdfs.put( session ).text( "some data" ).to( tmpFile1 ).now()
 
+// upload a local file
+Hdfs.put( session ).file( "example.txt" ).to( tmpFile2 ).now()
+
+// remove the temporary dir
 Hdfs.rm( session ).file( tmpDir ).recursive().now()
 
 session.shutdown()
