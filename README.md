@@ -36,7 +36,7 @@ This project contains sample scripts  to help you quickly get started with BigIn
 
 ####  Knox
 
-- Run a knox shell client session
+- Run a knox shell client session [[knoxshell](./knoxshell/)]
 
 These scripts are tested on BigInsights on Cloud (bluemix) but they should also work for BigInsights on-premise.
 
