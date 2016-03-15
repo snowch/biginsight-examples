@@ -23,11 +23,14 @@ This project contains sample scripts  to help you quickly get started with BigIn
 
 #### BigR 
 
-- Connect to BigR (requires R installed locally) [[examples/BigR](examples/BigR/test.r)]
+- Connect to BigR (requires R installed locally) [[examples/BigR](examples/BigR)]
+
+#### BigSQL
+
+- Connect to BigSQL from Groovy [[examples/BigSQL](examples/BigSQL)]
  
 #### Other
 
-- TODO BigSQL example
 - TODO Kafka example
 - TODO add lots more examples
 
