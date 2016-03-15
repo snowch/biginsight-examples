@@ -24,7 +24,7 @@ env = System.getenv()
 
 session = Hadoop.login( env.gateway, env.username, env.password )
 
-tmpDir = "/user/${username}/test-${new Date().getTime()}"
+tmpDir = "/user/${env.username}/test-${new Date().getTime()}"
 
 // create the directory
 Hdfs.mkdir( session ).dir( tmpDir ).now()
