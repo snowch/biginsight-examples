@@ -38,7 +38,12 @@ sourceSets {
     }
 }
 
-// task to run the groovy script
+clean {
+    delete './bigr.tar.gz'
+    delete './lib'
+}
+
+// task to run a script
 task('Example', type: Exec) {
 
     Properties props = new Properties()
@@ -47,28 +52,30 @@ task('Example', type: Exec) {
     def matcher = props.gateway =~ /^(https?:\/\/)([^:^\/]*)(:\d*)?(.*)?.*$/
     def hostname = matcher[0][2] 
 
+    if (!(new File('./bigr.tar.gz').exists())) {
+
+        // download BigR R package
+        ant.taskdef(
+                name: 'scp',
+                classname: 'org.apache.tools.ant.taskdefs.optional.ssh.Scp',
+                classpath: configurations.sshAntTask.asPath
+                )
+
+        ant.scp(
+            file: "${props.username}@${hostname}:/usr/ibmpacks/current/bigr/bigr/bigr_*.tar.gz",
+            todir: "bigr.tar.gz",
+            password: props.password
+            )
+
+    }
+
     environment 'hostname', hostname
     environment 'gateway',  props.gateway
     environment 'username', props.username
     environment 'password', props.password
 
-    // download BigR R package
-    ant.taskdef(
-            name: 'scp',
-            classname: 'org.apache.tools.ant.taskdefs.optional.ssh.Scp',
-            classpath: configurations.sshAntTask.asPath
-            )
-
-    ant.scp(
-        file: "${props.username}@${hostname}:/usr/ibmpacks/current/bigr/bigr/bigr_*.tar.gz",
-        todir: "bigr.tar.gz",
-        password: props.password
-        )
-
-    //main = 'Example'
-    //classpath = sourceSets.main.runtimeClasspath
-
     workingDir './'
 
+    // execute R script - inpect test.r for details
     commandLine 'Rscript', 'test.r'
 }
