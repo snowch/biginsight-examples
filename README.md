@@ -6,9 +6,9 @@ This project contains sample scripts (based on [knox-0.5.1](https://github.com/a
 
 #### HDFS
 
-- List folder contents [[examples/WebHdfsLs](./examples/WebHdfsLs)]
-- Create a folder [[examples/WebHdfsMkdir](./examples/WebHdfsMkdir)]
-- Upload a file [[examples/WebHdfsPut](./examples/WebHdfsPut)]
+- List folder contents [[examples/WebHdfsLs](./examples/WebHdfsLs/Example.groovy)]
+- Create a folder [[examples/WebHdfsMkdir](./examples/WebHdfsMkdir/Example.groovy)]
+- Upload a file [[examples/WebHdfsPut](./examples/WebHdfsPut/Example.groovy)]
 
 #### Misc
 
