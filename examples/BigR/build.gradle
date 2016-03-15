@@ -69,6 +69,9 @@ task('Example', type: Exec) {
 
     }
 
+    // BigR service lists on master-2 node
+    hostname = hostname.replace('mastermanager', 'master-2')
+
     environment 'hostname', hostname
     environment 'gateway',  props.gateway
     environment 'username', props.username
