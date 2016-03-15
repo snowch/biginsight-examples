@@ -29,6 +29,6 @@ text = Hdfs.ls( session ).dir( "/" ).now().string
 json = (new JsonSlurper()).parseText( text )
 
 // print out the contents
-println ">> " + json.FileStatuses.FileStatus.pathSuffix
+println "\n>> " + json.FileStatuses.FileStatus.pathSuffix
 
 session.shutdown()
