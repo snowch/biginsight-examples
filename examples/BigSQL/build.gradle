@@ -62,18 +62,8 @@ task('Example', type: JavaExec) {
     hostname = hostname.replace('mastermanager', 'master-2')
 
     // import the BigInsights manager certificate
-    ant.exec(executable: 'keytool') {
-        arg(value: '-import')
-        arg(value: '-trustcacerts')
-        arg(value: '-alias')
-        arg(value: 'biginsights')
-        arg(value: '-file')
-        arg(value: '../../certificate')
-        arg(value: '-keystore')
-        arg(value: './truststore.jks')
-        arg(value: '-storepass')
-        arg(value: 'mypassword')
-        arg(value: '-noprompt')
+    ant.exec(executable: 'keytool', dir:'./') {
+        arg(line: '-import -trustcacerts -alias biginsights -file ../../certificate -keystore ./truststore.jks -storepass mypassword -noprompt')
     }
 
     // setup the ant scp task
@@ -83,24 +73,26 @@ task('Example', type: JavaExec) {
             classpath: configurations.sshAntTask.asPath
             )
             
-    if (!(new File('./lib/db2jcc.jar').exists())) {
+    if (!(new File('./lib/').exists())) {
+
+        mkdir('./lib')
 
         // download jdbc drivers
         ant.scp(
             file: "${props.username}@${hostname}:/usr/ibmpacks/bigsql/4.1/db2/java/db2jcc.jar",
-            todir: "./lib",
+            todir: "./lib/",
             password: props.password
             )
 
         ant.scp(
             file: "${props.username}@${hostname}:/usr/ibmpacks/bigsql/4.1/db2/java/db2jcc4.jar",
-            todir: "./lib",
+            todir: "./lib/",
             password: props.password
             )
 
         ant.scp(
             file: "${props.username}@${hostname}:/usr/ibmpacks/bigsql/4.1/db2/java/db2jcc_license_cu.jar",
-            todir: "./lib",
+            todir: "./lib/",
             password: props.password
             )
     }

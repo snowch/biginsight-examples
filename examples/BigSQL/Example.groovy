@@ -23,8 +23,6 @@ import groovy.sql.Sql
 
 env = System.getenv()
 
-// TODO: run 'keytool -import -trustcacerts -alias biginsights -file  ../../certificate -keystore ./truststore.jks -storepass mypassword -noprompt'
-
 url = "jdbc:db2://${env.hostname}:51000/bigsql:sslConnection=true;sslTrustStoreLocation=./truststore.jks;Password=mypassword;"
 
 db = [ url:url, user:env.username, password:env.password, driver:'com.ibm.db2.jcc.DB2Driver']
