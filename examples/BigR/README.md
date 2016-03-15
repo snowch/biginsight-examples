@@ -1,10 +1,12 @@
-Run this example from the current directory using:
+Run this example from the current directory:
+
+- on *nix using:
 
 ```
 ./gradlew Example
 ```
 
-- or on Windows using:
+- on Windows using:
 
 ```
 gradlew.bat Example
