@@ -2,7 +2,7 @@
 
 The Knox shell allows connects to your cluster and allows you to run commands against the cluster using a groovy API.
 
-Run the knox shell with:
+Run the knox shell from the current folder with:
 
 ```./gradlew -q --no-daemon shell```
 
