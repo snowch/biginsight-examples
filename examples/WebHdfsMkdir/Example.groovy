@@ -21,16 +21,15 @@ import org.apache.hadoop.gateway.shell.Hadoop
 import org.apache.hadoop.gateway.shell.hdfs.Hdfs
 
 env = System.getenv()
-gateway = env.gateway
-username = env.username
-password = env.password
 
 session = Hadoop.login( env.gateway, env.username, env.password )
 
 tmpDir = "/user/${username}/test-${new Date().getTime()}"
 
+// create the directory
 Hdfs.mkdir( session ).dir( tmpDir ).now()
 
+// remove the directory
 Hdfs.rm( session ).file( tmpDir ).recursive().now()
 
 session.shutdown()
