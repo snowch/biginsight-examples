@@ -19,10 +19,12 @@ A design decision was taken that the build scripts should be as independent as p
 #### BigSQL
 
 - Connect to BigSQL from Groovy [[examples/BigSQL](examples/BigSQL)]
+- Connect to BigSQL from Java (coming soon ...)
 
 #### Hive
 
 - Connect to Hive from Groovy [[examples/Hive](examples/Hive)]
+- Connect to Hive from Java (coming soon ...)
 
 #### Oozie (Using Knox API)
 
@@ -35,10 +37,10 @@ A design decision was taken that the build scripts should be as independent as p
 - Connect to HBase using Java (see [Known Issues](#known-issues))
 - Connect to HBase and create and manipulate a HBase table using Groovy (see [Known Issues](#known-issues))
 
-#### Other
+#### Kafka
 
-- TODO Kafka example
-- TODO add lots more examples
+- Connect to Kafka from Groovy (coming soon ...)
+- Connect to Kafka from Java (coming soon ...)
 
 ####  Knox
 
