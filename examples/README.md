@@ -1,1 +1,1 @@
-See the file in each project for instructions how to run the example.
+See the README file in each project for instructions how to run the example.
