@@ -41,3 +41,5 @@ Hdfs.put( session ).file( "example.txt" ).to( tmpFile2 ).now()
 Hdfs.rm( session ).file( tmpDir ).recursive().now()
 
 session.shutdown()
+
+println "\n>> Upload test was successful."
