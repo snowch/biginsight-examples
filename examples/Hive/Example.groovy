@@ -16,7 +16,6 @@
  * limitations under the License.
  */
 
-import groovy.json.JsonSlurper
 import groovy.sql.Sql
 
 env = System.getenv()
