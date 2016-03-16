@@ -22,9 +22,9 @@ library(bigr)
 # truststore is created by the build.gradle script
 
 bigr.connect(
-    host=hostname, 
-    user=username,
-    password=password,
+    host = hostname, 
+    user = username,
+    password = password,
     ssl = TRUE,
     trustStorePath = "./truststore.jks",
     trustStorePassword = "mypassword",
