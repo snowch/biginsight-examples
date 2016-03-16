@@ -4,8 +4,9 @@ import java.util.Date;
 
 public class Example {
 
-
 	public static void main(String[] args) throws Exception {
+		
+		// truststore.jks is created by the build.gradle script
 		
 		final String connOptions = "ssl=true;sslTrustStore=./truststore.jks;trustStorePassword=mypassword;";
 		
@@ -30,17 +31,17 @@ public class Example {
 
 		stmt = conn.createStatement();
 
-        String tmpTableName = String.format("%s_temp_%s",
+        	String tmpTableName = String.format("%s_temp_%s",
                     env.get("username"),
                     new Date().getTime()
                     );
 
-        stmt.execute(
-                String.format("create table %s ( id int, name string )", tmpTableName)
+        	stmt.execute(
+             	   String.format("create table %s ( id int, name string )", tmpTableName)
                 );
 		
-        stmt.execute(
-                String.format("drop table %s", tmpTableName)
+        	stmt.execute(
+           	     String.format("drop table %s", tmpTableName)
                 );
 		
 		stmt.close();
