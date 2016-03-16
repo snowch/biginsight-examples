@@ -19,7 +19,7 @@ A design decision was taken that the build scripts should be as independent as p
 #### BigSQL
 
 - Connect to BigSQL from Groovy [[examples/BigSQL](examples/BigSQL)]
-- Connect to BigSQL from Java (coming soon ...)
+- Connect to BigSQL from Java [[examples/BigSQLJava](examples/BigSQLJava)]
 
 #### Hive
 
