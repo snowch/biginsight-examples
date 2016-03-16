@@ -32,6 +32,12 @@ A design decision was taken that the build scripts should be as independent as p
 - Execute a Spark Java job using Oozie (see [Known Issues](#known-issues))
 - Execute a Spark Python job using Oozie (see [Known Issues](#known-issues))
 
+#### Spark
+
+- Submit a python job over SSH (coming soon ...)
+- Submit a Java job over SSH (coming soon ...)
+- Submit a Scala job over SSH (coming soon ...)
+
 #### HBase
 
 - Connect to HBase using Java (see [Known Issues](#known-issues))
