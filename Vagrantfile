@@ -16,6 +16,11 @@ Vagrant.configure(2) do |config|
      sudo apt-get update
      sudo apt-get install -y git r-base oracle-java8-installer
 
+     sudo sh -c 'echo /usr/lib/jvm/java-8-oracle/jre/lib/amd64 >> /etc/ld.so.conf.d/java.conf'
+     sudo sh -c 'echo /usr/lib/jvm/java-8-oracle/jre/lib/amd64/server >> /etc/ld.so.conf.d/java.conf'
+     sudo ldconfig
+     sudo R CMD javareconf
+
      git clone https://github.com/snowch/biginsight-examples.git
    SHELL
 end
