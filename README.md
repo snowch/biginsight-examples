@@ -68,7 +68,7 @@ A design decision was taken that the build scripts should be as independent as p
 *********************************************************************
 ### Running the scripts
 
-See the README.md file in each example folder for instructions how to run the script.
+See the README.md file in each example in the [[examples](examples)] folder for instructions how to run the script.
 *********************************************************************
 
 ### Known issues
