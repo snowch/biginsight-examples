@@ -33,3 +33,5 @@ Hdfs.mkdir( session ).dir( tmpDir ).now()
 Hdfs.rm( session ).file( tmpDir ).recursive().now()
 
 session.shutdown()
+
+println "\n>> Mkdir test was successful."
