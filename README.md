@@ -64,7 +64,8 @@ A design decision was taken that the build scripts should be as independent as p
   - Click More Information and then View Certificate on the Security page.
   - In the Certificate Viewer, select the Details tab and then click Export.
   - Save the certificate to the filename 'certificate' in this folder
-- Ssh into the BigInsights cluster to install the cluster's certificate into ./ssh/known_hosts
+- Ssh into the BigInsights cluster 'mastermanager' node to install the cluster's SSL certificate into ./ssh/known_hosts
+- Ssh into the BigInsights cluster 'master-2' node to install the cluster's SSL certificate into ./ssh/known_hosts
 
 *********************************************************************
 ### Running the scripts
