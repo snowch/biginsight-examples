@@ -38,3 +38,5 @@ sql.execute """
 sql.execute """
      drop table ${tmpTableName}
 """.toString()
+
+println "Connectivity tests successful"
