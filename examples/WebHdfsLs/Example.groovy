@@ -32,3 +32,5 @@ json = (new JsonSlurper()).parseText( text )
 println "\n>> " + json.FileStatuses.FileStatus.pathSuffix
 
 session.shutdown()
+
+println "\n>> Ls test was successful."
