@@ -2,3 +2,4 @@ connection.properties
 build/
 .gradle/
 samples/
+.vagrant/
