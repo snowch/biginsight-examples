@@ -52,6 +52,10 @@ task('Example', type: Exec) {
     def matcher = props.gateway =~ /^(https?:\/\/)([^:^\/]*)(:\d*)?(.*)?.*$/
     def hostname = matcher[0][2] 
 
+    if (!(new File("${projectDir}/../../certificate").exists())) {
+        throw new GradleException("'certificate' file could not be found in ${projectDir.parentFile.parentFile}")
+    }
+
     // import the BigInsights manager certificate
     ant.exec(executable: 'keytool', dir:'./') {
         arg(line: '-import -trustcacerts -alias biginsights -file ../../certificate -keystore ./truststore.jks -storepass mypassword -noprompt')
