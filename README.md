@@ -24,7 +24,7 @@ A design decision was taken that the build scripts should be as independent as p
 #### Hive
 
 - Connect to Hive from Groovy [[examples/Hive](examples/Hive)]
-- Connect to Hive from Java (coming soon ...)
+- Connect to Hive from Java  [[examples/HiveJava](examples/HiveJava)]
 
 #### Oozie (Using Knox API)
 
