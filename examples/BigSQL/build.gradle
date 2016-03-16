@@ -56,6 +56,10 @@ task('Example', type: JavaExec) {
     // BigSQL listens on the master-2 node
     hostname = hostname.replace('mastermanager', 'master-2')
 
+    if (!(new File("${projectDir}/../../certificate").exists())) {
+        throw new GradleException("'certificate' file could not be found in ${projectDir.parentFile.parentFile}")
+    }
+
     // import the BigInsights manager certificate
     ant.exec(executable: 'keytool', dir:'./') {
         arg(line: '-import -trustcacerts -alias biginsights -file ../../certificate -keystore ./truststore.jks -storepass mypassword -noprompt')
