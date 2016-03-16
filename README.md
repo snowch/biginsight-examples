@@ -20,7 +20,7 @@ A design decision was taken that the build scripts should be as independent as p
 
 - Connect to BigSQL from Groovy [[examples/BigSQL](examples/BigSQL)]
 
-#### BigSQL
+#### Hive
 
 - Connect to Hive from Groovy [[examples/Hive](examples/Hive)]
 
