@@ -39,4 +39,4 @@ sql.execute """
      drop table ${tmpTableName}
 """.toString()
 
-println "Connectivity test was successful."
+println "\n>> Connectivity test was successful."
