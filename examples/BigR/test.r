@@ -1,6 +1,6 @@
 
 # check if lib dir exists
-if("./lib" %in% dir() == FALSE) {
+if("lib" %in% dir() == FALSE) {
 
     # create directory to hold libraries
     dir.create('./lib')
