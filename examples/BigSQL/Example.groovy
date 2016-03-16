@@ -16,9 +16,6 @@
  * limitations under the License.
  */
 
-import groovy.json.JsonSlurper
-import org.apache.hadoop.gateway.shell.Hadoop
-import org.apache.hadoop.gateway.shell.hdfs.Hdfs
 import groovy.sql.Sql
 
 env = System.getenv()
