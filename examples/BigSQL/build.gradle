@@ -72,29 +72,27 @@ task('Example', type: JavaExec) {
             classpath: configurations.sshAntTask.asPath
             )
             
-    if (!(new File('./lib/').exists())) {
 
-        mkdir('./lib')
+    mkdir('./lib')
 
-        // download jdbc drivers
-        ant.scp(
-            file: "${props.username}@${hostname}:/usr/ibmpacks/bigsql/4.1/db2/java/db2jcc.jar",
-            todir: "./lib/",
-            password: props.password
-            )
+    // download jdbc drivers from the BigInsights cluster using SCP
+    ant.scp(
+        file: "${props.username}@${hostname}:/usr/ibmpacks/bigsql/4.1/db2/java/db2jcc.jar",
+        todir: "./lib/",
+        password: props.password
+        )
 
-        ant.scp(
-            file: "${props.username}@${hostname}:/usr/ibmpacks/bigsql/4.1/db2/java/db2jcc4.jar",
-            todir: "./lib/",
-            password: props.password
-            )
+    ant.scp(
+        file: "${props.username}@${hostname}:/usr/ibmpacks/bigsql/4.1/db2/java/db2jcc4.jar",
+        todir: "./lib/",
+        password: props.password
+        )
 
-        ant.scp(
-            file: "${props.username}@${hostname}:/usr/ibmpacks/bigsql/4.1/db2/java/db2jcc_license_cu.jar",
-            todir: "./lib/",
-            password: props.password
-            )
-    }
+    ant.scp(
+        file: "${props.username}@${hostname}:/usr/ibmpacks/bigsql/4.1/db2/java/db2jcc_license_cu.jar",
+        todir: "./lib/",
+        password: props.password
+        )
 
     environment 'hostname', hostname
     environment 'username', props.username
