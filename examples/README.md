@@ -1,1 +1,1 @@
-See the file [README.md](../README.md) in the top level folder for instructions for running these Examples.
+See the file in each project for instructions how to run the example.
