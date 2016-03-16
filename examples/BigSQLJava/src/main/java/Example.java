@@ -3,8 +3,9 @@ import java.util.Map;
 
 public class Example {
 
-
 	public static void main(String[] args) throws Exception {
+		
+		// NOTE: truststore.jks is created by build.gradle
 		
 		final String connOptions = "sslConnection=true;sslTrustStoreLocation=./truststore.jks;Password=mypassword;";
 		
@@ -18,7 +19,6 @@ public class Example {
 
 		final String user = env.get("username");
 		final String pwd  = env.get("password");
-
 
 		Connection conn = null;
 		Statement stmt = null;
