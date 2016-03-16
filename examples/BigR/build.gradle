@@ -74,7 +74,7 @@ task('Example', type: Exec) {
 
     }
 
-    // BigR service lists on master-2 node
+    // BigR service listens on master-2 node
     hostname = hostname.replace('mastermanager', 'master-2')
 
     environment 'hostname', hostname
