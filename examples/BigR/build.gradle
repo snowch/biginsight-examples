@@ -88,6 +88,6 @@ task('Example', type: Exec) {
 
     workingDir './'
 
-    // execute R script - inpect test.r for details
-    commandLine 'Rscript', 'test.r'
+    // execute R script - inpect example.r for details
+    commandLine 'Rscript', 'example.r'
 }
