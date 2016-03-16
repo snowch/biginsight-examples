@@ -20,6 +20,10 @@ A design decision was taken that the build scripts should be as independent as p
 
 - Connect to BigSQL from Groovy [[examples/BigSQL](examples/BigSQL)]
 
+#### BigSQL
+
+- Connect to Hive from Groovy [[examples/Hive](examples/Hive)]
+
 #### Oozie (Using Knox API)
 
 - Execute a Mapreduce job using Oozie

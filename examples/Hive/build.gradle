@@ -1,0 +1,66 @@
+apply plugin: 'groovy'
+
+// set the dependencies for running the groovy script
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'org.codehaus.groovy:groovy-all:2.0.5'
+        classpath 'org.apache.knox:gateway-shell:0.6.0'
+        classpath 'commons-io:commons-io:2.4'
+        classpath 'org.apache.hive:hive-jdbc:2.0.0'
+    }
+}
+
+// set the dependencies for compiling the groovy script
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'org.codehaus.groovy:groovy-all:2.0.5'
+    compile 'org.apache.knox:gateway-shell:0.6.0'
+    compile 'commons-io:commons-io:2.4'
+    compile 'org.apache.hive:hive-jdbc:2.0.0'
+}
+
+// tell gradle the groovy script is in the same folder as the build.gradle file
+sourceSets {
+    main {
+        groovy {
+            srcDirs = ['.']
+        }
+    }
+}
+
+// task to run a script
+task('Example', type: JavaExec) {
+
+    Properties props = new Properties()
+    props.load(new FileInputStream("$projectDir/../../connection.properties"))
+
+    def matcher = props.gateway =~ /^(https?:\/\/)([^:^\/]*)(:\d*)?(.*)?.*$/
+    def hostname = matcher[0][2] 
+
+    println(hostname)
+
+    // Hive listens on the master-2 node
+    hostname = hostname.replace('mastermanager', 'master-2')
+
+    if (!(new File("${projectDir}/../../certificate").exists())) {
+        throw new GradleException("'certificate' file could not be found in ${projectDir.parentFile.parentFile}")
+    }
+
+    // import the BigInsights manager certificate
+    ant.exec(executable: 'keytool', dir:'./') {
+        arg(line: '-import -trustcacerts -alias biginsights -file ../../certificate -keystore ./truststore.jks -storepass mypassword -noprompt')
+    }
+
+    environment 'hostname', hostname
+    environment 'username', props.username
+    environment 'password', props.password
+
+    main = 'Example'
+    classpath = sourceSets.main.runtimeClasspath
+}
