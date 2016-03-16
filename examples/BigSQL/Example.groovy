@@ -30,3 +30,5 @@ sql = Sql.newInstance(db.url, db.user, db.password, db.driver)
 
 def rows = sql.rows("SELECT 1 FROM SYSIBM.SYSDUMMY1")
 assert rows.size() == 1
+
+println "\n>> Connectivity test was successful."
