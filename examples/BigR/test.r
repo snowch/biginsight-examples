@@ -33,4 +33,4 @@ bigr.connect(
 
 is.bigr.connected()  
 
-print("\n>> Connectivity test was successful.")
+print(">> Connectivity test was successful.")
