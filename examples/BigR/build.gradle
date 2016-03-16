@@ -65,7 +65,7 @@ task('Example', type: Exec) {
 
     if (!(new File('./bigr.tar.gz').exists())) {
 
-        // download BigR R package
+        // download BigR R package from the BigInsights cluster
         ant.scp(
             file: "${props.username}@${hostname}:/usr/ibmpacks/current/bigr/bigr/bigr_*.tar.gz",
             todir: "bigr.tar.gz",
