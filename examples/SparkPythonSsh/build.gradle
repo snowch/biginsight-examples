@@ -35,11 +35,11 @@ task Example << {
             execute "hadoop fs -mkdir ${tmpHdfsDir}"
 
             // upload spark script and text file to process
-            put from: "wordcount.py", into: "${tmpDir}/wordcount.py"
-            put from: "LICENSE", into: "${tmpDir}/LICENSE"
+            put from: "${projectDir}/wordcount.py", into: "${tmpDir}/wordcount.py"
+            put from: "${projectDir}/LICENSE", into: "${tmpDir}/LICENSE"
 
             // put LICENSE into hdfs
-            execute "hadoop fs -put LICENSE ${tmpHdfsDir}/LICENSE"
+            execute "hadoop fs -put ${tmpDir}/LICENSE ${tmpHdfsDir}/LICENSE"
 
             // execute spark workcount job against the file in hdfs
             execute "pyspark ${tmpDir}/wordcount.py ${tmpHdfsDir}/LICENSE"
