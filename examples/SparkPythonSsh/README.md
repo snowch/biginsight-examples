@@ -23,8 +23,9 @@ bicluster#54|APPENDIX:: 1
 ...
 
 ```
-
+[1] From https://github.com/apache/spark/blob/master/examples/src/main/python/wordcount.py
 *********************************************************************
+#### Instructions
 
 Run this example by changing into the current directory then executing:
 
@@ -47,6 +48,3 @@ Note: you can run this script from the top level project folder using the gradle
 ```
 ./gradlew -p examples/SparkPythonSsh Example
 ```
-
-----
-[1] From https://github.com/apache/spark/blob/master/examples/src/main/python/wordcount.py
