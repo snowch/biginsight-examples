@@ -45,7 +45,7 @@ task('Example', type: Exec) {
             session(remotes.bicluster) {
 
                 // grab the bigr package from the cluster
-                get from: "${props.username}@${hostname}:/usr/ibmpacks/current/bigr/bigr/bigr_*.tar.gz",
+                get from: "/usr/ibmpacks/current/bigr/bigr/bigr_*.tar.gz",
                     into: "${projectDir}/bigr.tar.gz"
             }
         }
