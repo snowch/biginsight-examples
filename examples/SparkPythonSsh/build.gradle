@@ -31,20 +31,20 @@ task Example << {
             // TODO: do we need to run this?
             // kinit -k -t biadmin.keytab biadmin@IBM.COM
 
-            // create localdir for holding files
+            // create temp local dir for holding LICENSE file before uploading it to hdfs
             execute "mkdir ${tmpDir}"
-
-            // create hdfs for holding files
-            execute "hadoop fs -mkdir ${tmpHdfsDir}"
 
             // upload spark script and text file to process
             put from: "${projectDir}/wordcount.py", into: "${tmpDir}/wordcount.py"
             put from: "${projectDir}/LICENSE", into: "${tmpDir}/LICENSE"
 
+            // create temp hdfs folder for holding LICENSE file
+            execute "hadoop fs -mkdir ${tmpHdfsDir}"
+            
             // put LICENSE into hdfs
             execute "hadoop fs -put ${tmpDir}/LICENSE ${tmpHdfsDir}/LICENSE"
 
-            // execute spark workcount job against the file in hdfs
+            // execute spark workcount job against the LICENSE file in hdfs
             execute "pyspark ${tmpDir}/wordcount.py ${tmpHdfsDir}/LICENSE"
 
             // remove temporary hdfs dir
