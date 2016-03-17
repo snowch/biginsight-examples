@@ -1,8 +1,10 @@
-.libPaths('lib')
 
+libdir   <- Sys.getenv("libdir")
 hostname <- Sys.getenv("hostname")
 username <- Sys.getenv("username")
 password <- Sys.getenv("password")
+
+.libPaths(libdir)
 
 library(bigr)
 

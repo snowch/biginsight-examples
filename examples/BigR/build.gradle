@@ -21,11 +21,15 @@ remotes {
 }
 
 clean {
+    delete './truststore.jks'
     delete './bigr.tar.gz'
     delete './lib'
 }
 
 task ('installPackages', type:Exec) {
+
+    // tell gradle we don't need to run this task if the ./lib/bigr/ folder exists
+    outputs.files file("${projectDir}/lib/bigr/")
 
     // ensure the ssl certificate exists
     if (!(new File("${projectDir}/../../certificate").exists())) {
@@ -50,8 +54,12 @@ task ('installPackages', type:Exec) {
         }
     }
 
+    // set where we want the R packages installed
+    environment 'libdir',   "${projectDir}/lib"
+
     commandLine 'Rscript', 'install_packages.r'
 }
+
 
 // task to run a R script
 task('Example', dependsOn: installPackages, type: Exec) {
@@ -61,6 +69,7 @@ task('Example', dependsOn: installPackages, type: Exec) {
     hostname = hostname.replace('mastermanager', 'master-2')
 
     // pass environment variables to the R script
+    environment 'libdir',   "${projectDir}/lib"
     environment 'hostname', hostname
     environment 'gateway',  props.gateway
     environment 'username', props.username
