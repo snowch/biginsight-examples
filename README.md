@@ -79,24 +79,3 @@ A design decision was taken that the build scripts should be as independent as p
 See the README.md file in each example in the [[examples](examples)] folder for instructions how to run the script.
 *********************************************************************
 
-### Known issues
-
-#### Execute a Spark Java job using Oozie
-
-This script works on 'Analytics for Apache Hadoop', but not on 'BigInsights on Cloud Basic Plan'.  Debug output can be found in https://your-hostname:8443/gateway/yarnui/yarn/apps
-
-#### Execute a Spark Python job using Oozie 
-
-The documentation for my cluster at https://hostname:8443/gateway/oozieui/oozie/docs/DG_SparkActionExtension.html - suggests that Spark actions are available, however, I receive this error trying to run a spark action:
-
-`java.lang.RuntimeException: java.lang.ClassNotFoundException: Class org.apache.oozie.action.hadoop.SparkMain not found`
-
-spark-assembly.jar is added to the ./lib folder, but on inspection I noticed that spark-assembly.jar does NOT contain a SparkMain class.
-
-#### Create and manipulate a HBase table (using Groovy)
-
-When running this against a standard BigInsights on Cloud cluster, the service returns `HTTP/1.1 500 Server Error`
-
-#### Connect to HBase (using Java)
-
-When running this against a standard BigInsights on Cloud cluster, the service returns `HTTP/1.1 500 Server Error`
