@@ -38,6 +38,6 @@ Note: you can run this script from the top level project folder using the gradle
 ./gradlew -p examples/BigR Example
 ```
 *********************************************************************
-### Overview
+### Known issues
  
 This script may fail the first time it is run, but will run ok if you try it again.
