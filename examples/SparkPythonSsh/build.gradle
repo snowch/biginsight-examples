@@ -5,10 +5,11 @@ plugins {
 Properties props = new Properties()
 props.load(new FileInputStream("$projectDir/../../connection.properties"))
 
-// extract hostname from gateway url
+// extract BigInsights hostname from the gateway url
 def matcher = props.gateway =~ /^(https?:\/\/)([^:^\/]*)(:\d*)?(.*)?.*$/
 def hostname = matcher[0][2] 
 
+// setup the connection details for ssh
 remotes {
     bicluster {
        host = hostname
