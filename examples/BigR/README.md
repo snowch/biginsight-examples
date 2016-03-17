@@ -1,12 +1,12 @@
 ### Overview
 
-This script has two parts, the first part is [./build.gradle](./build.gradle) script that:
+This script has two parts, the first part is a gradle script [./build.gradle](./build.gradle) that:
 
 - creates a truststore using the java keytool command and imports your certificate for your BigInsights cluster
 - uses ssh to download the file `/usr/ibmpacks/current/bigr/bigr/bigr_*.tar.gz` from the cluster mastermanager node
 - executes a R script [./example.r](./example.r) using the Rscript command line tool
 
-The second part is the [./example.r](./example.r) that:
+The second part is a R script [./example.r](./example.r) that:
 
 - installs some prerequisite packages for BigR
 - installs the `bigr_*.tar.gz` file downloaded from the cluster
