@@ -25,8 +25,7 @@ clean {
     delete './lib'
 }
 
-// task to run a R script
-task('Example', type: Exec) {
+task ('installPackages', type:Exec) {
 
     // ensure the ssl certificate exists
     if (!(new File("${projectDir}/../../certificate").exists())) {
@@ -51,6 +50,13 @@ task('Example', type: Exec) {
         }
     }
 
+    commandLine 'Rscript', 'install_packages.r'
+}
+
+// task to run a R script
+task('Example', dependsOn: installPackages, type: Exec) {
+
+
     // BigR service listens on master-2 node
     hostname = hostname.replace('mastermanager', 'master-2')
 
@@ -59,8 +65,6 @@ task('Example', type: Exec) {
     environment 'gateway',  props.gateway
     environment 'username', props.username
     environment 'password', props.password
-
-    workingDir './'
 
     // execute R script - inpect example.r for details
     commandLine 'Rscript', 'example.r'
