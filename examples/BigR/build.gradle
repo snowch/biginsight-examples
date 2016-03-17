@@ -7,8 +7,6 @@ buildscript {
     }
     dependencies {
         classpath 'org.codehaus.groovy:groovy-all:2.0.5'
-        classpath 'org.apache.knox:gateway-shell:0.6.0'
-        classpath 'commons-io:commons-io:2.4'
         classpath 'org.apache.ant:ant-jsch:1.9.4'
     }
 }
@@ -24,8 +22,6 @@ configurations {
 
 dependencies {
     compile 'org.codehaus.groovy:groovy-all:2.0.5'
-    compile 'org.apache.knox:gateway-shell:0.6.0'
-    compile 'commons-io:commons-io:2.4'
     sshAntTask 'org.apache.ant:ant-jsch:1.9.4'
 }
 
@@ -43,7 +39,7 @@ clean {
     delete './lib'
 }
 
-// task to run a script
+// task to run a R script
 task('Example', type: Exec) {
 
     Properties props = new Properties()
@@ -81,6 +77,7 @@ task('Example', type: Exec) {
     // BigR service listens on master-2 node
     hostname = hostname.replace('mastermanager', 'master-2')
 
+    // pass environment variables to the R script
     environment 'hostname', hostname
     environment 'gateway',  props.gateway
     environment 'username', props.username
