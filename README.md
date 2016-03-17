@@ -26,17 +26,17 @@ A design decision was taken that the build scripts should be as independent as p
 - Connect to Hive from Groovy [[examples/Hive](examples/Hive)]
 - Connect to Hive from Java  [[examples/HiveJava](examples/HiveJava)]
 
+#### Spark (run in a ssh session on the BigInsights cluster)
+
+- Submit a python job [[examples/SparkPythonSsh](examples/SparkPythonSsh)]
+- Submit a Java job (coming soon ...)
+- Submit a Scala job (coming soon ...)
+
 #### Oozie (Using Knox API)
 
 - Execute a Mapreduce job using Oozie
 - Execute a Spark Java job using Oozie (see [Known Issues](#known-issues))
 - Execute a Spark Python job using Oozie (see [Known Issues](#known-issues))
-
-#### Spark
-
-- Submit a python job over SSH [[examples/SparkPythonSsh](examples/SparkPythonSsh)]
-- Submit a Java job over SSH (coming soon ...)
-- Submit a Scala job over SSH (coming soon ...)
 
 #### HBase
 
