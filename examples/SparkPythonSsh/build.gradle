@@ -23,7 +23,9 @@ task Example << {
     def tmpDir = "test-${new Date().getTime()}"
 
     def tmpHdfsDir = "/user/${props.username}/${tmpDir}"
-
+    
+    // ssh plugin documentation: https://gradle-ssh-plugin.github.io/docs/
+    
     ssh.run {
         session(remotes.bicluster) {
             // TODO: do we need to run this?
