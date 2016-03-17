@@ -21,7 +21,7 @@ task Example << {
 
     def tmpDir = "test-${new Date().getTime()}"
 
-    def tmpHdfsDir = "/user/${props.username}/test-${new Date().getTime()}"
+    def tmpHdfsDir = "/user/${props.username}/${tmpDir}"
 
     ssh.run {
         session(remotes.bicluster) {
