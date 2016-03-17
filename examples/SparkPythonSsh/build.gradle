@@ -1,0 +1,54 @@
+plugins {
+  id 'org.hidetake.ssh' version '1.5.0'
+}
+
+Properties props = new Properties()
+props.load(new FileInputStream("$projectDir/../../connection.properties"))
+
+// extract hostname from gateway url
+def matcher = props.gateway =~ /^(https?:\/\/)([^:^\/]*)(:\d*)?(.*)?.*$/
+def hostname = matcher[0][2] 
+
+remotes {
+    bicluster {
+       host = hostname
+       user = props.username
+       password = props.password
+    }
+}
+
+task Example << {
+
+    def tmpDir = "test-${new Date().getTime()}"
+
+    def tmpHdfsDir = "/user/${props.username}/test-${new Date().getTime()}"
+
+    ssh.run {
+        session(remotes.bicluster) {
+            // TODO: do we need to run this?
+            // kinit -k -t biadmin.keytab biadmin@IBM.COM
+
+            // create localdir for holding files
+            execute "mkdir ${tmpDir}"
+
+            // create hdfs for holding files
+            execute "hadoop fs -mkdir ${tmpHdfsDir}"
+
+            // upload spark script and text file to process
+            put from: "wordcount.py", into: "${tmpDir}/wordcount.py"
+            put from: "LICENSE", into: "${tmpDir}/LICENSE"
+
+            // put LICENSE into hdfs
+            execute "hadoop fs -put LICENSE ${tmpHdfsDir}/LICENSE"
+
+            // execute spark workcount job against the file in hdfs
+            execute "pyspark ${tmpDir}/wordcount.py ${tmpHdfsDir}/LICENSE"
+
+            // remove temporary hdfs dir
+            execute "hadoop fs -rm -r ${tmpHdfsDir}"
+
+            // remove temporary local dir
+            execute "rm -rf ${tmpDir}"
+        }
+    }
+}

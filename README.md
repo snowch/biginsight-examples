@@ -34,7 +34,7 @@ A design decision was taken that the build scripts should be as independent as p
 
 #### Spark
 
-- Submit a python job over SSH (coming soon ...)
+- Submit a python job over SSH [[examples/SparkPythonSsh](examples/SparkPythonSsh)]
 - Submit a Java job over SSH (coming soon ...)
 - Submit a Scala job over SSH (coming soon ...)
 
