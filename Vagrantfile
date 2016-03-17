@@ -5,6 +5,10 @@ Vagrant.configure(2) do |config|
   
    config.vm.box = "ubuntu/trusty64"
 
+   if Vagrant.has_plugin?("vagrant-cachier")
+     config.cache.scope = :box
+   end
+
    config.vm.provision "shell", privileged: false, inline: <<-SHELL
      sudo sh -c 'echo "deb http://cran.rstudio.com/bin/linux/ubuntu trusty/" >> /etc/apt/sources.list'
      gpg --keyserver keyserver.ubuntu.com --recv-key E084DAB9
@@ -22,5 +26,20 @@ Vagrant.configure(2) do |config|
      sudo R CMD javareconf
 
      git clone https://github.com/snowch/biginsight-examples.git
+
+     ln -sf /vagrant/certificate ~/biginsight-examples/certificate
+     ln -sf /vagrant/connection.properties ~/biginsight-examples/connection.properties
+
+     bimastermanager=$(grep '^gateway' ~/biginsight-examples/connection.properties |  sed -e 's|^[^/]*//||' -e 's|:.*/.*$||')
+     bimaster2=$(echo $bimastermanager | sed 's/mastermanager/master-2/')
+
+     ssh-keyscan $bimastermanager >> ~/.ssh/known_hosts
+     ssh-keyscan $bimaster2 >> ~/.ssh/known_hosts
+
+     cd ~/biginsight-examples/
+
+     ./gradlew -p examples/BigR Example
+
+     ./gradlew -p examples/SparkPythonSsh Example
    SHELL
 end
