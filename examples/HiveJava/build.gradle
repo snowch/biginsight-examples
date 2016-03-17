@@ -34,7 +34,7 @@ clean {
     delete './truststore.jks'
 }
 
-// task to run a script
+// task to run a Java class
 task('Example', type: JavaExec) {
 
     Properties props = new Properties()
@@ -55,10 +55,12 @@ task('Example', type: JavaExec) {
         arg(line: '-import -trustcacerts -alias biginsights -file ../../certificate -keystore ./truststore.jks -storepass mypassword -noprompt')
     }
 
+    // pass environment variables to the class
     environment 'hostname', hostname
     environment 'username', props.username
     environment 'password', props.password
 
+    // run the class
     main = 'Example'
     classpath = sourceSets.main.runtimeClasspath
 }
