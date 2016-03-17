@@ -34,14 +34,14 @@ A design decision was taken that the build scripts should be as independent as p
 
 #### Oozie (Using Knox API)
 
-- Execute a Mapreduce job using Oozie
-- Execute a Spark Java job using Oozie (see [Known Issues](#known-issues))
-- Execute a Spark Python job using Oozie (see [Known Issues](#known-issues))
+- Execute a Mapreduce job using Oozie [[examples/OozieWorkflowMapReduce](./examples/OozieWorkflowMapReduce/)]
+- Execute a Spark Java job using Oozie [[examples/OozieWorkflowSpark](./examples/OozieWorkflowSpark/)]
+- Execute a Spark Python job using Oozie [[examples/OozieWorkflowSparkPython](./examples/OozieWorkflowSparkPython/)]
 
 #### HBase
 
-- Connect to HBase using Java (see [Known Issues](#known-issues))
-- Connect to HBase and create and manipulate a HBase table using Groovy (see [Known Issues](#known-issues))
+- Connect to HBase using Java [[examples/HBaseJava](./examples/HBaseJava/)]
+- Connect to HBase and create and manipulate a HBase table using Groovy [[examples/HBase](./examples/HBase/)]
 
 #### Kafka
 

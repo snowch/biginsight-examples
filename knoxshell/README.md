@@ -4,7 +4,7 @@ The Knox shell allows connects to your cluster and allows you to run commands ag
 
 Run the knox shell from the current folder with:
 
-```./gradlew -q --no-daemon shell```
+```../gradlew -q --no-daemon shell```
 
 The shell logs in to the BigInsights cluster and saves the session in the variable `session` 
 
@@ -13,8 +13,8 @@ The shell logs in to the BigInsights cluster and saves the session in the variab
 This example lists all files and folders on the cluster in the '/' folder.
 
 ```
-groovy:000> files = slurper.parseText(Hdfs.ls(session).dir('/').now().string)
-groovy:000> files.FileStatuses.FileStatus.pathSuffix
+groovy:000> json = Hdfs.ls(session).dir('/').now().string
+groovy:000> files = slurper.parseText(json).FileStatuses.FileStatus.pathSuffix
 
 ===> [app-logs, apps, ... ]
 ```
