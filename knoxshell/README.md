@@ -6,7 +6,7 @@ Run the knox shell from the current folder with:
 
 ```./gradlew -q --no-daemon shell```
 
-The shell logs in and saves the session in the variable `session` 
+The shell logs in to the BigInsights cluster and saves the session in the variable `session` 
 
 ### Example knox shell session
 
