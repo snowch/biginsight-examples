@@ -4,7 +4,7 @@ This example shows how to execute the spark wordcount example script [1] on the 
 
 The [./build.gradle](./build.gradle) script does all the work using a ssh plugin to:
 
-- using scp copy [./wordcount.py](./wordcount.py) and [./LICENSE](./LICENSE) files to the BigInsights cluster
+- using scp, copy [./wordcount.py](./wordcount.py) and [./LICENSE](./LICENSE) files to the BigInsights cluster
 - from the ssh session, use the `hadoop fs` command to add the LICENSE to hdfs
 - from the ssh session, execute the wordcount.py script with the `pyspark` command.
 
