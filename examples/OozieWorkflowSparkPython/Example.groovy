@@ -72,7 +72,7 @@ configuration = """\
     </property>
     <property>
         <name>master</name>
-        <value>yarn-cluster</value>
+        <value>local</value>
     </property>
     <property>
         <name>inputDir</name>
@@ -134,7 +134,10 @@ if( status == "SUCCEEDED" ) {
   // extract scheme, host and port from gateway url
   def matcher = gateway =~ /^(https?:\/\/)([^:^\/]*)(:\d*)?(.*)?.*$/
   def root_url = matcher[0][1] + matcher[0][2]  + matcher[0][3] 
-  println "Job Failed. Debug output can be found at $root_url/gateway/yarnui/yarn/apps"
+
+  throw new RuntimeExeption(
+    "Spark Python Job Failed. Debug output can be found at $root_url/gateway/yarnui/yarn/apps"
+    )
 }
 
 session.shutdown()
