@@ -135,7 +135,7 @@ if( status == "SUCCEEDED" ) {
   def matcher = gateway =~ /^(https?:\/\/)([^:^\/]*)(:\d*)?(.*)?.*$/
   def root_url = matcher[0][1] + matcher[0][2]  + matcher[0][3] 
 
-  throw new RuntimeExeption(
+  throw new RuntimeException(
     "Spark Python Job Failed. Debug output can be found at $root_url/gateway/yarnui/yarn/apps"
     )
 }
