@@ -4,7 +4,7 @@ The Knox shell allows connects to your cluster and allows you to run commands ag
 
 Run the knox shell from the current folder with:
 
-```../gradlew -q --no-daemon shell```
+```../../gradlew -q --no-daemon shell```
 
 The shell logs in to the BigInsights cluster and saves the session in the variable `session` 
 
