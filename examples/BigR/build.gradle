@@ -32,7 +32,7 @@ task ('installPackages', type:Exec) {
     outputs.files file("${projectDir}/lib/bigr/")
 
     // ensure the ssl certificate exists
-    if (!(new File("${projectDir}/../../certificate").exists())) {
+    if (!file("${projectDir}/../../certificate").exists()) {
         throw new GradleException("'certificate' file could not be found in ${projectDir.parentFile.parentFile}")
     }
 
