@@ -1,4 +1,4 @@
-*** Overview
+### Overview
 
 This example uses the Knox client librray to initiate a session on the BigInsights cluster and perform a `ls` on the top level folder `/`.
 
@@ -44,7 +44,7 @@ session.shutdown()
 
 *********************************************************************
 
-*** Instructions
+### Instructions
 
 Run this example by changing into the current directory then executing:
 
