@@ -6,9 +6,9 @@ See the README file in each project for instructions how to run the example.
 
 ##### Groovy
 
-- List folder contents using Groovy [[examples/WebHdfsLs](./examples/WebHdfsLs/)]
-- Create a folder using Groovy [[examples/WebHdfsMkdir](./examples/WebHdfsMkdir/)]
-- Upload a file using Groovy [[examples/WebHdfsPut](./examples/WebHdfsPut/)]
+- List folder contents using Groovy [[WebHdfsLs](./WebHdfsLs/)]
+- Create a folder using Groovy [[WebHdfsMkdir](./WebHdfsMkdir/)]
+- Upload a file using Groovy [[WebHdfsPut](./WebHdfsPut/)]
 
 ##### Java
 
@@ -18,34 +18,34 @@ See the README file in each project for instructions how to run the example.
 
 #### BigR 
 
-- Connect to BigR (requires R installed locally) [[examples/BigR](examples/BigR)]
+- Connect to BigR (requires R installed locally) [[BigR](./BigR)]
 
 #### BigSQL
 
-- Connect to BigSQL from Groovy [[examples/BigSQL](examples/BigSQL)]
-- Connect to BigSQL from Java [[examples/BigSQLJava](examples/BigSQLJava)]
+- Connect to BigSQL from Groovy [[BigSQL](./BigSQL)]
+- Connect to BigSQL from Java [[BigSQLJava](./BigSQLJava)]
 
 #### Hive
 
-- Connect to Hive from Groovy [[examples/Hive](examples/Hive)]
-- Connect to Hive from Java  [[examples/HiveJava](examples/HiveJava)]
+- Connect to Hive from Groovy [[Hive](./Hive)]
+- Connect to Hive from Java  [[HiveJava](./HiveJava)]
 
 #### Spark (run in a ssh session on the BigInsights cluster)
 
-- Submit a python job [[examples/SparkPythonSsh](examples/SparkPythonSsh)]
+- Submit a python job [[SparkPythonSsh](./SparkPythonSsh)]
 - Submit a Java job (coming soon ...)
 - Submit a Scala job (coming soon ...)
 
 #### Oozie (Using Knox API)
 
-- Execute a Mapreduce job using Oozie [[examples/OozieWorkflowMapReduce](./examples/OozieWorkflowMapReduce/)]
-- Execute a Spark Java job using Oozie [[examples/OozieWorkflowSpark](./examples/OozieWorkflowSpark/)]
-- Execute a Spark Python job using Oozie [[examples/OozieWorkflowSparkPython](./examples/OozieWorkflowSparkPython/)]
+- Execute a Mapreduce job using Oozie [[OozieWorkflowMapReduce](./OozieWorkflowMapReduce)]
+- Execute a Spark Java job using Oozie [[OozieWorkflowSpark](./OozieWorkflowSpark)]
+- Execute a Spark Python job using Oozie [[OozieWorkflowSparkPython](./OozieWorkflowSparkPython)]
 
 #### HBase
 
-- Connect to HBase using Java [[examples/HBaseJava](./examples/HBaseJava/)]
-- Connect to HBase and create and manipulate a HBase table using Groovy [[examples/HBase](./examples/HBase/)]
+- Connect to HBase using Java [[HBaseJava](./HBaseJava)]
+- Connect to HBase and create and manipulate a HBase table using Groovy [[HBase](./HBase)]
 
 #### Kafka
 
@@ -54,4 +54,4 @@ See the README file in each project for instructions how to run the example.
 
 ####  Knox
 
-- Run a knox shell client session [[knoxshell](./knoxshell/)]
+- Run a knox shell client session [[Knoxshell](./Knoxshell)]
