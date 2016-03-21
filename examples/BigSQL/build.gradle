@@ -8,7 +8,6 @@ buildscript {
     dependencies {
         classpath 'org.codehaus.groovy:groovy-all:2.0.5'
         classpath 'org.apache.knox:gateway-shell:0.6.0'
-        classpath 'commons-io:commons-io:2.4'
         classpath 'org.apache.ant:ant-jsch:1.9.4'
     }
 }
@@ -25,7 +24,6 @@ configurations {
 dependencies {
     compile 'org.codehaus.groovy:groovy-all:2.0.5'
     compile 'org.apache.knox:gateway-shell:0.6.0'
-    compile 'commons-io:commons-io:2.4'
     runtime fileTree(dir: 'lib', include: '*.jar')
     sshAntTask 'org.apache.ant:ant-jsch:1.9.4'
 }
