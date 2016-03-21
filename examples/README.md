@@ -2,7 +2,7 @@ See the README file in each project for instructions how to run the example.
 
 *********************************************************************
 
-#### WebHdfs (Using Knox API)
+#### Hdfs (Using Knox API - WebHDFS)
 
 ##### *Groovy*
 
