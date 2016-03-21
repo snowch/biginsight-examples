@@ -60,6 +60,7 @@ clean {
 
 task ('CreateTrustStore', type:Exec) {
 
+    // this build step will fail if we try to import the certificate into an existing truststore
     delete './truststore.jks'
 
     // ensure the ssl certificate exists
