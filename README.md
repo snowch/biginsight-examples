@@ -11,7 +11,6 @@ A design decision was taken that the build scripts should be as independent as p
 - List folder contents using Groovy [[examples/WebHdfsLs](./examples/WebHdfsLs/)]
 - Create a folder using Groovy [[examples/WebHdfsMkdir](./examples/WebHdfsMkdir/)]
 - Upload a file using Groovy [[examples/WebHdfsPut](./examples/WebHdfsPut/)]
-
 - List folder contents using Java (coming soon ...)
 - Create a folder using Java (coming soon ...)
 - Upload a file using Java (coming soon ...)
