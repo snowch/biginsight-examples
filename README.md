@@ -34,3 +34,19 @@ A design decision was taken that the build scripts should be as independent as p
 See the README.md file in each example in the [[examples](examples)] folder for instructions how to run the script.
 *********************************************************************
 
+### Quick Links
+
+Running `./gradlew` from the top level folder will print some key links, e.g.:
+
+```
+$ ./gradlew
+--------------------------------------------------------------------------------------------------------------------------------------
+                                                       CLUSTER DETAILS
+--------------------------------------------------------------------------------------------------------------------------------------
+Ambari URL         ::      https://ehaasp-12345-mastermanager.bi.services.bluemix.net:9443/
+BigInsights URL    ::      https://ehaasp-12345-mastermanager.bi.services.bluemix.net:8443/gateway/default/BigInsightsWeb/index.html
+YARN URL           ::      https://ehaasp-12345-mastermanager.bi.services.bluemix.net:8443/gateway/yarnui/yarn/apps
+Master Mgr SSH URL ::      ssh://biadmin:@ehaasp-12345-mastermanager.bi.services.bluemix.net
+Master 2   SSH URL ::      ssh://biadmin:@ehaasp-12345-master-2.bi.services.bluemix.net
+--------------------------------------------------------------------------------------------------------------------------------------
+```
