@@ -1,0 +1,47 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'org.codehaus.groovy:groovy-all:2.0.5'
+        classpath 'jline:jline:2.12'
+    }
+}
+
+// get the cluster connection details
+Properties props = new Properties()
+props.load(new FileInputStream("$projectDir/connection.properties"))
+
+// extract BigInsights hostname from the gateway url
+def matcher = props.gateway =~ /^(https?:\/\/)([^:^\/]*)(:\d*)?(.*)?.*$/
+
+def mastermanager_hostname = matcher[0][2] 
+
+def master2_hostname = mastermanager_hostname.replace('mastermanager', 'master-2')
+
+def termWidth() {
+    return  jline.TerminalFactory.get().getWidth()
+}
+
+
+def printSep() {
+    println "-" * termWidth()
+}
+
+def printCenter(text) {
+    print " " * ((termWidth() / 2) - (text.length()/2)) 
+    println text
+}
+
+task('ClusterDetails') {
+
+    printSep()
+    printCenter("\033[1mCLUSTER DETAILS\033[0m")
+    printSep()
+    println "Ambari URL         ::      https://${mastermanager_hostname}:9443/"
+    println "BigInsights URL    ::      https://${mastermanager_hostname}:8443/gateway/default/BigInsightsWeb/index.html"
+    println "YARN URL           ::      https://${mastermanager_hostname}:8443/gateway/yarnui/yarn/apps"
+    println "Master Mgr SSH URL ::      ssh://${props.username}:@${mastermanager_hostname}"
+    println "Master 2   SSH URL ::      ssh://${props.username}:@${master2_hostname}"
+    printSep()
+}
