@@ -21,6 +21,8 @@ The third part is a R script [./example.r](./example.r) that:
 *********************************************************************
 ### Instructions
 
+Ensure that you have a relatively new verion of R installed (3.2+).
+
 Run this example by changing into the current directory then executing:
 
 - on *nix using:
