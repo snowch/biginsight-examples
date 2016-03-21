@@ -4,7 +4,7 @@ This example uses the Knox client librray to initiate a session on the BigInsigh
 
 The example uses a gradle build file [./build.gradle](./build.gradle) to retrieve the knox client libraries, set up a groovy session and execute the groovy script [./Example.groovy](./Example.groovy).  
 
-For some other examples of Knox scripts, see the section [More Info](#More-Info), below.
+For some other examples of Knox scripts, see the section [More Info](#more-info), below.
 
 *********************************************************************
 
@@ -38,7 +38,7 @@ Note: you can run this script from the top level project folder using the gradle
 
 Here are some other examples of the knox API taken from the Knox [online documentation](http://knox.apache.org/books/knox-0-6-0/user-guide.html#WebHDFS):
 
-```
+```groovy
 // Import the client DSL and a useful utilities for working with JSON.
 import org.apache.hadoop.gateway.shell.Hadoop
 import org.apache.hadoop.gateway.shell.hdfs.Hdfs
