@@ -23,7 +23,7 @@ dependencies {
 }
 
 Properties props = new Properties()
-props.load(new FileInputStream("$projectDir/../connection.properties"))
+props.load(new FileInputStream("$projectDir/../../connection.properties"))
 
 groovysh {
     shell {
