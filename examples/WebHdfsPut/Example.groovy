@@ -24,20 +24,23 @@ env = System.getenv()
 
 session = Hadoop.login( env.gateway, env.username, env.password )
 
+// make a name for the folder using the current timestamp
 tmpDir = "/user/${env.username}/test-${new Date().getTime()}"
+
+// the name of the files to create
 tmpFile1 = "${tmpDir}/file1"
 tmpFile2 = "${tmpDir}/file2"
 
-// create a temporary dir
+// create a dir
 Hdfs.mkdir( session ).dir( tmpDir ).now()
 
 // create a file from a string
 Hdfs.put( session ).text( "hello world!" ).to( tmpFile1 ).now()
 
-// upload a local file
+// upload the local file example.txt
 Hdfs.put( session ).file( "example.txt" ).to( tmpFile2 ).now()
 
-// remove the temporary dir
+// remove the dir
 Hdfs.rm( session ).file( tmpDir ).recursive().now()
 
 session.shutdown()
