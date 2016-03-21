@@ -4,13 +4,13 @@ See the README file in each project for instructions how to run the example.
 
 #### WebHdfs (Using Knox API)
 
-##### Groovy
+##### *Groovy*
 
 - List folder contents using Groovy [[WebHdfsLs](./WebHdfsLs/)]
 - Create a folder using Groovy [[WebHdfsMkdir](./WebHdfsMkdir/)]
 - Upload a file using Groovy [[WebHdfsPut](./WebHdfsPut/)]
 
-##### Java
+##### *Java*
 
 - List folder contents using Java (coming soon ...)
 - Create a folder using Java (coming soon ...)
