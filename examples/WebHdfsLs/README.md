@@ -4,6 +4,38 @@ This example uses the Knox client librray to initiate a session on the BigInsigh
 
 The example uses a gradle build file [./build.gradle](./build.gradle) to retrieve the knox client libraries, set up a groovy session and execute the groovy script [./Example.groovy](./Example.groovy).  
 
+For some other examples of Knox scripts, see the section [More Info](#More-Info), below.
+
+*********************************************************************
+
+### Instructions
+
+Run this example by changing into the current directory then executing:
+
+- on *nix using:
+
+```
+../../gradlew Example
+```
+
+- on Windows using:
+
+```
+../../gradlew.bat Example
+```
+
+*********************************************************************
+
+Note: you can run this script from the top level project folder using the gradle `-p` argument:
+
+```
+./gradlew -p examples/WebHdfsLs Example
+```
+
+*********************************************************************
+
+### More info
+
 Here are some other examples of the knox API taken from the Knox [online documentation](http://knox.apache.org/books/knox-0-6-0/user-guide.html#WebHDFS):
 
 ```
@@ -40,30 +72,4 @@ Hdfs.rm( session ).file( "/user/guest/example" ).recursive().now()
 
 // Clean the session.
 session.shutdown()
-```
-
-*********************************************************************
-
-### Instructions
-
-Run this example by changing into the current directory then executing:
-
-- on *nix using:
-
-```
-../../gradlew Example
-```
-
-- on Windows using:
-
-```
-../../gradlew.bat Example
-```
-
-*********************************************************************
-
-Note: you can run this script from the top level project folder using the gradle `-p` argument:
-
-```
-./gradlew -p examples/WebHdfsLs Example
 ```
