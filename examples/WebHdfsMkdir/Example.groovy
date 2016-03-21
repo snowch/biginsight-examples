@@ -24,6 +24,7 @@ env = System.getenv()
 
 session = Hadoop.login( env.gateway, env.username, env.password )
 
+// makde a name for the folder using the current timestamp
 tmpDir = "/user/${env.username}/test-${new Date().getTime()}"
 
 // create the directory
