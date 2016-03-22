@@ -29,8 +29,13 @@ task Example << {
     ssh.run {
         session(remotes.bicluster) {
 
-            // initialise kerberos
-            execute "kinit -k -t biadmin.keytab biadmin@IBM.COM"
+            try {
+                // initialise kerberos
+                execute "kinit -k -t biadmin.keytab biadmin@IBM.COM"
+            } 
+            catch (Exception e) {
+                println "problem running kinit - maybe this is a Basic cluster?"
+            }
 
             // create temp local dir for holding LICENSE file before uploading it to hdfs
             execute "mkdir ${tmpDir}"
