@@ -4,6 +4,8 @@
 
 This project contains sample scripts  to help you quickly get started with BigInsights. Following the steps below on your client machine, it should take you about 10 mins to perform any of the following actions programmatically against a BigInsights cluster. These scripts are tested on BigInsights on Cloud (bluemix) but they should also work for BigInsights on-premise.
 
+The core idea is that you can run one of the example projects to see it working against your BigInsights cluster. You can then copy the project to your environment and adapt it to add your own custom logic.  Think of the example projects as working blueprints.
+
 A design decision was taken that the build scripts should be as independent as possible to allow developers to take a standalone example script project and reuse it with minimal effort.  A side effect of this design decision is that there is some duplicated code in the example projects.
 
 *********************************************************************

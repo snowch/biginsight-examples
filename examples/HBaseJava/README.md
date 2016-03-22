@@ -24,4 +24,4 @@ Note: you can run this script from the top level project folder using the gradle
 
 ### Known issues
 
-When running this against a standard BigInsights on Cloud cluster, the service returns `HTTP/1.1 500 Server Error`
+When running this against a standard BigInsights on Cloud cluster, the service returns `HTTP/1.1 500 Server Error`, however, this example works on a basic BigInsights on Cloud cluster.
