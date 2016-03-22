@@ -16,7 +16,7 @@ A design decision was taken that the build scripts should be as independent as p
 
 ### Setup Instructions
 
-- Clone this repository
+- Clone this repository `https://github.com/snowch/biginsight-examples.git`
 - Copy `connection.properties_template` to `connection.properties`
 - Edit `connection.properties` to add your BigInsights instance hostname and credentials
 - Export the cluster certificate from your browser. The following steps apply to Firefox:
