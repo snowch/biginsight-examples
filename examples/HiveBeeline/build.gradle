@@ -1,0 +1,42 @@
+apply plugin: 'groovy'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'org.codehaus.groovy:groovy-all:2.0.5'
+    compile 'org.apache.hive:hive-beeline:2.0.0'
+}
+
+// task to run a script
+task('Example', type: JavaExec) {
+
+    if (!(file("${projectDir}/../../certificate").exists())) {
+        throw new GradleException("'certificate' file could not be found in ${projectDir.parentFile.parentFile}")
+    }
+
+    // import the BigInsights manager certificate
+    ant.exec(executable: 'keytool', dir:'./') {
+        arg(line: '-import -trustcacerts -alias biginsights -file ../../certificate -keystore ./truststore.jks -storepass mypassword -noprompt')
+    }
+
+    Properties props = new Properties()
+    props.load(new FileInputStream("$projectDir/../../connection.properties"))
+
+    def matcher = props.gateway =~ /^(https?:\/\/)([^:^\/]*)(:\d*)?(.*)?.*$/
+    def hostname = matcher[0][2] 
+
+    // Hive listens on the master-2 node
+    hostname = hostname.replace('mastermanager', 'master-2')
+
+    // run the Beeline client
+    main = 'org.apache.hive.beeline.BeeLine'
+    classpath = sourceSets.main.runtimeClasspath
+    args = [ 
+        "-u", "jdbc:hive2://${hostname}:10000/default;ssl=true;sslTrustStore=${projectDir}/truststore.jks;",
+        "-n", props.username,
+        "-p", props.password
+     ]
+    standardInput = System.in
+}

@@ -29,6 +29,7 @@ See the README file in each project for instructions how to run the example.
 
 - Connect to Hive from Groovy [[Hive](./Hive)]
 - Connect to Hive from Java  [[HiveJava](./HiveJava)]
+- Start a Hive Beeline Session [[HiveBeeline](./HiveBeeline)]
 
 #### Spark (run in a ssh session on the BigInsights cluster)
 
