@@ -42,6 +42,9 @@ task('ClusterDetails') {
     println "BigInsights URL    ::      https://${mastermanager_hostname}:8443/gateway/default/BigInsightsWeb/index.html"
     println "YARN URL           ::      https://${mastermanager_hostname}:8443/gateway/yarnui/yarn/apps"
     println "Master Mgr SSH URL ::      ssh://${props.username}:@${mastermanager_hostname}"
-    println "Master 2   SSH URL ::      ssh://${props.username}:@${master2_hostname}"
+    // Basic plan doesn't have a master2
+    if (master2_hostname != mastermanager_hostname) {
+        println "Master 2   SSH URL ::      ssh://${props.username}:@${master2_hostname}"
+    }
     printSep()
 }
