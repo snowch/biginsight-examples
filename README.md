@@ -28,7 +28,7 @@ A design decision was taken that the build scripts should be as independent as p
   - Save the certificate in this folder with the filename `certificate`
   - See [./certificate_template](./certificate_template) for an example certificate
 - Ssh into the BigInsights cluster 'mastermanager' node to install the cluster's SSL certificate into ./ssh/known_hosts
-- Ssh into the BigInsights cluster 'master-2' node to install the cluster's SSL certificate into ./ssh/known_hosts
+- Ssh into the BigInsights cluster 'master-2' node to install the cluster's SSL certificate into ./ssh/known_hosts (this step is not required for Basic clusters)
 
 *********************************************************************
 ### Running the scripts
