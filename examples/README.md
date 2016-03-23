@@ -57,6 +57,10 @@ See the README file in each project for instructions how to run the example.
 
 - Run a knox shell client session [[Knoxshell](./Knoxshell)]
 
+#### Cloudant
+
+- Sync changes from a Cloudant database to BigInsights (coming soon ...)
+- Upload data from a Mapreduce job to Cloudant (coming soon ...)
 
 *********************************************************************
 
