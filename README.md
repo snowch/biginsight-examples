@@ -30,7 +30,7 @@ A design decision was taken that the build scripts should be as independent as p
 - Ssh into the BigInsights cluster 'mastermanager' node to install the cluster's SSL certificate into ./ssh/known_hosts
 - Ssh into the BigInsights cluster 'master-2' node to install the cluster's SSL certificate into ./ssh/known_hosts (this step is not required for Basic clusters)
 
-![Recorded Overview](./Overview.gif =500)
+![Recorded Overview](./Overview.gif)
 
 NOTE: the cluster was deleted after recording the Overview.
 
