@@ -48,8 +48,8 @@ $ ./gradlew
 Ambari URL         ::      https://ehaasp-12345-mastermanager.bi.services.bluemix.net:9443/
 BigInsights URL    ::      https://ehaasp-12345-mastermanager.bi.services.bluemix.net:8443/gateway/default/BigInsightsWeb/index.html
 YARN URL           ::      https://ehaasp-12345-mastermanager.bi.services.bluemix.net:8443/gateway/yarnui/yarn/apps
-Master Mgr SSH URL ::      ssh://biadmin:@ehaasp-12345-mastermanager.bi.services.bluemix.net
-Master 2   SSH URL ::      ssh://biadmin:@ehaasp-12345-master-2.bi.services.bluemix.net
+Master Mgr SSH URL ::      ssh://biadmin@ehaasp-12345-mastermanager.bi.services.bluemix.net
+Master 2   SSH URL ::      ssh://biadmin@ehaasp-12345-master-2.bi.services.bluemix.net
 --------------------------------------------------------------------------------------------------------------------------------------
 ```
 
