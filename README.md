@@ -39,7 +39,7 @@ See the README.md file in each example in the [[examples](examples)] folder for 
 
 ### Quick Links
 
-Running `./gradlew` from the top level folder will print some key links, e.g.:
+Running `./gradlew` from the top level folder will print some key links for your cluster, e.g.:
 
 ```
 $ ./gradlew
