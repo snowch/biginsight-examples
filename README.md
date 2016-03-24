@@ -31,14 +31,6 @@ A design decision was taken that the build scripts should be as independent as p
 - Ssh into the BigInsights cluster 'master-2' node to install the cluster's SSL certificate into ./ssh/known_hosts (this step is not required for Basic clusters)
 
 *********************************************************************
-
-### Demo
-
-![Demo](./Overview.gif)
-
-NOTE: the cluster was deleted after recording the demo.
-
-*********************************************************************
 ### Running the scripts
 
 See the README.md file in each example in the [[examples](examples)] folder for instructions how to run the script.
@@ -60,3 +52,13 @@ Master Mgr SSH URL ::      ssh://biadmin:@ehaasp-12345-mastermanager.bi.services
 Master 2   SSH URL ::      ssh://biadmin:@ehaasp-12345-master-2.bi.services.bluemix.net
 --------------------------------------------------------------------------------------------------------------------------------------
 ```
+
+*********************************************************************
+
+### Demo
+
+Refresh the browser to restart the demo to the beginning.
+
+![Demo](./Overview.gif)
+
+NOTE: the cluster was deleted after recording the demo.
