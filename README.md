@@ -8,7 +8,7 @@ The core idea is that you can run one of the example projects to see it working 
 
 A design decision was taken that the build scripts should be as independent as possible to allow developers to take a standalone example script project and reuse it with minimal effort.
 
-See the demo at the end of the README to see an example of setting up the biginsight-examples project and using webHdfs to run 'ls /' on the cluster from your client machine in about 5 minutes.
+See the demo at the end of the README to watch an example of setting up the biginsight-examples project and using webHdfs to run 'ls /' on the cluster from your client machine in about 5 minutes.
 
 *********************************************************************
 
