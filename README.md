@@ -2,13 +2,13 @@
 ### README
 *********************************************************************
 
-This project contains sample scripts  to help you quickly get started with BigInsights. Following the steps below on your client machine, it should take you less than 5 mins to run any of the example projects against a BigInsights cluster. These scripts are tested on BigInsights on Cloud (bluemix) but they should also work for BigInsights on-premise.
+This project contains sample scripts  to help you quickly get started with BigInsights. Following the steps below on your client machine, it should take you less than 5 minutes to run any of the example projects against a BigInsights cluster. These scripts are tested on BigInsights on Cloud (bluemix) but they should also work for BigInsights on-premise.
 
 The core idea is that you can run one of the example projects to see it working against your BigInsights cluster. You can then copy the project to your environment and adapt it to add your own custom logic.  Think of the example projects as working blueprints.
 
 A design decision was taken that the build scripts should be as independent as possible to allow developers to take a standalone example script project and reuse it with minimal effort.
 
-See the demo at the end of the README to watch an example of setting up the biginsight-examples project and using webHdfs to run 'ls /' on the cluster from your client machine in about 5 minutes.
+See the 5 minute demo at the end of the README to watch an example of setting up the biginsight-examples project and using webHdfs to run 'ls /' on the cluster from your client machine.
 
 *********************************************************************
 
@@ -20,7 +20,7 @@ See the demo at the end of the README to watch an example of setting up the bigi
 
 ### Setup Instructions
 
-See the demo at the end of the README to see these steps in action.
+See the 5 minute demo at the end of the README to see these steps in action.
 
 - Clone this repository `git clone https://github.com/snowch/biginsight-examples.git`
 - Copy `connection.properties_template` to `connection.properties`
@@ -58,7 +58,7 @@ Master 2   SSH URL ::      ssh://biadmin@ehaasp-12345-master-2.bi.services.bluem
 
 *********************************************************************
 
-### Demo
+### 5 Minute Demo
 
 Refresh the browser to restart the demo to the beginning.
 
