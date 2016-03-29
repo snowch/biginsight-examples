@@ -6,7 +6,7 @@ This project contains sample scripts  to help you quickly get started with BigIn
 
 The core idea is that you can run an example project to see it working against your BigInsights cluster. You can then copy the project and adapt it to add your own custom logic.  Think of the example projects as working blueprints.  A design decision was taken that the build scripts should be as independent as possible to allow developers to take a standalone example script project and reuse it with minimal effort.
 
-See the 5 minute demo at the end of the README to watch an example of setting up the biginsight-examples project and using webHdfs to run 'ls /' on the cluster from your client machine.
+See the 5 minute demo at the end of the README to watch an example of setting up the biginsight-examples project and then run 'ls /' on the cluster using the Knox webHdfs API.
 
 *********************************************************************
 
