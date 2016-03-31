@@ -63,3 +63,10 @@ Refresh the browser to restart the demo to the beginning.
 ![Demo](./Overview.gif)
 
 NOTE: the cluster was deleted after recording the demo.
+
+
+*********************************************************************
+
+### Contributing
+
+Contributions are welcome.  Please send a pull request or contact me at chris.snow@uk.ibm.com to get involved.
