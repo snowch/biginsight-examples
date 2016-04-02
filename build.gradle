@@ -1,3 +1,6 @@
+import org.gradle.testkit.runner.GradleRunner
+import static org.gradle.testkit.runner.TaskOutcome.*
+
 buildscript {
     repositories {
         mavenCentral()
@@ -5,6 +8,7 @@ buildscript {
     dependencies {
         classpath 'org.codehaus.groovy:groovy-all:2.0.5'
         classpath 'jline:jline:2.12'
+        classpath gradleTestKit()
     }
 }
 
@@ -47,4 +51,23 @@ task('ClusterDetails') {
         println "Master 2   SSH URL ::      ssh://${props.username}@${master2_hostname}"
     }
     printSep()
+}
+
+task test << {
+    def result = GradleRunner.create()
+            .withProjectDir(file('./examples/WebHdfsLs/'))
+            .withArguments('Example')
+            .forwardOutput()
+            .build()
+
+    result.task(":Example").outcome == SUCCESS
+
+    // expect this to fail
+    result = GradleRunner.create()
+            .withProjectDir(file('./examples/OozieWorkflowMapReduce/'))
+            .withArguments('Example')
+            .forwardOutput()
+            .buildAndFail()
+
+    result.task(":Example").outcome == SUCCESS
 }
