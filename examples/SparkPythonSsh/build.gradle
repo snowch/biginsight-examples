@@ -53,6 +53,8 @@ task Example << {
             // execute spark workcount job against the LICENSE file in hdfs
             execute "pyspark ${tmpDir}/wordcount.py ${tmpHdfsDir}/LICENSE"
 
+            // TODO verify job ran ok - throw GradleException if not 
+
             // remove temporary hdfs dir
             execute "hadoop fs -rm -r ${tmpHdfsDir}"
 
