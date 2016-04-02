@@ -32,7 +32,7 @@ Note: you can run this script from the top level project folder using the gradle
 
 ### Example session
 
-```
+```bash
 snowch$ ../../gradlew -q clean Example
 [ant:exec] Result: 1
 Connecting to jdbc:hive2://ehaasp-12345-master-2.bi.services.bluemix.net:10000/default;ssl=true;sslTrustStore=/Users/snowch/Repos/biginsight-examples/examples/HiveBeeline/truststore.jks;
