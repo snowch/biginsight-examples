@@ -53,13 +53,19 @@ task('ClusterDetails') {
     printSep()
 }
 
-task test << {
-    // Standard tests
+task baseTest << {
+    println "Running base tests"
+
     [
       'WebHdfsLs', 
       'WebHdfsMkdir', 
-      'WebHdfsPut', 
-      // 'OozieWorkflowMapReduce' // <- this isn't working yet
+      'WebHdfsPut',
+      // 'Hbase',                  // FIXME this isn't working on standard clusters 
+      // 'HBaseJava',              // FIXME this isn't working on standard clusters 
+      // 'OozieWorkflowMapReduce', // FIXME this isn't working on standard clusters 
+      'Hive',
+      'HiveJava',
+      'SparkPythonSsh',
     ].each() { proj ->
 
         println "Running ./examples/${proj}"
@@ -69,7 +75,29 @@ task test << {
                 .withArguments('Example')
                 .build()
     }
-
-    // Data scientist module tests
-    // TODO
 }
+
+// TODO split this by module
+task xTest(dependsOn: baseTest) << {
+
+    println "Running BigX tests"
+
+    [
+      'BigR', 
+      'BigSQL', 
+      'BigSQLJava',
+    ].each() { proj ->
+
+        println "Running ./examples/${proj}"
+
+        def result = GradleRunner.create()
+                .withProjectDir(file("./examples/${proj}/"))
+                .withArguments('Example')
+                .build()
+    }
+}
+
+task test(dependsOn: xTest) << {
+    println "Finished running tests"
+}
+
