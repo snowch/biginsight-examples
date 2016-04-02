@@ -54,20 +54,22 @@ task('ClusterDetails') {
 }
 
 task test << {
-    def result = GradleRunner.create()
-            .withProjectDir(file('./examples/WebHdfsLs/'))
-            .withArguments('Example')
-            .forwardOutput()
-            .build()
+    // Standard tests
+    [
+      'WebHdfsLs', 
+      'WebHdfsMkdir', 
+      'WebHdfsPut', 
+      // 'OozieWorkflowMapReduce' // <- this isn't working yet
+    ].each() { proj ->
 
-    result.task(":Example").outcome == SUCCESS
+        println "Running ./examples/${proj}"
 
-    // expect this to fail
-    result = GradleRunner.create()
-            .withProjectDir(file('./examples/OozieWorkflowMapReduce/'))
-            .withArguments('Example')
-            .forwardOutput()
-            .buildAndFail()
+        def result = GradleRunner.create()
+                .withProjectDir(file("./examples/${proj}/"))
+                .withArguments('Example')
+                .build()
+    }
 
-    result.task(":Example").outcome == SUCCESS
+    // Data scientist module tests
+    // TODO
 }
