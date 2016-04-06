@@ -92,6 +92,7 @@ task baseTest << {
       // 'Hive',                   // FIXME this isn't working on Vagrant
       'HiveJava',
       'SparkPythonSsh',
+      'CloudantPullWithSpark',
     ].each() { proj -> buildProject(proj) }
 
 }
