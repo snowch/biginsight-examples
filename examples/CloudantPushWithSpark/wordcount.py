@@ -70,7 +70,7 @@ if __name__ == "__main__":
     sqlContext = SQLContext(sc)
 
     # Create a sql dataframe from the counts dataframe    
-    df = sqlContext.createDataFrame(counts)
+    df = sqlContext.createDataFrame(counts,['letter', 'count'])
 
     # Let's peek at the schema and some records
     print('*' * 80)
@@ -88,4 +88,3 @@ if __name__ == "__main__":
     print("Word counts of LICENSE file have been saved to {0}".format(cl_dbname))
 
     sc.stop()
-    sqlContext.stop()
