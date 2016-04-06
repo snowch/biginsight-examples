@@ -78,7 +78,7 @@ See the README file in each project for instructions how to run the example.
 #### Cloudant
 
 - Sync changes from a Cloudant database to BigInsights (coming soon ...)
-- Upload data from a Mapreduce job to Cloudant (coming soon ...)
+- Push data to Cloudant using Spark [[CloudantPushWithSpark](./CloudantPushWithSpark)]
 
 *********************************************************************
 
