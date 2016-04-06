@@ -68,7 +68,7 @@ NOTE: the cluster was deleted after recording the demo.
 
 ### Vagrant
 
-I use vagrant to test some of the scripts on a pristine environment in an automated fashion.  Vagrant users can simply run `vagrant up` from their client machine:
+I use vagrant to test some of the scripts on a pristine environment in an automated fashion.  Vagrant users can simply run `vagrant up` from their client machine after cloning this project and creating their `connection.properties` and `certificate` files:
 
 ```
 snowch$ vagrant up
