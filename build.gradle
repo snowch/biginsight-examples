@@ -53,6 +53,25 @@ task('ClusterDetails') {
     printSep()
 }
 
+def buildProject(proj) {
+
+        println "Running ./examples/${proj}"
+
+        // switch on debug output with ./gradlew test -PdebugTest
+        if (project.hasProperty('debugTest')) {
+            GradleRunner.create()
+                    .withProjectDir(file("./examples/${proj}/"))
+                    .withArguments('Example')
+                    .forwardOutput()
+                    .build()
+        } else {
+            GradleRunner.create()
+                    .withProjectDir(file("./examples/${proj}/"))
+                    .withArguments('Example')
+                    .build()
+        }
+}
+
 task baseTest << {
     println "Running base tests"
 
@@ -66,15 +85,8 @@ task baseTest << {
       // 'Hive',                   // FIXME this isn't working on Vagrant
       'HiveJava',
       'SparkPythonSsh',
-    ].each() { proj ->
+    ].each() { proj -> buildProject(proj) }
 
-        println "Running ./examples/${proj}"
-
-        def result = GradleRunner.create()
-                .withProjectDir(file("./examples/${proj}/"))
-                .withArguments('Example')
-                .build()
-    }
 }
 
 // TODO split this by module
@@ -86,15 +98,7 @@ task xTest(dependsOn: baseTest) << {
       'BigR', 
       'BigSQL', 
       'BigSQLJava',
-    ].each() { proj ->
-
-        println "Running ./examples/${proj}"
-
-        def result = GradleRunner.create()
-                .withProjectDir(file("./examples/${proj}/"))
-                .withArguments('Example')
-                .build()
-    }
+    ].each() { proj -> buildProject(proj) }
 }
 
 task test(dependsOn: xTest) << {
