@@ -72,6 +72,10 @@ I use vagrant to test some of the scripts on a pristine environment in an automa
 
 ```
 snowch$ vagrant up
+Bringing machine 'default' up with 'virtualbox' provider..
+==> default: Importing base box 'ubuntu/trusty64'...
+...
+... [output omitted for brevity]
 ...
 ==> default: :baseTest
 ==> default: Running base tests
