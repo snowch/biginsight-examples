@@ -24,6 +24,8 @@ from operator import add
 from pyspark import SparkContext
 from pyspark.sql import SQLContext
 
+# create a Cloudant database using httplib
+# httplib is used because other libraries aren't available on BigInsights by default
 def createDatabase(hostname, username, password, dbname):
     import httplib
     import base64
@@ -56,7 +58,6 @@ if __name__ == "__main__":
 
     createDatabase(cl_hostname, cl_username, cl_password, cl_dbname)
    
-
     sc = SparkContext(appName="PythonWordCount")
 
     lines = sc.textFile(license_filename, 1)
@@ -67,20 +68,23 @@ if __name__ == "__main__":
 
     sqlContext = SQLContext(sc)
 
+    # Create a sql dataframe from the counts dataframe    
     df = sqlContext.createDataFrame(counts)
 
+    # Let's peek at the schema and some records
     print('*' * 80)
     print(df.printSchema())
-    print(    df.show(20))
+    print(df.show(20))
     print('*' * 80)
     
+    # Write the data to Cloudant
     df.write.format("com.cloudant.spark") \
         .option("cloudant.host",cl_hostname) \
         .option("cloudant.username",cl_username) \
         .option("cloudant.password",cl_password) \
         .save(cl_dbname)
 
-    print("license counts saved to {0}".format(cl_dbname))
+    print("Word counts of LICENSE file have been saved to {0}".format(cl_dbname))
 
     sc.stop()
     sqlContext.stop()
