@@ -55,20 +55,26 @@ if __name__ == "__main__":
     cl_dbname = 'sparktest_{0}'.format(int(time.time()))
 
     createDatabase(cl_hostname, cl_username, cl_password, cl_dbname)
+   
 
     sc = SparkContext(appName="PythonWordCount")
 
     lines = sc.textFile(license_filename, 1)
     counts = lines.flatMap(lambda x: x.split(' ')) \
                   .map(lambda x: (x, 1)) \
-                  .reduceByKey(add)
+                  .reduceByKey(add) \
+                  .filter(lambda x: x[0].isalnum())
 
     sqlContext = SQLContext(sc)
 
-    # Infer the schema
-    schemaCounts = sqlContext.inferSchema(counts)
+    df = sqlContext.createDataFrame(counts)
 
-    schemaCounts.write.format("com.cloudant.spark") \
+    print('*' * 80)
+    print(df.printSchema())
+    print(    df.show(20))
+    print('*' * 80)
+    
+    df.write.format("com.cloudant.spark") \
         .option("cloudant.host",cl_hostname) \
         .option("cloudant.username",cl_username) \
         .option("cloudant.password",cl_password) \
