@@ -9,6 +9,11 @@ Vagrant.configure(2) do |config|
      config.cache.scope = :box
    end
 
+   # make sure we have enough memory for the build
+   config.vm.provider :virtualbox do |vb|
+     vb.customize ["modifyvm", :id, "--memory", "2048"]
+   end
+
    config.vm.provision "shell", privileged: false, inline: <<-SHELL
 
      # abort the script if an error is encountered
@@ -56,6 +61,9 @@ Vagrant.configure(2) do |config|
      # Now lets run the tests
      cd ~/biginsight-examples/
 
-     ./gradlew test -PdebugTest
+     ./gradlew test
+
+     # If the build fails, debug with:
+     # ./gradlew test -PdebugTest --debug
    SHELL
 end
