@@ -51,7 +51,7 @@ task Example << {
             execute "hadoop fs -put ${tmpDir}/LICENSE ${tmpHdfsDir}/LICENSE"
 
             // get cloudant spark library
-            execute "curl -s -L -o ${tmpDir}/cloudant_spark.jar https://github.com/cloudant-labs/spark-cloudant/releases/download/v1.4.1.5/cloudant-spark.jar"
+            execute "curl -s -L -o ${tmpDir}/cloudant_spark.jar https://github.com/cloudant-labs/spark-cloudant/releases/download/v1.6.3/cloudant-spark-v1.6.3-125.jar"
 
             def cl_hostname = props.cl_push_hostname
             def cl_username = props.cl_push_username
