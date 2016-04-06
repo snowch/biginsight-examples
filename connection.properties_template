@@ -9,3 +9,14 @@ username:changeme
 
 password:changeme
 
+# Settings for push to Cloudant with Spark Example
+
+cl_push_hostname:changeme.cloudant.com
+cl_push_username:changeme
+cl_push_password:changeme
+
+# Settings for pull from Cloudant with Spark Example
+
+cl_pull_hostname:example.cloudant.com
+cl_pull_username:changeme
+cl_pull_password:changeme
