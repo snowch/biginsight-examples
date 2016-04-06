@@ -77,8 +77,8 @@ See the README file in each project for instructions how to run the example.
 
 #### Cloudant
 
-- Sync changes from a Cloudant database to BigInsights (coming soon ...)
-- Push data to Cloudant using Spark [[CloudantPushWithSpark](./CloudantPushWithSpark)]
+- Pull data from a Cloudant database to HDFS using Spark [[CloudantPullWithSpark](./CloudantPullWithSpark)]
+- Push data from HDFS to a Cloudant database using Spark [[CloudantPushWithSpark](./CloudantPushWithSpark)]
 
 *********************************************************************
 
