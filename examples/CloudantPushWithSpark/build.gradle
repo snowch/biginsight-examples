@@ -1,0 +1,70 @@
+plugins {
+  id 'org.hidetake.ssh' version '1.5.0'
+}
+
+Properties props = new Properties()
+props.load(new FileInputStream("$projectDir/../../connection.properties"))
+
+// extract BigInsights hostname from the gateway url
+def matcher = props.gateway =~ /^(https?:\/\/)([^:^\/]*)(:\d*)?(.*)?.*$/
+def hostname = matcher[0][2] 
+
+// setup the connection details for ssh
+remotes {
+    bicluster {
+       host = hostname
+       user = props.username
+       password = props.password
+    }
+}
+
+task Example << {
+
+    def tmpDir = "test-${new Date().getTime()}"
+
+    def tmpHdfsDir = "/user/${props.username}/${tmpDir}"
+    
+    // ssh plugin documentation: https://gradle-ssh-plugin.github.io/docs/
+    
+    ssh.run {
+        session(remotes.bicluster) {
+
+            try {
+                // initialise kerberos
+                execute "kinit -k -t biadmin.keytab biadmin@IBM.COM"
+            } 
+            catch (Exception e) {
+                println "problem running kinit - maybe this is a Basic cluster?"
+            }
+
+            // create temp local dir for holding LICENSE file before uploading it to hdfs
+            execute "mkdir ${tmpDir}"
+
+            // upload spark script and text file to process
+            put from: "${projectDir}/wordcount.py", into: "${tmpDir}/wordcount.py"
+            put from: "${projectDir}/LICENSE", into: "${tmpDir}/LICENSE"
+
+            // create temp hdfs folder for holding LICENSE file
+            execute "hadoop fs -mkdir ${tmpHdfsDir}"
+            
+            // put LICENSE into hdfs
+            execute "hadoop fs -put ${tmpDir}/LICENSE ${tmpHdfsDir}/LICENSE"
+
+            // get cloudant spark library
+            execute "curl -s -L -o ${tmpDir}/cloudant_spark.jar https://github.com/cloudant-labs/spark-cloudant/releases/download/v1.4.1.5/cloudant-spark.jar"
+
+            def cl_hostname = props.cl_push_hostname
+            def cl_username = props.cl_push_username
+            def cl_password = props.cl_push_password
+
+            // execute spark workcount job against the LICENSE file in hdfs
+            execute "pyspark --jars ${tmpDir}/cloudant_spark.jar ${tmpDir}/wordcount.py ${tmpHdfsDir}/LICENSE ${cl_hostname} ${cl_username} ${cl_password}"
+
+            // remove temporary hdfs dir
+            execute "hadoop fs -rm -r ${tmpHdfsDir}"
+
+            // remove temporary local dir
+            execute "rm -rf ${tmpDir}"
+        }
+    }
+}
