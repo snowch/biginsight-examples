@@ -23,10 +23,13 @@ def mastermanager_hostname = matcher[0][2]
 
 def master2_hostname = mastermanager_hostname.replace('mastermanager', 'master-2')
 
+////////////////////////////////////////////////////////////////////////////////
+
+// Methods and task to pretty print cluster info
+
 def termWidth() {
     return  jline.TerminalFactory.get().getWidth()
 }
-
 
 def printSep() {
     println "-" * termWidth()
@@ -52,6 +55,10 @@ task('ClusterDetails') {
     }
     printSep()
 }
+
+////////////////////////////////////////////////////////////////////////////////
+
+// methods and tasks to test (build) example projects
 
 def buildProject(proj) {
 
@@ -105,3 +112,4 @@ task test(dependsOn: xTest) << {
     println "Finished running tests"
 }
 
+////////////////////////////////////////////////////////////////////////////////
