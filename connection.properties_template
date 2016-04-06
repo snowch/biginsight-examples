@@ -1,7 +1,11 @@
+
+################################################################################
+# BigInsights cluster
+################################################################################
+
 # E.g. https://bi-hadoop-prod-4066.services.dal.bluemix.net:8443/gateway/default
-#
 # Important!  ensure you use a domain name and not an IP address for the host
-#
+
 gateway:https://changeme:8443/gateway/default
 
 # E.g. biadmin
@@ -9,13 +13,17 @@ username:changeme
 
 password:changeme
 
-# Settings for push to Cloudant with Spark Example
+################################################################################
+# Push to Cloudant with Spark Example : Destination Cloudant store details
+################################################################################
 
 cl_push_hostname:changeme.cloudant.com
 cl_push_username:changeme
 cl_push_password:changeme
 
-# Settings for pull from Cloudant with Spark Example
+################################################################################
+# Pull from Cloudant with Spark Example : Source Cloudant store details
+################################################################################
 
 cl_pull_hostname:example.cloudant.com
 cl_pull_username:changeme
