@@ -28,3 +28,7 @@ Note: you can run this script from the top level project folder using the gradle
 ```
 ./gradlew -p examples/SparkPythonSsh Example
 ```
+*********************************************************************
+#### Known Issues
+
+There is an issue with the current Cloudant Spark driver - this is being investigated by the driver engineering team.
