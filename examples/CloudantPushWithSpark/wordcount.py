@@ -60,6 +60,7 @@ if __name__ == "__main__":
    
     sc = SparkContext(appName="PythonWordCount")
 
+    # read file from HDFS
     lines = sc.textFile(license_filename, 1)
     counts = lines.flatMap(lambda x: x.split(' ')) \
                   .map(lambda x: (x, 1)) \
