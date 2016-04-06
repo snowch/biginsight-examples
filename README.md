@@ -64,6 +64,31 @@ Refresh the browser to restart the demo to the beginning.
 
 NOTE: the cluster was deleted after recording the demo.
 
+*********************************************************************
+
+### Vagrant
+
+I use vagrant to test some of the scripts on a pristine environment in an automated fashion.  Vagrant users can simply run `vagrant up` from their client machine:
+
+```
+snowch$ vagrant up
+...
+==> default: :baseTest
+==> default: Running base tests
+==> default: Running ./examples/WebHdfsLs
+==> default: Running ./examples/WebHdfsMkdir
+==> default: Running ./examples/WebHdfsPut
+==> default: Running ./examples/HiveJava
+==> default: Running ./examples/SparkPythonSsh
+==> default: :xTest
+==> default: Running BigX tests
+==> default: Running ./examples/BigR
+==> default: Running ./examples/BigSQL
+==> default: Running ./examples/BigSQLJava
+==> default: :test
+==> default: Finished running tests
+==> default: BUILD SUCCESSFUL
+```
 
 *********************************************************************
 
