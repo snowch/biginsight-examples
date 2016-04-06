@@ -89,7 +89,7 @@ task baseTest << {
       // 'Hbase',                  // FIXME this isn't working on standard clusters 
       // 'HBaseJava',              // FIXME this isn't working on standard clusters 
       // 'OozieWorkflowMapReduce', // FIXME this isn't working on standard clusters 
-      // 'Hive',                   // FIXME this isn't working on Vagrant
+      'Hive',
       'HiveJava',
       'SparkPythonSsh',
       'CloudantPullWithSpark',
