@@ -78,7 +78,7 @@ See the README file in each project for instructions how to run the example.
 #### Cloudant
 
 - Pull data from a Cloudant database to HDFS using Spark [[CloudantPullWithSpark](./CloudantPullWithSpark)]
-- Push data to a Cloudant database using Spark [[CloudantPushWithSpark](./CloudantPushWithSpark)]
+- Push data from HDFS to a Cloudant database using Spark [[CloudantPushWithSpark](./CloudantPushWithSpark)]
 
 *********************************************************************
 
