@@ -44,19 +44,17 @@ def createDatabase(hostname, username, password, dbname):
         raise Exception(statuscode, stausmessage)
 
 if __name__ == "__main__":
-    if len(sys.argv) != 5:
-        print("Usage: wordcount <file> <cloudant hostname> <cloudant username> <cloudant password>", file=sys.stderr)
+    if len(sys.argv) != 6:
+        print("Usage: wordcount <file> <cloudant hostname> <cloudant username> <cloudant password> <cloudant database>", file=sys.stderr)
         exit(-1)
 
     license_filename = sys.argv[1]
     cl_hostname = sys.argv[2]
     cl_username = sys.argv[3]
     cl_password = sys.argv[4]
+    cl_database = sys.argv[5]
 
-    # create a unique destination database name for each request
-    cl_dbname = 'sparktest_{0}'.format(int(time.time()))
-
-    createDatabase(cl_hostname, cl_username, cl_password, cl_dbname)
+    createDatabase(cl_hostname, cl_username, cl_password, cl_database)
    
     sc = SparkContext(appName="PythonWordCount")
 
@@ -83,8 +81,8 @@ if __name__ == "__main__":
         .option("cloudant.host",cl_hostname) \
         .option("cloudant.username",cl_username) \
         .option("cloudant.password",cl_password) \
-        .save(cl_dbname)
+        .save(cl_database)
 
-    print("Word counts of LICENSE file have been saved to {0}".format(cl_dbname))
+    print("Word counts of LICENSE file have been saved to https://{0}/{1}".format(cl_hostname, cl_database))
 
     sc.stop()

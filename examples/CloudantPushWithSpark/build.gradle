@@ -22,6 +22,8 @@ task Example << {
 
     def tmpDir = "test-${new Date().getTime()}"
 
+    def destDb = tmpDir
+
     def tmpHdfsDir = "/user/${props.username}/${tmpDir}"
     
     // ssh plugin documentation: https://gradle-ssh-plugin.github.io/docs/
@@ -58,13 +60,15 @@ task Example << {
             def cl_password = props.cl_push_password
 
             // execute spark workcount job against the LICENSE file in hdfs
-            execute "pyspark --jars ${tmpDir}/cloudant_spark.jar ${tmpDir}/wordcount.py ${tmpHdfsDir}/LICENSE ${cl_hostname} ${cl_username} ${cl_password}"
+            execute "pyspark --jars ${tmpDir}/cloudant_spark.jar ${tmpDir}/wordcount.py ${tmpHdfsDir}/LICENSE ${cl_hostname} ${cl_username} ${cl_password} ${destDb}"
 
             // remove temporary hdfs dir
             execute "hadoop fs -rm -r ${tmpHdfsDir}"
 
             // remove temporary local dir
             execute "rm -rf ${tmpDir}"
+
+            println "\nSUCCESS >> Summarised LICENSE file has been saved to https://${cl_hostname}/${destDb}"
         }
     }
 }
