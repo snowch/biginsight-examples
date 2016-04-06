@@ -23,6 +23,11 @@ Vagrant.configure(2) do |config|
      sudo add-apt-repository ppa:webupd8team/java -y
      echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | sudo /usr/bin/debconf-set-selections
 
+     # Config for BigTop (sqoop)
+     wget -O- http://archive.apache.org/dist/bigtop/bigtop-1.1.0/repos/GPG-KEY-bigtop | sudo apt-key add -
+     sudo wget -O /etc/apt/sources.list.d/bigtop-1.1.0.list http://archive.apache.org/dist/bigtop/bigtop-1.1.0/repos/trusty/bigtop.list
+
+     # Now install the packages
      sudo apt-get update
      sudo apt-get install -y git r-base oracle-java8-installer
 
@@ -31,6 +36,8 @@ Vagrant.configure(2) do |config|
      sudo sh -c 'echo /usr/lib/jvm/java-8-oracle/jre/lib/amd64/server >> /etc/ld.so.conf.d/java.conf'
      sudo ldconfig
      sudo R CMD javareconf
+
+     # Get the BigInsight examples
 
      git clone https://github.com/snowch/biginsight-examples.git
 
@@ -46,11 +53,9 @@ Vagrant.configure(2) do |config|
      ssh-keyscan $bimastermanager >> ~/.ssh/known_hosts
      ssh-keyscan $bimaster2 >> ~/.ssh/known_hosts
 
-     # Now lets run some examples
+     # Now lets run the tests
      cd ~/biginsight-examples/
 
-     ./gradlew -p examples/BigR Example
-
-     ./gradlew -p examples/SparkPythonSsh Example
+     ./gradlew test -PdebugTest
    SHELL
 end
