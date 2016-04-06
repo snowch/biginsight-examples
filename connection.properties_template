@@ -20,11 +20,3 @@ password:changeme
 cl_push_hostname:changeme.cloudant.com
 cl_push_username:changeme
 cl_push_password:changeme
-
-################################################################################
-# Pull from Cloudant with Spark Example : Source Cloudant store details
-################################################################################
-
-cl_pull_hostname:example.cloudant.com
-cl_pull_username:changeme
-cl_pull_password:changeme

@@ -1,0 +1,65 @@
+plugins {
+  id 'org.hidetake.ssh' version '1.5.0'
+}
+
+Properties props = new Properties()
+props.load(new FileInputStream("$projectDir/../../connection.properties"))
+
+// extract BigInsights hostname from the gateway url
+def matcher = props.gateway =~ /^(https?:\/\/)([^:^\/]*)(:\d*)?(.*)?.*$/
+def hostname = matcher[0][2] 
+
+// setup the connection details for ssh
+remotes {
+    bicluster {
+       host = hostname
+       user = props.username
+       password = props.password
+    }
+}
+
+task Example << {
+
+    def tmpDir = "test-${new Date().getTime()}"
+
+    def tmpHdfsDir = "/user/${props.username}/${tmpDir}"
+    
+    // ssh plugin documentation: https://gradle-ssh-plugin.github.io/docs/
+    
+    ssh.run {
+        session(remotes.bicluster) {
+
+            try {
+                // initialise kerberos
+                execute "kinit -k -t biadmin.keytab biadmin@IBM.COM"
+            } 
+            catch (Exception e) {
+                println "problem running kinit - maybe this is a Basic cluster?"
+            }
+
+            // create temp local dir for holding sparkscript
+            execute "mkdir ${tmpDir}"
+
+            // upload spark script
+            put from: "${projectDir}/importfromcloudant.py", into: "${tmpDir}/importfromcloudant.py"
+
+            // create temp hdfs folder for holding exported data
+            execute "hadoop fs -mkdir ${tmpHdfsDir}"
+
+            // get cloudant spark library
+            execute "curl -s -L -o ${tmpDir}/cloudant_spark.jar https://github.com/cloudant-labs/spark-cloudant/releases/download/v1.6.3/cloudant-spark-v1.6.3-125.jar"
+
+            // execute spark workcount job against the LICENSE file in hdfs
+            execute "pyspark --jars ${tmpDir}/cloudant_spark.jar ${tmpDir}/importfromcloudant.py ${tmpHdfsDir}/SALES"
+
+            // print contents of file imported from Cloudant
+            execute "hadoop fs -cat ${tmpHdfsDir}/SALES/*"
+
+            // remove temporary hdfs dir
+            execute "hadoop fs -rm -r ${tmpHdfsDir}"
+
+            // remove temporary local dir
+            execute "rm -rf ${tmpDir}"
+        }
+    }
+}
