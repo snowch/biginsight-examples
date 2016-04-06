@@ -1,29 +1,9 @@
 #### Overview
 
-This example shows how to execute the spark wordcount example script [1] on the BigInsights cluster.  The wordcount is performed on an Apache 2 License file.
+This example extends the [SparkPythonSsh](./SparkPythonSsh) example to upload the table of wordcounts to Cloudant.
 
-The [./build.gradle](./build.gradle) script does all the work using a ssh plugin to:
+This pattern is an example of uploading the results of batch processed data to a NoSQL store for random access rather than sequential access.
 
-- using scp, copy [./wordcount.py](./wordcount.py) and [./LICENSE](./LICENSE) files to the BigInsights cluster
-- from the ssh session, use the `hadoop fs` command to add the LICENSE to hdfs
-- from the ssh session, execute the wordcount.py script with the `pyspark` command.
-
-Output from the command will contain the wordcounts:
-
-```
-...
-bicluster#54|: 1136
-bicluster#54|limited: 4
-bicluster#54|all: 3
-bicluster#54|code: 1
-bicluster#54|managed: 1
-bicluster#54|customary: 1
-bicluster#54|Works,: 2
-bicluster#54|APPENDIX:: 1
-...
-
-```
-[1] From https://github.com/apache/spark/blob/master/examples/src/main/python/wordcount.py
 *********************************************************************
 #### Instructions
 
