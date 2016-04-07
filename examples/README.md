@@ -92,19 +92,19 @@ See the README file in each project for instructions how to run the example.
 ####  Flume
 
 - (coming soon ...)
-- 
+
 *********************************************************************
 
 ####  Solr
 
 - (coming soon ...)
-- 
+
 *********************************************************************
 
 ####  Sqoop
 
 - (coming soon ...)
-- 
+
 *********************************************************************
 #### Additional scripts
 
