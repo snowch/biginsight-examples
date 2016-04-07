@@ -1,7 +1,6 @@
 #### Overview
 
-This example retrieves data from a dashDB database and saves it to HDFS.
-
+This example retrieves data from a dashDB database and saves it to HDFS.  Take a look at the [build.gradle](./build.gradle) file and the spark script [importfromdashdb.py](./importfromdashdb.py) to see exactly what is being done.
 
 *********************************************************************
 #### Instructions
