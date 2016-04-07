@@ -20,3 +20,9 @@ password:changeme
 cl_push_hostname:changeme.cloudant.com
 cl_push_username:changeme
 cl_push_password:changeme
+
+################################################################################
+# Pull from dashDB with Spark Example : Source dashDB details
+################################################################################
+
+dashdb_pull_jdbc_url:jdbc:db2://changeme:50001/BLUDB:user=changeme;password=changeme;sslConnection=true;

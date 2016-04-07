@@ -1,0 +1,121 @@
+plugins {
+  id 'org.hidetake.ssh' version '1.5.0'
+}
+
+Properties props = new Properties()
+props.load(new FileInputStream("$projectDir/../../connection.properties"))
+
+// extract BigInsights hostname from the gateway url
+def matcher = props.gateway =~ /^(https?:\/\/)([^:^\/]*)(:\d*)?(.*)?.*$/
+def hostname = matcher[0][2] 
+
+// libraries are downloaded from master-2
+def lib_hostname = hostname.replace('mastermanager', 'master-2')
+
+// setup the connection details for ssh
+remotes {
+    bicluster {
+       host = hostname
+       user = props.username
+       password = props.password
+    }
+    bicluster_libs {
+       host = lib_hostname
+       user = props.username
+       password = props.password
+    }
+}
+
+task('clean') << {
+    delete './lib'
+}
+
+
+task('SetupLibs') {
+
+    // if running this task with clean, ensure clean runs first
+    mustRunAfter clean 
+
+    // tell gradle we don't need to run this task if the ./lib folder exists
+    outputs.files file("${projectDir}/lib/")
+
+    doLast {
+
+        // create a folder for the libraries
+        mkdir("${projectDir}/lib")
+
+        // download jdbc drivers from the BigInsights cluster using SCP
+        ssh.run {
+            session(remotes.bicluster_libs) {
+
+                get from: "/usr/ibmpacks/bigsql/4.1/db2/java/db2jcc.jar",
+                    into: "${projectDir}/lib/db2jcc.jar"
+                
+                get from: "/usr/ibmpacks/bigsql/4.1/db2/java/db2jcc4.jar",
+                    into: "${projectDir}/lib/db2jcc4.jar"
+
+                get from: "/usr/ibmpacks/bigsql/4.1/db2/java/db2jcc_license_cu.jar",
+                    into: "${projectDir}/lib/db2jcc_license_cu.jar"
+            }
+        }
+    }
+}
+
+task('Example') {
+
+    dependsOn SetupLibs
+
+    doLast {
+        def tmpDir = "test-${new Date().getTime()}"
+
+        def tmpHdfsDir = "/user/${props.username}/${tmpDir}"
+        
+        // ssh plugin documentation: https://gradle-ssh-plugin.github.io/docs/
+        
+        ssh.run {
+            session(remotes.bicluster) {
+
+                try {
+                    // initialise kerberos
+                    execute "kinit -k -t biadmin.keytab biadmin@IBM.COM"
+                } 
+                catch (Exception e) {
+                    println "problem running kinit - maybe this is a Basic cluster?"
+                }
+
+                // create temp local dir for holding sparkscript
+                execute "mkdir ${tmpDir}"
+
+                put from: "${projectDir}/lib/db2jcc.jar",            into: "${tmpDir}/db2jcc.jar"
+                put from: "${projectDir}/lib/db2jcc4.jar",           into: "${tmpDir}/db2jcc4.jar"
+                put from: "${projectDir}/lib/db2jcc_license_cu.jar", into: "${tmpDir}/db2jcc_license_cu.jar"
+
+                // upload spark script
+                put from: "${projectDir}/importfromdashdb.py", into: "${tmpDir}/importfromdashdb.py"
+
+                // create temp hdfs folder for holding exported data
+                execute "hadoop fs -mkdir ${tmpHdfsDir}"
+
+                def jarfiles = ["${tmpDir}/db2jcc.jar", "${tmpDir}/db2jcc4.jar", "${tmpDir}/db2jcc_license_cu.jar"]
+
+                def jars = "--jars \"${jarfiles.join(',')}\""
+                def dcp  = "--driver-class-path \"${jarfiles.join(':')}\""
+                def conf = "--conf \"spark.driver.extraClassPath=${jarfiles.join(':')}\""
+
+                // execute spark job
+                execute "pyspark ${conf} ${jars} ${dcp} ${tmpDir}/importfromdashdb.py '${props.dashdb_pull_jdbc_url}' ${tmpHdfsDir}/SALES"
+
+                // print contents of file imported from Cloudant
+                execute "hadoop fs -cat ${tmpHdfsDir}/SALES/*"
+
+                // remove temporary hdfs dir
+                execute "hadoop fs -rm -r ${tmpHdfsDir}"
+
+                // remove temporary local dir
+                execute "rm -rf ${tmpDir}"
+            }
+
+            println "\nSUCCESS >> Successfully Imported data from dashDB to HDFS"
+        }
+    }
+}
