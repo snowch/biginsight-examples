@@ -17,8 +17,6 @@
 
 from __future__ import print_function
 
-import re
-import time
 import sys
 from operator import add
 
@@ -32,8 +30,6 @@ if __name__ == "__main__":
 
     dashdb_jdbc_url = sys.argv[1]
     hdfs_filename = sys.argv[2]
-
-    m = re.match(r".*user=(\w+);", dashdb_jdbc_url)
 
     sc = SparkContext(appName="Cloudant data pull")
 
