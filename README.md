@@ -77,24 +77,31 @@ Bringing machine 'default' up with 'virtualbox' provider..
 ...
 ... [output omitted for brevity]
 ...
-==> default: :baseTest
-==> default: Running base tests
-==> default: Running ./examples/WebHdfsLs
-==> default: Running ./examples/WebHdfsMkdir
-==> default: Running ./examples/WebHdfsPut
-==> default: Running ./examples/HiveJava
-==> default: Running ./examples/SparkPythonSsh
-==> default: Running ./examples/CloudantPullWithSpark
-==> default: Running ./examples/CloudantPushWithSpark
-==> default: Running ./examples/DashDBPullWithSpark
-==> default: :xTest
-==> default: Running BigX tests
-==> default: Running ./examples/BigR
-==> default: Running ./examples/BigSQL
-==> default: Running ./examples/BigSQLJava
-==> default: :test
-==> default: Finished running tests
-==> default: BUILD SUCCESSFUL
+:baseTest
+Running base tests
+Running ./examples/WebHdfsLs
+Running ./examples/WebHdfsMkdir
+Running ./examples/WebHdfsPut
+Running ./examples/Hive
+Running ./examples/HiveJava
+Running ./examples/SparkPythonSsh
+Running ./examples/CloudantPullWithSpark
+Running ./examples/CloudantPushWithSpark
+Running ./examples/DashDBPullWithSpark
+Skipping interactive example ./examples/HiveBeeline
+Skipping interactive example ./examples/Knoxshell
+Skipping broken example ./examples/Hbase
+Skipping broken example ./examples/HBaseJava
+Skipping broken example ./examples/OozieWorkflowMapReduce
+:xTest
+Running BigX tests
+Running ./examples/BigR
+Running ./examples/BigSQL
+Running ./examples/BigSQLJava
+:test
+Finished running tests
+
+BUILD SUCCESSFUL
 ```
 
 *********************************************************************
