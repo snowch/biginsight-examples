@@ -82,6 +82,30 @@ See the README file in each project for instructions how to run the example.
 
 *********************************************************************
 
+#### dashDB
+
+- Pull data from a dashDB database to HDFS using Spark (coming soon ...)
+- Push data from HDFS to a dashDB database using Spark (coming soon ...)
+
+*********************************************************************
+
+####  Flume
+
+- (coming soon ...)
+
+*********************************************************************
+
+####  Solr
+
+- (coming soon ...)
+
+*********************************************************************
+
+####  Sqoop
+
+- (coming soon ...)
+
+*********************************************************************
 #### Additional scripts
 
 If you would like an example script that has not been included here, please look in the [issues](https://github.com/snowch/biginsight-examples/issues) for similar requests.  If a similar request exists, add a comment with your +1.  If a ticket doesn't exist, please create a new one.
