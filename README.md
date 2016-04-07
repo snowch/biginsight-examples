@@ -85,6 +85,8 @@ Bringing machine 'default' up with 'virtualbox' provider..
 ==> default: Running ./examples/HiveJava
 ==> default: Running ./examples/SparkPythonSsh
 ==> default: Running ./examples/CloudantPullWithSpark
+==> default: Running ./examples/CloudantPushWithSpark
+==> default: Running ./examples/DashDBPullWithSpark
 ==> default: :xTest
 ==> default: Running BigX tests
 ==> default: Running ./examples/BigR
