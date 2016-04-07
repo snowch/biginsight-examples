@@ -113,9 +113,10 @@ task('Example') {
 
                 // remove temporary local dir
                 execute "rm -rf ${tmpDir}"
+            
+                println "\nSUCCESS >> Successfully Imported data from dashDB to HDFS"
             }
 
-            println "\nSUCCESS >> Successfully Imported data from dashDB to HDFS"
         }
     }
 }
