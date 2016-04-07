@@ -93,6 +93,8 @@ task baseTest << {
       'HiveJava',
       'SparkPythonSsh',
       'CloudantPullWithSpark',
+      'CloudantPushWithSpark',
+      'DashDBPullWithSpark'
     ].each() { proj -> buildProject(proj) }
 
 }
