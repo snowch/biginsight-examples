@@ -30,7 +30,6 @@ password = env.password
 
 inputFile = "LICENSE"
 jobDir = "/user/" + username + "/test"
-jarFile = "samples/hadoop-examples.jar"
 
 session = Hadoop.login( gateway, username, password )
 
@@ -52,13 +51,6 @@ dra:Deirdre McClure:marvelous
 
 Hdfs.put(session).text( id_pig ).to( jobDir + "/input/id.pig" ).now()
 Hdfs.put(session).text( fake_passwd ).to( jobDir + "/input/fake-passwd" ).now()
-
-jobId = Job.submitJava(session) \
-  .jar( jobDir + "/lib/hadoop-examples.jar" ) \
-  .app( "org.apache.hadoop.examples.WordCount" ) \
-  .input( jobDir + "/input" ) \
-  .output( jobDir + "/output" ) \
-  .now().jobId
 
 jobId = Job.submitPig(session) \
             .file("${jobDir}/input/id.pig") \
