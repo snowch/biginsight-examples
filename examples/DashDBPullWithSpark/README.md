@@ -15,7 +15,7 @@ Take a look at the [build.gradle](./build.gradle) file, starting with the Exampl
 *********************************************************************
 #### Instructions
 
-Make sure your connection.properties file has values set to point to the dashDB account:
+Ensure you have followed the Setup Instructions on the [project home page README](https://github.com/snowch/biginsight-examples), then edit your connection.properties file so that it has a property `dashdb_pull_jdbc_url` that points to your dashDB account:
 
 ```
 dashdb_pull_jdbc_url:jdbc:db2://changeme:50001/BLUDB:user=changeme;password=changeme;sslConnection=true;
