@@ -95,12 +95,10 @@ Test passed  ./examples/CloudantPullWithSpark
 Test passed  ./examples/CloudantPushWithSpark
 Test passed  ./examples/DashDBPullWithSpark
 Test passed  ./examples/Hbase
-
-
 Test passed  ./examples/HBaseJava
 Test failed  ./examples/OozieWorkflowMapReduce
-Test skipped ./examples/HiveBeeline [interactive examples can't be tested]
-Test skipped ./examples/Knoxshell [interactive examples can't be tested]
+Test skipped ./examples/HiveBeeline [interactive examples are not tested]
+Test skipped ./examples/Knoxshell [interactive examples are not tested]
 :xTest
 Running BigX tests
 Test passed  ./examples/BigR
