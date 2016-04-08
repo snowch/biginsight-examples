@@ -62,21 +62,26 @@ task('ClusterDetails') {
 
 def buildProject(proj) {
 
-        println "Running ./examples/${proj}"
-
         // switch on debug output with ./gradlew test -PdebugTest
-        if (project.hasProperty('debugTest')) {
-            GradleRunner.create()
-                    .withProjectDir(file("./examples/${proj}/"))
-                    .withArguments('Example')
-                    .forwardOutput()
-                    .build()
-        } else {
-            GradleRunner.create()
-                    .withProjectDir(file("./examples/${proj}/"))
-                    .withArguments('Example')
-                    .build()
+        try {
+            if (project.hasProperty('debugTest')) {
+                GradleRunner.create()
+                        .withProjectDir(file("./examples/${proj}/"))
+                        .withArguments('Example')
+                        .forwardOutput()
+                        .build()
+            } else {
+                GradleRunner.create()
+                        .withProjectDir(file("./examples/${proj}/"))
+                        .withArguments('Example')
+                        .build()
+            }
+        } catch (Exception e) { 
+            println "Test failed running ./examples/${proj}"
+            return
         }
+
+        println "Test passed running ./examples/${proj}"
 }
 
 task baseTest << {
@@ -86,17 +91,24 @@ task baseTest << {
       'WebHdfsLs', 
       'WebHdfsMkdir', 
       'WebHdfsPut',
-      // 'Hbase',                  // FIXME this isn't working on standard clusters 
-      // 'HBaseJava',              // FIXME this isn't working on standard clusters 
-      // 'OozieWorkflowMapReduce', // FIXME this isn't working on standard clusters 
       'Hive',
       'HiveJava',
       'SparkPythonSsh',
       'CloudantPullWithSpark',
       'CloudantPushWithSpark',
-      'DashDBPullWithSpark'
+      'DashDBPullWithSpark',
+      'Hbase',
+      'HBaseJava',
+      'OozieWorkflowMapReduce',
     ].each() { proj -> buildProject(proj) }
 
+    // These examples are interactive so aren't easy to automate
+    [
+      'HiveBeeline',
+      'Knoxshell',
+    ].each() { 
+        println "Skipping interactive example ./examples/${it}"
+    }
 }
 
 // TODO split this by module
