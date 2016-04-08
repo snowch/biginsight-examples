@@ -1,5 +1,4 @@
 apply plugin: 'groovy'
-apply plugin: 'java'
 
 // set the dependencies for running the groovy script
 buildscript {
@@ -9,7 +8,6 @@ buildscript {
     dependencies {
         classpath 'org.codehaus.groovy:groovy-all:2.0.5'
         classpath 'org.apache.knox:gateway-shell:0.6.0'
-        classpath 'commons-io:commons-io:2.4'
     }
 }
 
@@ -21,10 +19,6 @@ repositories {
 dependencies {
     compile 'org.codehaus.groovy:groovy-all:2.0.5'
     compile 'org.apache.knox:gateway-shell:0.6.0'
-    compile 'commons-io:commons-io:2.4'
-    // compile MapReduce class
-    compile(group: 'org.apache.hadoop', name: 'hadoop-common', version:'2.2.0') { }
-    compile(group: 'org.apache.hadoop', name: 'hadoop-mapreduce-client-core', version:'2.2.0') { }
 }
 
 // tell gradle the groovy script is in the same folder as the build.gradle file
@@ -36,14 +30,8 @@ sourceSets {
     }
 }
 
-// MapReduce classes
-jar {
-    archiveName = 'hadoop-examples.jar'
-    destinationDir = file('samples')
-}
-
 // task to run the groovy script
-task('Example', dependsOn:'jar', type: JavaExec) {
+task('Example', type: JavaExec) {
 
     Properties props = new Properties()
     props.load(new FileInputStream("$projectDir/../../connection.properties"))
