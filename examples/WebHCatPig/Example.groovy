@@ -54,7 +54,7 @@ Hdfs.put(session).text( fake_passwd ).to( jobDir + "/input/fake-passwd" ).now()
 jobId = Job.submitPig(session) \
             .file("${jobDir}/input/id.pig") \
             .arg("-v") \
-            .statusDir("${jobDir}/input/fake-passwd") \
+            .statusDir("${jobDir}/output") \
             .now().jobId
 
 println "Submitted job: " + jobId
