@@ -28,7 +28,6 @@ gateway = env.gateway
 username = env.username
 password = env.password
 
-inputFile = "LICENSE"
 jobDir = "/user/" + username + "/test"
 
 session = Hadoop.login( gateway, username, password )
