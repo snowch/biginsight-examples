@@ -77,11 +77,11 @@ def buildProject(proj) {
                         .build()
             }
         } catch (Exception e) { 
-            println "Test failed running ./examples/${proj}"
+            println "Test failed  ./examples/${proj}"
             return
         }
 
-        println "Test passed running ./examples/${proj}"
+        println "Test passed  ./examples/${proj}"
 }
 
 task baseTest << {
@@ -107,7 +107,7 @@ task baseTest << {
       'HiveBeeline',
       'Knoxshell',
     ].each() { 
-        println "Skipping interactive example ./examples/${it}"
+        println "Test skipped ./examples/${it} [interactive examples are not tested]"
     }
 }
 
