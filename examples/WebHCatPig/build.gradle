@@ -27,6 +27,11 @@ sourceSets {
         groovy {
             srcDirs = ['.']
         }
+        // uncomment to enable http debugging
+
+        resources {
+           srcDirs = ['resources']
+        }
     }
 }
 
