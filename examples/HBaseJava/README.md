@@ -19,9 +19,3 @@ Note: you can run this script from the top level project folder using the gradle
 ```
 ./gradlew -p examples/Hive Example
 ```
-
-*********************************************************************
-
-### Known issues
-
-When running this against a standard BigInsights on Cloud cluster, the service returns `HTTP/1.1 500 Server Error`, however, this example works on a basic BigInsights on Cloud cluster.
