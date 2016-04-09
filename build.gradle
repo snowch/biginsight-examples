@@ -100,6 +100,8 @@ task baseTest << {
       'Hbase',
       'HBaseJava',
       'OozieWorkflowMapReduce',
+      'WebHCatMapReduce',
+      'WebHCatPig',
     ].each() { proj -> buildProject(proj) }
 
     // These examples are interactive so aren't easy to automate
