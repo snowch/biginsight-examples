@@ -62,6 +62,13 @@ See the README file in each project for instructions how to run the example.
 
 *********************************************************************
 
+#### WebHCat/Templeton (Using Knox API)
+
+- Execute a MapReduce Job using Groovy  [[WebHCatMapReduce](./WebHCatMapReduce)]
+- Execute a Pig Job using Groovy [[WebHCatPig](./WebHCatPig)]
+
+*********************************************************************
+
 #### Kafka
 
 - Connect to Kafka from Groovy (coming soon ...)
