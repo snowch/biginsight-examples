@@ -59,7 +59,7 @@ See the README file in each project for instructions how to run the example.
 #### HBase
 
 - Connect to HBase using Java [[HBaseJava](./HBaseJava)]
-- Connect to HBase and create and manipulate a HBase table using Groovy [[HBase](./HBase)]
+- Connect to HBase using Groovy [[HBase](./HBase)]
 
 *********************************************************************
 

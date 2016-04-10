@@ -20,3 +20,11 @@ Note: you can run this script from the top level project folder using the gradle
 ./gradlew -p examples/Hive Example
 ```
 
+*********************************************************************
+
+## Debugging
+
+Switch on HTTP trace debugging with:
+```
+../../gradlew Example -PdebugExample
+```

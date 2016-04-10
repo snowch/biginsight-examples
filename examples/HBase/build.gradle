@@ -29,6 +29,13 @@ sourceSets {
         groovy {
             srcDirs = ['.']
         }
+
+        // switch on debug output with ./gradlew Example -PdebugExample
+        if (project.hasProperty('debugExample')) {
+            resources {
+               srcDirs = ['resources']
+            }
+        }
     }
 }
 
