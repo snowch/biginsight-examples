@@ -112,6 +112,29 @@ BUILD SUCCESSFUL
 
 *********************************************************************
 
+### Tips
+
+If you want to use the scripts for multiple clusters, you can create multiple connection.properties and certificate files, e.g
+
+- connection.properties.cluster1, connection.properties.cluster2
+- certificate.cluster1, certificate.cluster2
+
+You can set the current cluster on *nix using the `ln` command, e.g
+
+```
+# run tests on cluster 1
+ln -sf connection.properties.cluster1 connection.properties
+ln -sf certificate.cluster1 certificate
+./gradlew test
+
+# run tests on cluster 2
+ln -sf connection.properties.cluster2 connection.properties
+ln -sf certificate.cluster2 certificate
+./gradlew test
+```
+
+*********************************************************************
+
 ### Contributing
 
 Contributions are welcome.  Please send a pull request or contact me at chris.snow@uk.ibm.com to get involved.

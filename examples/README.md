@@ -44,6 +44,7 @@ See the README file in each project for instructions how to run the example.
 - Submit a python job [[SparkPythonSsh](./SparkPythonSsh)]
 - Submit a Java job (coming soon ...)
 - Submit a Scala job (coming soon ...)
+- Spark Streaming (coming soon ...)
 
 *********************************************************************
 
