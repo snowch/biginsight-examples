@@ -30,10 +30,6 @@ sourceSets {
     }
 }
 
-clean {
-    delete './truststore.jks'
-}
-
 // task to run a Java class
 task('Example', type: JavaExec) {
 
@@ -49,6 +45,8 @@ task('Example', type: JavaExec) {
     if (!(new File("${projectDir}/../../certificate").exists())) {
         throw new GradleException("'certificate' file could not be found in ${projectDir.parentFile.parentFile}")
     }
+
+    delete './truststore.jks'
 
     // import the BigInsights manager certificate
     ant.exec(executable: 'keytool', dir:'./') {
