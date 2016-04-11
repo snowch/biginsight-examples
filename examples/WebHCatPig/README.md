@@ -12,6 +12,12 @@ Run this example by changing into the current directory then executing:
 ../../gradlew.bat Example
 ```
 
+For http trace debugging, you can set the flag `-PdebugExample`, E.g
+
+```
+../../gradlew Example -PdebugExample
+```
+
 *********************************************************************
 
 Note: you can run this script from the top level project folder using the gradle `-p` argument:

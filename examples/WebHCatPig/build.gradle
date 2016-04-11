@@ -27,10 +27,13 @@ sourceSets {
         groovy {
             srcDirs = ['.']
         }
-        // uncomment to enable http debugging
 
-        resources {
-           srcDirs = ['resources']
+        // switch on debug output with ./gradlew Example -PdebugExample
+        if (project.hasProperty('debugExample')) {
+            resources {
+               // log4j.properties file in resources with http trace
+               srcDirs = ['resources']
+            }
         }
     }
 }
