@@ -10,12 +10,6 @@ See the README file in each project for instructions how to run the example.
 - Create a folder using Groovy [[WebHdfsMkdir](./WebHdfsMkdir/)]
 - Upload a file using Groovy [[WebHdfsPut](./WebHdfsPut/)]
 
-##### *Java*
-
-- List folder contents using Java (coming soon ...)
-- Create a folder using Java (coming soon ...)
-- Upload a file using Java (coming soon ...)
-
 *********************************************************************
 
 #### BigR 
