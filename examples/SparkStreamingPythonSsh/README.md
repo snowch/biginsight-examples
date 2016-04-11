@@ -10,9 +10,8 @@ The [./build.gradle](./build.gradle) script does all the work using a ssh plugin
 - run the spark job to perform a word count on the received words every second
 - after 30 seconds the spark job terminates
 
-```
-[1] From https://github.com/apache/spark/blob/master/examples/src/main/python/wordcount.py
 *********************************************************************
+
 #### Instructions
 
 Run this example by changing into the current directory then executing:
@@ -29,7 +28,7 @@ Run this example by changing into the current directory then executing:
 ../../gradlew.bat Example
 ```
 
-Note:  you may see an exception `SparkContext has been shutdown` at the end of the script - this can be ignored
+You may see an exception `SparkContext has been shutdown` at the end of the script - this can be ignored.
 
 *********************************************************************
 
