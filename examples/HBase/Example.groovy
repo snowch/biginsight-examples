@@ -19,6 +19,8 @@
 import org.apache.hadoop.gateway.shell.Hadoop
 import org.apache.hadoop.gateway.shell.hbase.HBase
 
+import static java.util.concurrent.TimeUnit.SECONDS
+
 def env = System.getenv()
 session = Hadoop.login( env.gateway, env.username, env.password )
 
