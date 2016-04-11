@@ -29,8 +29,6 @@ task Example << {
     ssh.run {
         session(remotes.bicluster) {
 
-//            forwardLocalPort port: 6568, hostPort: 6568
-
             try {
                 // initialise kerberos
                 execute "kinit -k -t biadmin.keytab biadmin@IBM.COM"
