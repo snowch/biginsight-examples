@@ -10,12 +10,6 @@ See the README file in each project for instructions how to run the example.
 - Create a folder using Groovy [[WebHdfsMkdir](./WebHdfsMkdir/)]
 - Upload a file using Groovy [[WebHdfsPut](./WebHdfsPut/)]
 
-##### *Java*
-
-- List folder contents using Java (coming soon ...)
-- Create a folder using Java (coming soon ...)
-- Upload a file using Java (coming soon ...)
-
 *********************************************************************
 
 #### BigR 
@@ -43,8 +37,6 @@ See the README file in each project for instructions how to run the example.
 
 - Submit a spark python job [[SparkPythonSsh](./SparkPythonSsh)]
 - Submit a spark streaming python job [[SparkSteamingPythonSsh](./SparkStreamingPythonSsh)]
-- Submit a Java job (coming soon ...)
-- Submit a Scala job (coming soon ...)
 
 *********************************************************************
 
@@ -70,13 +62,6 @@ See the README file in each project for instructions how to run the example.
 
 *********************************************************************
 
-#### Kafka
-
-- Connect to Kafka from Groovy (coming soon ...)
-- Connect to Kafka from Java (coming soon ...)
-
-*********************************************************************
-
 ####  Knox
 
 - Run a knox shell client session [[Knoxshell](./Knoxshell)]
@@ -97,23 +82,6 @@ See the README file in each project for instructions how to run the example.
 
 *********************************************************************
 
-####  Flume
-
-- (coming soon ...)
-
-*********************************************************************
-
-####  Solr
-
-- (coming soon ...)
-
-*********************************************************************
-
-####  Sqoop
-
-- (coming soon ...)
-
-*********************************************************************
 #### Additional scripts
 
-If you would like an example script that has not been included here, please look in the [issues](https://github.com/snowch/biginsight-examples/issues) for similar requests.  If a similar request exists, add a comment with your +1.  If a ticket doesn't exist, please create a new one.
+If you would like an example script that has not been included here, please look in the [enhancement issues](https://github.com/snowch/biginsight-examples/issues?q=is%3Aissue+is%3Aopen+label%3Aenhancement) for similar requests.  If a similar request exists, add a comment with your +1.  If a ticket doesn't exist, please create a new one.
