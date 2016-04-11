@@ -1,5 +1,3 @@
-apply plugin: 'groovy'
-
 // set the dependencies for running the groovy script
 buildscript {
     repositories {
@@ -8,6 +6,27 @@ buildscript {
     dependencies {
         classpath 'org.codehaus.groovy:groovy-all:2.0.5'
         classpath 'org.apache.knox:gateway-shell:0.6.0'
+    }
+}
+
+plugins {
+  id 'org.hidetake.ssh' version '1.5.0'
+  id 'groovy'
+}
+
+Properties props = new Properties()
+props.load(new FileInputStream("$projectDir/../../connection.properties"))
+
+// extract BigInsights hostname from the gateway url
+def matcher = props.gateway =~ /^(https?:\/\/)([^:^\/]*)(:\d*)?(.*)?.*$/
+def hostname = matcher[0][2] 
+
+// setup the connection details for ssh
+remotes {
+    bicluster {
+       host = hostname
+       user = props.username
+       password = props.password
     }
 }
 
@@ -41,8 +60,17 @@ sourceSets {
 // task to run the groovy script
 task('Example', type: JavaExec) {
 
-    Properties props = new Properties()
-    props.load(new FileInputStream("$projectDir/../../connection.properties"))
+    ssh.run {
+        session(remotes.bicluster) {
+            try {
+                // initialise kerberos
+                execute "kinit -k -t biadmin.keytab biadmin@IBM.COM"
+            } 
+            catch (Exception e) {
+                println "problem running kinit - maybe this is a Basic cluster?"
+            }
+        }
+    }
 
     environment 'gateway', props.gateway
     environment 'username', props.username
