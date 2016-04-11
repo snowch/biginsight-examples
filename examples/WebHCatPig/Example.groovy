@@ -36,20 +36,19 @@ println "Delete " + jobDir + ": " + Hdfs.rm( session ).file( jobDir ).recursive(
 println "Mkdir " + jobDir + ": " + Hdfs.mkdir( session ).dir( jobDir ).now().statusCode
 
 id_pig = '''
-A = load 'passwd' using PigStorage(':');
+A = load 'test/input/passwd' using PigStorage(':');
 B = foreach A generate $0 as id;
 dump B;
 '''
 
-fake_passwd = '''
-ctdean:Chris Dean:secret
+fake_passwd = '''ctdean:Chris Dean:secret
 pauls:Paul Stolorz:good
 carmas:Carlos Armas:evil
 dra:Deirdre McClure:marvelous
 '''
 
 Hdfs.put(session).text( id_pig ).to( jobDir + "/input/id.pig" ).now()
-Hdfs.put(session).text( fake_passwd ).to( jobDir + "/input/fake-passwd" ).now()
+Hdfs.put(session).text( fake_passwd ).to( jobDir + "/input/passwd" ).now()
 
 jobId = Job.submitPig(session) \
             .file("${jobDir}/input/id.pig") \
@@ -75,5 +74,9 @@ println "Job status: " + done
 text = Hdfs.ls( session ).dir( jobDir + "/output" ).now().string
 json = (new JsonSlurper()).parseText( text )
 println json.FileStatuses.FileStatus.pathSuffix
+
+println "Content of stdout:"
+println Hdfs.get( session ).from( jobDir + "/output/stdout" ).now().string
+
 
 session.shutdown()
