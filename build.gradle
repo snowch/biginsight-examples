@@ -94,6 +94,7 @@ task baseTest << {
       'Hive',
       'HiveJava',
       'SparkPythonSsh',
+      'SparkStreamingPythonSsh',
       'CloudantPullWithSpark',
       'CloudantPushWithSpark',
       'DashDBPullWithSpark',
