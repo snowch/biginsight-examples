@@ -8,7 +8,7 @@ buildscript {
     }
     dependencies {
         classpath 'org.codehaus.groovy:groovy-all:2.0.5'
-        classpath 'org.apache.knox:gateway-shell:0.6.0'
+        classpath 'org.apache.knox:gateway-shell:0.8.0'
         classpath 'commons-io:commons-io:2.4'
     }
 }
@@ -20,7 +20,7 @@ repositories {
 
 dependencies {
     compile 'org.codehaus.groovy:groovy-all:2.0.5'
-    compile 'org.apache.knox:gateway-shell:0.6.0'
+    compile 'org.apache.knox:gateway-shell:0.8.0'
     compile 'commons-io:commons-io:2.4'
     // compile MapReduce class
     compile(group: 'org.apache.hadoop', name: 'hadoop-common', version:'2.2.0') { }
