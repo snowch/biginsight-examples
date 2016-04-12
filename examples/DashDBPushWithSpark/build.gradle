@@ -76,7 +76,7 @@ task('SetupLibs') {
 
 task('AddJdbcJarsToClassLoader') {
 
-    mustRunAfter SetupLibs
+    dependsOn SetupLibs
 
     URLClassLoader loader = GroovyObject.class.classLoader
     jdbcjars.each { jar ->
