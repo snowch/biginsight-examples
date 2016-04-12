@@ -36,7 +36,7 @@ See the README file in each project for instructions how to run the example.
 #### Spark (run in a ssh session on the BigInsights cluster)
 
 - Submit a spark python job [[SparkPythonSsh](./SparkPythonSsh)]
-- Submit a spark streaming python job [[SparkSteamingPythonSsh](./SparkStreamingPythonSsh)]
+- Submit a spark streaming python job [[SparkStreamingPythonSsh](./SparkStreamingPythonSsh)]
 
 *********************************************************************
 
