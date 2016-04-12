@@ -123,7 +123,7 @@ task baseTest << {
       'Sqoop',
       'Solr',
     ].each() { 
-        println "Test skipped ./examples/${it} [examples not yet implemented due to known issues with BIoC clusters]"
+        println "Test skipped ./examples/${it} [example not implemented due to known issue with BIoC clusters]"
     }
 }
 
