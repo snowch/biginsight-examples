@@ -105,6 +105,7 @@ task baseTest << {
       'OozieWorkflowSparkPython',
       'WebHCatMapReduce',
       'WebHCatPig',
+      'WebHCatHive',
     ].each() { proj -> buildProject(proj) }
 
     // These examples are interactive so aren't easy to automate
