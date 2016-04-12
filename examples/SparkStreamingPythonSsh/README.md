@@ -6,8 +6,8 @@ The [./build.gradle](./build.gradle) script does all the work using a ssh plugin
 
 - using scp, copy [./sparkstreaming.py](./sparkstreaming.py) to the BigInsights cluster
 - using scp, copy [./wordsocket.py](./wordsocket.py) to the BigInsights cluster
-- run the wordsocket.py script on the cluster which listens on a TCP socket and sends random words to a connected client 
-- run the spark job to perform a word count on the received words every second
+- run the wordsocket.py script on the cluster which sends random words to a client connected to the TCP socket 
+- run the spark job to perform a word count on the workds received from the socket every second
 - after 30 seconds the spark job terminates
 
 *********************************************************************
@@ -35,5 +35,5 @@ You may see an exception `SparkContext has been shutdown` at the end of the scri
 Note: you can run this script from the top level project folder using the gradle `-p` argument:
 
 ```
-./gradlew -p examples/SparkPythonSsh Example
+./gradlew -p examples/SparkStreamingPythonSsh Example
 ```
