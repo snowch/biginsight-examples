@@ -98,14 +98,14 @@ task baseTest << {
       'CloudantPullWithSpark',
       'CloudantPushWithSpark',
       'DashDBPullWithSpark',
-      'Hbase',
-      'HBaseJava',
       'OozieWorkflowMapReduce',
       'OozieWorkflowSpark',
       'OozieWorkflowSparkPython',
       'WebHCatMapReduce',
       'WebHCatPig',
       'WebHCatHive',
+      'HBase',
+      'HBaseJava',
     ].each() { proj -> buildProject(proj) }
 
     // These examples are interactive so aren't easy to automate
