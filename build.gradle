@@ -122,6 +122,7 @@ task baseTest << {
       'Flume',
       'Sqoop',
       'Solr',
+      'Kafka',
     ].each() { 
         println "Test skipped ./examples/${it} [example not implemented due to known issue with BIoC clusters]"
     }
