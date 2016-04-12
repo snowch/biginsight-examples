@@ -91,12 +91,19 @@ Test passed  ./examples/WebHdfsPut
 Test passed  ./examples/Hive
 Test passed  ./examples/HiveJava
 Test passed  ./examples/SparkPythonSsh
+Test passed  ./examples/SparkStreamingPythonSsh
 Test passed  ./examples/CloudantPullWithSpark
 Test passed  ./examples/CloudantPushWithSpark
 Test passed  ./examples/DashDBPullWithSpark
-Test passed  ./examples/Hbase
-Test passed  ./examples/HBaseJava
+Test passed  ./examples/DashDBPushWithSpark
 Test failed  ./examples/OozieWorkflowMapReduce
+Test failed  ./examples/OozieWorkflowSpark
+Test failed  ./examples/OozieWorkflowSparkPython
+Test failed  ./examples/WebHCatMapReduce
+Test failed  ./examples/WebHCatPig
+Test failed  ./examples/WebHCatHive
+Test passed  ./examples/HBase
+Test passed  ./examples/HBaseJava
 Test skipped ./examples/HiveBeeline [interactive examples are not tested]
 Test skipped ./examples/Knoxshell [interactive examples are not tested]
 :xTest
