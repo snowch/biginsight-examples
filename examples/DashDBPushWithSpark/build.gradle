@@ -74,7 +74,7 @@ task('SetupLibs') {
     }
 }
 
-task('AddJarsToClassLoader') {
+task('AddJdbcJarsToClassLoader') {
 
     mustRunAfter SetupLibs
 
@@ -87,7 +87,7 @@ task('AddJarsToClassLoader') {
 
 task('CreateDashDBTable') {
 
-    dependsOn AddJarsToClassLoader
+    dependsOn AddJdbcJarsToClassLoader
 
     doLast {
         URLClassLoader loader = GroovyObject.class.classLoader
@@ -104,7 +104,7 @@ task('CreateDashDBTable') {
 
 task('Example') {
 
-    dependsOn AddJarsToClassLoader, SetupLibs, CreateDashDBTable
+    dependsOn AddJdbcJarsToClassLoader, SetupLibs, CreateDashDBTable
 
     doLast {
         
