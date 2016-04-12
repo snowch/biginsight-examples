@@ -79,7 +79,7 @@ See the README file in each project for instructions how to run the example.
 #### dashDB
 
 - Pull data from a dashDB database to HDFS using Spark [[DashDBPullWithSpark](./DashDBPullWithSpark)]
-- Push data from HDFS to a dashDB database using Spark (coming soon ...)
+- Push data to dashDB database using Spark [[DashDBPushWithSpark](./DashDBPushWithSpark)] 
 
 *********************************************************************
 

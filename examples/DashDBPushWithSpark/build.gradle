@@ -1,0 +1,161 @@
+import groovy.sql.Sql
+
+plugins {
+  id 'org.hidetake.ssh' version '1.5.0'
+}
+
+Properties props = new Properties()
+props.load(new FileInputStream("$projectDir/../../connection.properties"))
+
+// extract BigInsights hostname from the gateway url
+def matcher = props.gateway =~ /^(https?:\/\/)([^:^\/]*)(:\d*)?(.*)?.*$/
+def hostname = matcher[0][2] 
+
+// libraries are downloaded from master-2
+def lib_hostname = hostname.replace('mastermanager', 'master-2')
+
+// get the dashdb schema name
+def schema = (props.dashdb_push_jdbc_url =~ 'user=([^;]*);')[0][1]
+        
+// temporary identifier for tables, folders, etc 
+def tmpId = "${new Date().getTime()}"
+
+// temporary folder name on cluster
+def tmpDir = "test-${tmpId}"
+
+// temporary Table name
+def tmpTableName = "${schema}.LANGUAGE_${tmpId}"
+
+// jar files required for dashDB
+def jdbcjars = [ 'db2jcc.jar', 'db2jcc4.jar', 'db2jcc_license_cu.jar' ]
+
+
+// setup the connection details for ssh
+remotes {
+    bicluster {
+       host = hostname
+       user = props.username
+       password = props.password
+    }
+    bicluster_libs {
+       host = lib_hostname
+       user = props.username
+       password = props.password
+    }
+}
+
+task('clean') << {
+    delete './lib'
+}
+
+
+
+task('SetupLibs') {
+
+    // if running this task with clean, ensure clean runs first
+    mustRunAfter clean 
+
+    // tell gradle we don't need to run this task if the ./lib folder exists
+    outputs.files file("${projectDir}/lib/")
+
+    doLast {
+
+        // create a folder for the libraries
+        mkdir("${projectDir}/lib")
+
+        // download jdbc drivers from the BigInsights cluster using SCP
+        ssh.run {
+            session(remotes.bicluster_libs) {
+                jdbcjars.each { jar ->
+                    get from: "/usr/ibmpacks/bigsql/4.1/db2/java/${jar}", into: "${projectDir}/lib/${jar}"
+                }
+            }
+        }
+    }
+}
+
+task('AddJarsToClassLoader') {
+
+    mustRunAfter SetupLibs
+
+    URLClassLoader loader = GroovyObject.class.classLoader
+    jdbcjars.each { jar ->
+        def jarUrl = file("${projectDir}/lib/${jar}").toURL()
+        loader.addURL(jarUrl)
+    }
+}
+
+task('CreateDashDBTable') {
+
+    dependsOn AddJarsToClassLoader
+
+    doLast {
+        URLClassLoader loader = GroovyObject.class.classLoader
+        jdbcjars.each { jar ->
+            def jarUrl = file("${projectDir}/lib/${jar}").toURL()
+            loader.addURL(jarUrl)
+        }
+
+        def sql = Sql.newInstance( props.dashdb_push_jdbc_url, new Properties(), 'com.ibm.db2.jcc.DB2Driver' )
+        sql.execute( "CREATE TABLE ${tmpTableName} AS (SELECT * FROM SAMPLES.LANGUAGE) DEFINITION ONLY".toString() )
+        sql.close()
+    }
+}
+
+task('Example') {
+
+    dependsOn AddJarsToClassLoader, SetupLibs, CreateDashDBTable
+
+    doLast {
+        
+        // ssh plugin documentation: https://gradle-ssh-plugin.github.io/docs/
+        
+        ssh.run {
+            session(remotes.bicluster) {
+
+                try {
+                    // initialise kerberos
+                    execute "kinit -k -t biadmin.keytab biadmin@IBM.COM"
+                } 
+                catch (Exception e) {
+                    println "problem running kinit - maybe this is a Basic cluster?"
+                }
+
+                // create temp local dir for holding sparkscript and jars
+                execute "mkdir ${tmpDir}"
+    
+                // upload jars
+                jdbcjars.each { jar ->
+                    put from: "${projectDir}/lib/${jar}", into: "${tmpDir}/${jar}"
+                }
+
+                // upload spark script
+                put from: "${projectDir}/exporttodashdb.py", into: "${tmpDir}/exporttodashdb.py"
+
+                // prefix each of the jars in the jdbcjars list with the tmpDir
+                def jarfiles = jdbcjars.collect { jar -> "${tmpDir}/${jar}" }
+
+                def jars = "--jars \"${jarfiles.join(',')}\""
+                def dcp  = "--driver-class-path \"${jarfiles.join(':')}\""
+                def conf = "--conf \"spark.driver.extraClassPath=${jarfiles.join(':')}\""
+
+                // execute spark job
+                execute "pyspark ${conf} ${jars} ${dcp} ${tmpDir}/exporttodashdb.py '${props.dashdb_push_jdbc_url}' ${tmpTableName}"
+
+                // remove temporary local dir
+                execute "rm -rf ${tmpDir}"
+       
+                // verify some data was exported and clean up temp table
+                def sql = Sql.newInstance( props.dashdb_push_jdbc_url, new Properties(), 'com.ibm.db2.jcc.DB2Driver' )
+                def rows = sql.rows( "SELECT * FROM ${tmpTableName}".toString() )
+                sql.execute( "DROP TABLE ${tmpTableName}".toString() )
+                sql.close()
+
+                // verify some data was exported 
+                assert rows.size() > 0
+            
+                println "\nSUCCESS >> Successfully Exported ${rows.size()} rows to dashDB"
+            }
+        }
+    }
+}

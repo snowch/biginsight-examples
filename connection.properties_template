@@ -26,3 +26,9 @@ cl_push_password:changeme
 ################################################################################
 
 dashdb_pull_jdbc_url:jdbc:db2://changeme:50001/BLUDB:user=changeme;password=changeme;sslConnection=true;
+
+################################################################################
+# Push to dashDB with Spark Example : Destination dashDB details
+################################################################################
+
+dashdb_push_jdbc_url:jdbc:db2://changeme:50001/BLUDB:user=dash6590;password=SPbOJTC8wVhm;sslConnection=true;

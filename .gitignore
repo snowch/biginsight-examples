@@ -1,5 +1,10 @@
 connection.properties
+connection.properties.*
+certificate
+certificate.*
 build/
 .gradle/
 samples/
 .vagrant/
+
+
