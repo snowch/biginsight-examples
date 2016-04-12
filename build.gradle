@@ -62,6 +62,15 @@ task('ClusterDetails') {
 
 def buildProject(proj) {
 
+        try {
+            GradleRunner.create()
+                    .withProjectDir(file("./examples/${proj}/"))
+                    .withArguments('clean')
+                    .build()
+        } catch (Exception e) {
+            // noop - some projects don't have clean tasks
+        }
+
         // switch on debug output with ./gradlew test -PdebugTest
         try {
             if (project.hasProperty('debugTest')) {
