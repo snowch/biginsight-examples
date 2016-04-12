@@ -59,6 +59,7 @@ See the README file in each project for instructions how to run the example.
 
 - Execute a MapReduce Job using Groovy  [[WebHCatMapReduce](./WebHCatMapReduce)]
 - Execute a Pig Job using Groovy [[WebHCatPig](./WebHCatPig)]
+- Execute a Hive Job using Groovy [[WebHCatHive](./WebHCatHive)]
 
 *********************************************************************
 
