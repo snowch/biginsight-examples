@@ -7,7 +7,7 @@ buildscript {
     }
     dependencies {
         classpath 'org.codehaus.groovy:groovy-all:2.0.5'
-        classpath 'org.apache.knox:gateway-shell:0.5.1'
+        classpath 'org.apache.knox:gateway-shell:0.8.0'
     }
 }
 
@@ -18,7 +18,7 @@ repositories {
 
 dependencies {
     compile 'org.codehaus.groovy:groovy-all:2.0.5'
-    compile 'org.apache.knox:gateway-shell:0.5.1'
+    compile 'org.apache.knox:gateway-shell:0.8.0'
 }
 
 // tell gradle the groovy script is in the same folder as the build.gradle file
