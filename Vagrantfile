@@ -62,8 +62,5 @@ Vagrant.configure(2) do |config|
      cd ~/biginsight-examples/
 
      ./gradlew test
-
-     # If the build fails, debug with:
-     # ./gradlew test -PdebugTest --debug
    SHELL
 end

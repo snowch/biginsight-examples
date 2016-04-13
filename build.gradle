@@ -1,4 +1,3 @@
-import org.gradle.testkit.runner.GradleRunner
 import static org.gradle.testkit.runner.TaskOutcome.*
 
 buildscript {
@@ -71,20 +70,18 @@ def buildProject(proj) {
             // noop - some projects don't have clean tasks
         }
 
-        // switch on debug output with ./gradlew test -PdebugTest
         try {
-            if (project.hasProperty('debugTest')) {
-                GradleRunner.create()
-                        .withProjectDir(file("./examples/${proj}/"))
-                        .withArguments('Example')
-                        .forwardOutput()
-                        .build()
-            } else {
-                GradleRunner.create()
-                        .withProjectDir(file("./examples/${proj}/"))
-                        .withArguments('Example')
-                        .build()
-            }
+            FileWriter writer = new FileWriter("build/test/${proj}.txt")
+
+            GradleRunner.create()
+                    .withProjectDir(file("./examples/${proj}/"))
+                    .forwardStdError(writer)
+                    .forwardStdOutput(writer)
+                    .withArguments(['Example', '-PdebugExample'])
+                    .build()
+
+            writer.close()
+
         } catch (Exception e) { 
             println "Test failed  ./examples/${proj}"
             return
@@ -93,7 +90,14 @@ def buildProject(proj) {
         println "Test passed  ./examples/${proj}"
 }
 
-task baseTest << {
+task testSetup() {
+    
+    delete('build')
+    mkdir('build/test')
+}
+
+
+task baseTest(dependsOn: testSetup) << {
     println "Running base tests"
 
     [
@@ -150,7 +154,8 @@ task xTest(dependsOn: baseTest) << {
 }
 
 task test(dependsOn: xTest) << {
-    println "Finished running tests"
+    println "Finished running tests.  *** Test output can be found in '${projectDir}/build/test/' ***"
 }
+
 
 ////////////////////////////////////////////////////////////////////////////////
