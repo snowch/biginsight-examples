@@ -22,12 +22,31 @@ import org.apache.hadoop.gateway.shell.hbase.HBase
 import static java.util.concurrent.TimeUnit.SECONDS
 
 def env = System.getenv()
-session = Hadoop.login( env.gateway, env.username, env.password )
+def session = Hadoop.login( env.gateway, env.username, env.password )
 
-println "System version : " + HBase.session(session).systemVersion().now().string
+def systemVersionFuture = HBase.session(session).systemVersion().later()
+def clusterVersionFuture = HBase.session(session).clusterVersion().later()
+def clusterStatusFuture = HBase.session(session).status().later()
 
-println "Cluster version : " + HBase.session(session).clusterVersion().now().string
+// execute the three requests in parallel
+try {
+    session.waitFor(
+                60, SECONDS, 
+                systemVersionFuture,
+                clusterVersionFuture,
+                clusterStatusFuture
+                )
+} catch (Exception e) {
+    System.err.println "**** Timeout waiting for server response"
+    System.exit(1)
+}
 
-println "Status : " + HBase.session(session).status().now().string
+[ systemVersionFuture, clusterVersionFuture, clusterStatusFuture ].each { future ->
+    if (future.statusCode != 200) {
+        System.err.println "**** Received HTTP ${future.get().statusCode} from API"
+        System.exit(1)
+    }
+    println future.get().string
+}
 
-session.shutdown(10, SECONDS)
+session.shutdown()
