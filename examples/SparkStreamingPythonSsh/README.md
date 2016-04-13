@@ -14,7 +14,9 @@ The [./build.gradle](./build.gradle) script does all the work using a ssh plugin
 
 #### Instructions
 
-Run this example by changing into the current directory then executing:
+First follow the setup instructions on https://github.com/snowch/biginsight-examples.
+
+Next run this example by changing into the current directory then executing:
 
 - on *nix using:
 

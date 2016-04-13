@@ -26,7 +26,7 @@ log4j = sc._jvm.org.apache.log4j
 log4j.LogManager.getRootLogger().setLevel(log4j.Level.ERROR)
 
 try:
-    # Create a DStream that will connect to hostname:port, like localhost:9999
+    # Create a DStream to connect to the wordsocket.py random word server
     lines = ssc.socketTextStream("localhost", 6568)
 
     # Split each line into words
