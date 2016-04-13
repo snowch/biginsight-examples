@@ -20,7 +20,7 @@ remotes {
     }
 }
 
-clean {
+clean << {
     delete './Rhistory'
     delete './truststore.jks'
     delete './bigr.tar.gz'
@@ -28,6 +28,8 @@ clean {
 }
 
 task ('installPackages', type:Exec) {
+
+    mustRunAfter clean
 
     // tell gradle we don't need to run this task if the ./lib/bigr/ folder exists
     outputs.files file("${projectDir}/lib/bigr/")
@@ -58,13 +60,12 @@ task ('installPackages', type:Exec) {
     // set where we want the R packages installed
     environment 'libdir',   "${projectDir}/lib"
 
-    commandLine 'Rscript', "--verbose", "${projectDir}/install_packages.r"
+    commandLine 'Rscript', "--verbose", "--vanilla", "${projectDir}/install_packages.r"
 }
 
 
 // task to run a R script
 task('Example', dependsOn: installPackages, type: Exec) {
-
 
     // BigR service listens on master-2 node
     hostname = hostname.replace('mastermanager', 'master-2')
@@ -77,5 +78,5 @@ task('Example', dependsOn: installPackages, type: Exec) {
     environment 'password', props.password
 
     // execute R script - inpect example.r for details
-    commandLine "Rscript", "--verbose", "${projectDir}/example.r"
+    commandLine "Rscript", "--verbose", "--vanilla", "${projectDir}/example.r"
 }
