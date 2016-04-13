@@ -37,7 +37,7 @@ try {
                 clusterStatusFuture
                 )
 } catch (Exception e) {
-    System.err.println "**** Timeout waiting for server response"
+    e.printStackTrace()
     System.exit(1)
 }
 
