@@ -112,7 +112,7 @@ Test passed  ./examples/BigR
 Test passed  ./examples/BigSQL
 Test passed  ./examples/BigSQLJava
 :test
-Finished running tests
+Finished running tests.  *** Test output can be found in '/your_repo_dir/build/test/' ***
 
 BUILD SUCCESSFUL
 ```
