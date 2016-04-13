@@ -33,6 +33,13 @@ remotes {
     }
 }
 
+ssh.settings {
+    if (props.known_hosts == 'allowAnyHosts') {
+        // disable ssh host key verification 
+        knownHosts = allowAnyHosts
+    }
+}
+
 // set the dependencies for compiling the groovy script
 repositories {
     mavenCentral()

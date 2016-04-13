@@ -8,10 +8,23 @@
 
 gateway:https://changeme:8443/gateway/default
 
+###### cluster credentials ######
+#
 # E.g. biadmin
 username:changeme
 
 password:changeme
+
+###### strict ssh host key checking ######
+
+# uncomment known_hosts to disable strict ssh host key checking
+# WARNING: uncommenting may make you vulnerable to man-in-the-middle attacks
+
+# if you don't want to disable ssh host key checking, you will need to ssh 
+# into your mastermanager node (and master-2 node where applicable) and accept 
+# the certificate fingerprint.
+
+# known_hosts:allowAnyHosts
 
 ################################################################################
 # Push to Cloudant with Spark Example : Destination Cloudant store details

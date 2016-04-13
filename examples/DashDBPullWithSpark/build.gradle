@@ -26,6 +26,13 @@ remotes {
     }
 }
 
+ssh.settings {
+    if (props.known_hosts == 'allowAnyHosts') {
+        // disable ssh host key verification 
+        knownHosts = allowAnyHosts
+    }
+}
+
 task('clean') << {
     delete './lib'
 }

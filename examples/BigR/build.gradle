@@ -1,5 +1,4 @@
 plugins {
-  id 'groovy'
   id 'org.hidetake.ssh' version '1.5.0'
 }
 
@@ -17,6 +16,13 @@ remotes {
        host = hostname
        user = props.username
        password = props.password
+    }
+}
+
+ssh.settings {
+    if (props.known_hosts == 'allowAnyHosts') {
+        // disable ssh host key verification 
+        knownHosts = allowAnyHosts
     }
 }
 
