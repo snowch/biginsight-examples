@@ -114,7 +114,6 @@ task baseTest(dependsOn: testSetup) << {
       'DashDBPushWithSpark',
       'OozieWorkflowMapReduce',
       'OozieWorkflowSpark',
-      'OozieWorkflowSparkPython',
       'WebHCatMapReduce',
       'WebHCatPig',
       'WebHCatHive',

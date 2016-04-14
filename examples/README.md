@@ -44,7 +44,6 @@ See the README file in each project for instructions how to run the example.
 
 - Execute a Mapreduce job using Oozie [[OozieWorkflowMapReduce](./OozieWorkflowMapReduce)]
 - Execute a Spark Java job using Oozie [[OozieWorkflowSpark](./OozieWorkflowSpark)]
-- Execute a Spark Python job using Oozie [[OozieWorkflowSparkPython](./OozieWorkflowSparkPython)]
 
 *********************************************************************
 
