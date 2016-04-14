@@ -21,7 +21,7 @@ import org.apache.hadoop.gateway.shell.hbase.HBase
 
 import static java.util.concurrent.TimeUnit.SECONDS
 
-tableName = "test_table"
+tableName = "test_${new Date().getTime()}"
 
 def env = System.getenv()
 session = Hadoop.login( env.gateway, env.username, env.password )
