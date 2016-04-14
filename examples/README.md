@@ -51,7 +51,7 @@ See the README file in each project for instructions how to run the example.
 #### HBase
 
 - Connect to HBase using Groovy [[HBase](./HBase)]
-- Manipulate Schema and Perform CRUD Operations [[HBaseSchemaUpdatesAndCRUD](./HBaseSchemaUpdatesAndCRUD)]
+- Manipulate Schema and Perform CRUD Operations using Groovy [[HBaseSchemaUpdatesAndCRUD](./HBaseSchemaUpdatesAndCRUD)]
 - Connect to HBase using Java [[HBaseJava](./HBaseJava)]
 
 *********************************************************************
