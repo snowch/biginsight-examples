@@ -24,6 +24,12 @@ Vagrant.configure(2) do |config|
      gpg --keyserver keyserver.ubuntu.com --recv-key E084DAB9
      gpg -a --export E084DAB9 | sudo apt-key add -
 
+     # create a folder to cache the jdk tar file
+     [[ -d /var/cache/oracle-jdk8-installer/ ]] || sudo mkdir /var/cache/oracle-jdk8-installer/
+
+     # if we have the jdk locally, copy it to the cache location (ignore error if file doesn't exist)
+     sudo cp /vagrant/downloads/jdk-8u*-linux-x64.tar.gz /var/cache/oracle-jdk8-installer/ || :
+
      # config to install Oracle 8 JDK
      sudo add-apt-repository ppa:webupd8team/java -y
      echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | sudo /usr/bin/debconf-set-selections
@@ -35,6 +41,10 @@ Vagrant.configure(2) do |config|
      # Now install the packages
      sudo apt-get update
      sudo apt-get install -y git r-base oracle-java8-installer
+
+     # copy the jdk to a non volatile folder so we can grab it from here
+     # on the next clean `vagrant up`
+     cp -f /var/cache/oracle-jdk8-installer/jdk-8u*-linux-x64.tar.gz /vagrant/downloads/
 
      # Setup the JDK so R can find it
      sudo sh -c 'echo /usr/lib/jvm/java-8-oracle/jre/lib/amd64 >> /etc/ld.so.conf.d/java.conf'
