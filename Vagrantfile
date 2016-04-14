@@ -73,6 +73,6 @@ Vagrant.configure(2) do |config|
      # Now lets run the tests
      cd ~/biginsight-examples/
 
-     ./gradlew test
+     ./gradlew -q test
    SHELL
 end
