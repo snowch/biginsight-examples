@@ -120,6 +120,7 @@ task baseTest(dependsOn: testSetup) << {
       'WebHCatHive',
       'HBase',
       'HBaseJava',
+      'HBaseManipulateSchemaAndPerformCRUD'
     ].each() { proj -> buildProject(proj) }
 
     // These examples are interactive so aren't easy to automate

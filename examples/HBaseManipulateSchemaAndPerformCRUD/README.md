@@ -17,7 +17,7 @@ Run this example by changing into the current directory then executing:
 Note: you can run this script from the top level project folder using the gradle `-p` argument:
 
 ```
-./gradlew -p examples/HBaseSchemaUpdatesAndCRUD Example
+./gradlew -p examples/HBaseManipulateSchemaAndPerformCRUD Example
 ```
 
 *********************************************************************
