@@ -7,6 +7,8 @@ Vagrant.configure(2) do |config|
 
    if Vagrant.has_plugin?("vagrant-cachier")
      config.cache.scope = :box
+   else
+     raise Vagrant::Errors::VagrantError.new, "Plugin missing: vagrant-cachier: Install with: `vagrant plugin install vagrant-cachier`"
    end
 
    # make sure we have enough memory for the build
