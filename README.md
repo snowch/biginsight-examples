@@ -16,7 +16,7 @@ See the 5 minute demo at the end of the README to watch an example of setting up
 - Git client installed
 - Comfortable running commands in the terminal or console
 
-NOTE: You do NOT need to install gradle, the gradlew scripts will setup gradle for you
+NOTE: You do NOT need to install gradle, the gradlew scripts mentioned below will install gradle for you
 
 ### Setup Instructions
 
