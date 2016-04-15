@@ -12,7 +12,7 @@ See the 5 minute demo at the end of the README to watch an example of setting up
 
 ### Pre-requisites
 
-- Java 7 or 8 installed and JAVA_HOME environment variable set
+- Java 7 or 8 installed
 - Git client installed
 - Comfortable running commands in the terminal or console
 
