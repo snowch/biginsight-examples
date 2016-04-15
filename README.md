@@ -14,6 +14,8 @@ See the 5 minute demo at the end of the README to watch an example of setting up
 
 - Java 7 or 8 installed and JAVA_HOME environment variable set
 - You do NOT need to install gradle, the gradlew scripts will setup gradle for you
+- Git client installed
+- Comfortable running commands in the terminal or console
 
 
 ### Setup Instructions
