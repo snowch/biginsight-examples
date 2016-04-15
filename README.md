@@ -8,6 +8,8 @@ The core idea is that you can run an example project to see it working against y
 
 See the 5 minute demo at the end of the README to watch an example of setting up the biginsight-examples project and then run 'ls /' on the cluster using the Knox webHdfs API.
 
+NOTE: I run these scripts primarily on a Mac OS/X machine.  Please let me know if you have trouble running them on other operating systems.
+
 *********************************************************************
 
 ### Pre-requisites
