@@ -1,5 +1,6 @@
 import static org.gradle.testkit.runner.TaskOutcome.*
 import com.jcraft.jsch.JSchException
+import javax.net.ssl.*
 
 buildscript {
     repositories {
@@ -79,9 +80,48 @@ task verifySshConnectivity << {
     }
 }
 
+task verifyCertificate << {
 
-task verifyConfig(dependsOn: verifySshConnectivity) << {
-    // TODO extend this to verifyCertificate
+    def certfile = file('./certificate')
+
+    if (!certfile.exists()) {
+        System.err.println "** ${certfile.absolutePath} not found - some tests will fail **"
+        System.err.println "Resolution: save the server's certificate as per the biginsight-examples project README"
+        return
+    }
+
+    def host = mastermanager_hostname
+    def port = 9443
+    def cert
+
+    def certtext
+
+    def trustManager = [
+        checkClientTrusted: { chain, authType ->  },
+        checkServerTrusted: { chain, authType -> cert = chain[0] },
+        getAcceptedIssuers: { null }
+    ] as X509TrustManager
+
+    def context = SSLContext.getInstance("TLS")
+    context.init(null, [trustManager] as TrustManager[], null)
+    context.socketFactory.createSocket(host, port as int).with {
+        startHandshake()
+        close()
+    }
+
+    certtext = "-----BEGIN CERTIFICATE-----\n" + \
+               "${cert.encoded.encodeBase64(true)}\n" + \
+               "-----END CERTIFICATE-----"
+
+    def certfiletext = certfile.text
+
+    if (certtext.replaceAll("\\s", "") != certfiletext.replaceAll("\\s", "")) {
+        System.err.println "** Certificate error.  SSL Certificate of server does not match ${certfile.absolutePath} - some tests will fail **"
+        System.err.println "Resolution: save the server's certificate as per the biginsight-examples project README"
+    }
+}
+
+task verifyConfig(dependsOn: [verifyCertificate, verifySshConnectivity]) << {
 }
 
 ////////////////////////////////////////////////////////////////////////////////
