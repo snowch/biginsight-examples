@@ -1,4 +1,5 @@
 import static org.gradle.testkit.runner.TaskOutcome.*
+import com.jcraft.jsch.JSchException
 
 buildscript {
     repositories {
@@ -11,6 +12,10 @@ buildscript {
     }
 }
 
+plugins {
+  id 'org.hidetake.ssh' version '1.5.0'
+}
+
 // get the cluster connection details
 Properties props = new Properties()
 props.load(new FileInputStream("$projectDir/connection.properties"))
@@ -21,6 +26,63 @@ def matcher = props.gateway =~ /^(https?:\/\/)([^:^\/]*)(:\d*)?(.*)?.*$/
 def mastermanager_hostname = matcher[0][2] 
 
 def master2_hostname = mastermanager_hostname.replace('mastermanager', 'master-2')
+
+// setup the connection details for ssh
+remotes {
+    bicluster {
+       host = mastermanager_hostname
+       user = props.username
+       password = props.password
+    }
+    bicluster_master2 {
+       host = master2_hostname
+       user = props.username
+       password = props.password
+    }
+}
+
+ssh.settings {
+    if (props.known_hosts == 'allowAnyHosts') {
+        // disable ssh host key verification 
+        knownHosts = allowAnyHosts
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+// verify Ssh connectivity by attempting a SSH session
+
+task verifySshConnectivity << {
+
+    try {
+        ssh.run {
+            session(remotes.bicluster) {
+                execute "echo successfully connected to ${mastermanager_hostname} over ssh"
+            }
+        }
+    } catch (JSchException e) {
+        System.err.println "** SSH error: ${e.message} - some tests will fail **"
+        System.err.println "Resolution: ssh into ${mastermanager_hostname} or set known_hosts:allowAnyHosts in connection.properties"
+    }
+
+    if (master2_hostname != mastermanager_hostname) {
+        try {
+            ssh.run {
+                session(remotes.bicluster_master2) {
+                    execute "echo successfully connected to ${master2_hostname} over ssh"
+                }
+            }
+        } catch (JSchException e) {
+            System.err.println "** SSH error: ${e.message} - some tests will fail **"
+            System.err.println "Resolution: ssh into ${master2_hostname} or set known_hosts:allowAnyHosts in connection.properties"
+        }
+    }
+}
+
+
+task verifyConfig(dependsOn: verifySshConnectivity) << {
+    // TODO extend this to verifyCertificate
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -95,7 +157,7 @@ def buildProject(proj) {
         println "Test passed  ./examples/${proj}"
 }
 
-task testSetup() {
+task testSetup(dependsOn: verifyConfig) {
     
     delete('build')
     mkdir('build/test')
@@ -164,3 +226,4 @@ task test(dependsOn: xTest) << {
 
 
 ////////////////////////////////////////////////////////////////////////////////
+
