@@ -30,6 +30,7 @@ See the 5 minute demo at the end of the README to see these steps in action.
   - Save the certificate in this folder with the filename `certificate`
 - Ssh into the BigInsights cluster 'mastermanager' node to install the cluster's SSL certificate into ./ssh/known_hosts
 - Ssh into the BigInsights cluster 'master-2' node to install the cluster's SSL certificate into ./ssh/known_hosts (this step is not required for Basic clusters)
+- [Optional] Run `./gradlew test` to run the whole set of examples as a test
 
 *********************************************************************
 ### Running the scripts
