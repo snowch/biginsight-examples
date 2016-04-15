@@ -27,7 +27,12 @@ def master2_hostname = mastermanager_hostname.replace('mastermanager', 'master-2
 // Methods and task to pretty print cluster info
 
 def termWidth() {
-    return  jline.TerminalFactory.get().getWidth()
+    // jline doesn't play nicely on some windows machines
+    try {
+        return  jline.TerminalFactory.get().getWidth()
+    } catch (Exception e) {
+        return 80
+    }
 }
 
 def printSep() {
