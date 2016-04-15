@@ -3,14 +3,17 @@
 # BigInsights cluster
 ################################################################################
 
+###### cluster gatweay ######
+
 # E.g. https://bi-hadoop-prod-4066.services.dal.bluemix.net:8443/gateway/default
 # Important!  ensure you use a domain name and not an IP address for the host
 
 gateway:https://changeme:8443/gateway/default
 
 ###### cluster credentials ######
-#
-# E.g. biadmin
+
+# E.g. 
+# username:biadmin
 username:changeme
 
 password:changeme
@@ -30,6 +33,8 @@ password:changeme
 # Push to Cloudant with Spark Example : Destination Cloudant store details
 ################################################################################
 
+# Ignore this section if you don't want to run the Push to Cloudant example
+
 cl_push_hostname:changeme.cloudant.com
 cl_push_username:changeme
 cl_push_password:changeme
@@ -38,10 +43,14 @@ cl_push_password:changeme
 # Pull from dashDB with Spark Example : Source dashDB details
 ################################################################################
 
+# Ignore this section if you don't want to run the Pull from  example
+
 dashdb_pull_jdbc_url:jdbc:db2://changeme:50001/BLUDB:user=changeme;password=changeme;sslConnection=true;
 
 ################################################################################
 # Push to dashDB with Spark Example : Destination dashDB details
 ################################################################################
+
+# Ignore this section if you don't want to run the Push to dashDB example
 
 dashdb_push_jdbc_url:jdbc:db2://changeme:50001/BLUDB:user=dash6590;password=SPbOJTC8wVhm;sslConnection=true;
