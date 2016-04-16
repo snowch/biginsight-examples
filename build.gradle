@@ -63,7 +63,7 @@ task verifySshConnectivity << {
         }
     } catch (JSchException e) {
         System.err.println "** SSH error: ${e.message} - some tests will fail **"
-        System.err.println "Resolution: ssh into ${mastermanager_hostname} or set known_hosts:allowAnyHosts in connection.properties"
+        System.err.println "   Resolution: ssh into ${mastermanager_hostname} or set known_hosts:allowAnyHosts in connection.properties"
     }
 
     if (master2_hostname != mastermanager_hostname) {
@@ -75,7 +75,7 @@ task verifySshConnectivity << {
             }
         } catch (JSchException e) {
             System.err.println "** SSH error: ${e.message} - some tests will fail **"
-            System.err.println "Resolution: ssh into ${master2_hostname} or set known_hosts:allowAnyHosts in connection.properties"
+            System.err.println "   Resolution: ssh into ${master2_hostname} or set known_hosts:allowAnyHosts in connection.properties"
         }
     }
 }
@@ -86,7 +86,7 @@ task verifyCertificate << {
 
     if (!certfile.exists()) {
         System.err.println "** ${certfile.absolutePath} not found - some tests will fail **"
-        System.err.println "Resolution: save the server's certificate as per the biginsight-examples project README"
+        System.err.println "   Resolution: save the server's certificate as per the biginsight-examples project README"
         return
     }
 
@@ -116,8 +116,8 @@ task verifyCertificate << {
     def certfiletext = certfile.text
 
     if (certtext.replaceAll("\\s", "") != certfiletext.replaceAll("\\s", "")) {
-        System.err.println "** Certificate error.  SSL Certificate of server does not match ${certfile.absolutePath} - some tests will fail **"
-        System.err.println "Resolution: save the server's certificate as per the biginsight-examples project README"
+        System.err.println "** Certificate error:  SSL Certificate of server does not match ${certfile.absolutePath} - some tests will fail **"
+        System.err.println "   Resolution: save the server's certificate as per the biginsight-examples project README"
     }
 }
 
