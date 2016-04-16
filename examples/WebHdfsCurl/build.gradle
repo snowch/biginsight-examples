@@ -52,6 +52,16 @@ task('Mkdir', type: Exec) {
     commandLine "bash", "Mkdir.sh"
 }
 
+// task to run the bash script
+task('Put', type: Exec) {
+
+    environment 'gateway', props.gateway
+    environment 'username', props.username
+    environment 'password', props.password
+
+    commandLine "bash", "Put.sh"
+}
+
 task('Test') {
-    dependsOn Ls, Mkdir
+    dependsOn Ls, Mkdir, Put
 }
