@@ -10,6 +10,12 @@ See the README file in each project for instructions how to run the example.
 - Create a folder using Groovy [[WebHdfsMkdir](./WebHdfsMkdir/)]
 - Upload a file using Groovy [[WebHdfsPut](./WebHdfsPut/)]
 
+##### *cURL*
+
+- List folder contents using cURL [[WebHdfsCurl](./WebHdfsCurl/)]
+- Create a folder using cURL [[WebHdfsCurl](./WebHdfsCurl/)]
+- Upload a file using cURL [[WebHdfsCurl](./WebHdfsCurl/)]
+
 *********************************************************************
 
 #### BigR 
