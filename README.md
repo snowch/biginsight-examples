@@ -14,9 +14,9 @@ NOTE: I run these scripts primarily on a Mac OS/X machine.  Please let me know i
 
 ### Pre-requisites
 
-- Java 7 or 8 installed
+- Java 8 JDK installed
 - Git client installed
-- Comfortable running commands in the terminal or console
+- You are comfortable running commands in the terminal or console
 
 NOTE: You do NOT need to install gradle, the gradlew scripts mentioned below will install gradle for you
 
