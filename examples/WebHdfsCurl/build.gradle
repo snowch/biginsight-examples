@@ -65,3 +65,8 @@ task('Put', type: Exec) {
 task('Test') {
     dependsOn Ls, Mkdir, Put
 }
+
+// this test will be removed when tests uses Test target
+task('Example') {
+    dependsOn Ls, Mkdir, Put
+}

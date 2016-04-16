@@ -211,6 +211,7 @@ task baseTest(dependsOn: testSetup) << {
       'WebHdfsLs', 
       'WebHdfsMkdir', 
       'WebHdfsPut',
+      'WebHdfsCurl',
       'Hive',
       'HiveJava',
       'SparkPythonSsh',
@@ -226,7 +227,7 @@ task baseTest(dependsOn: testSetup) << {
       'WebHCatHive',
       'HBase',
       'HBaseJava',
-      'HBaseManipulateSchemaAndPerformCRUD'
+      'HBaseManipulateSchemaAndPerformCRUD',
     ].each() { proj -> buildProject(proj) }
 
     // These examples are interactive so aren't easy to automate
