@@ -131,9 +131,16 @@ JOB_ID=$(curl -s -k -u ${username}:${password} -H 'Content-Type:application/xml'
 ################################################################################
 # get job status
 
-curl -s -i -k -u ${username}:${password} -X GET "${gateway}/oozie/v1/job/${JOB_ID}"
-
-# TODO poll for success with timeout
+for i in {1..20}
+do
+    STATUS=$(curl -s -k -u ${username}:${password} -X GET "${gateway}/oozie/v1/job/${JOB_ID}" | perl -pe 's|.*?"status":"([^"]*?)".*|\1|')
+    echo status: ${STATUS}
+    if [[ "${STATUS}" != 'RUNNING' ]]
+    then
+        break
+    fi
+    sleep 3
+done
 
 ################################################################################
 # list the contents of OUTPUT_DIR
@@ -147,4 +154,12 @@ curl -s -i -k -u ${username}:${password} -X DELETE "${gateway}/webhdfs/v1/${DIR}
 
 ################################################################################
 
-printf "\n>> MapReduce test was successful.\n\n"
+if [[ "${STATUS}" == 'SUCCCEDED' ]]
+then
+    printf "\n>> MapReduce test was successful.\n\n"
+    exit 0
+else
+    printf "\n>> MapReduce test failed.\n\n"
+    exit 1
+fi
+
