@@ -54,29 +54,27 @@ EOF
 
 ################################################################################
 
+basename ${gateway}
+
 cat << EOF > workflow-configuration.xml
 <configuration>
     <property>
         <name>jobTracker</name>
+        <!--value>rm:8050</value-->
         <value>default</value>
-        <!--value>REPLACE.JOBTRACKER.RPCHOSTPORT</value-->
-        <!-- Example: <value>localhost:50300</value> -->
     </property>
     <property>
         <name>nameNode</name>
+        <!--value>hdfs://nn:8020</value-->
         <value>default</value>
-        <!--value>hdfs://REPLACE.NAMENODE.RPCHOSTPORT</value-->
-        <!-- Example: <value>hdfs://localhost:8020</value> -->
     </property>
     <property>
         <name>oozie.wf.application.path</name>
         <value>${INPUT_DIR}</value>
-        <!--value>hdfs://REPLACE.NAMENODE.RPCHOSTPORT/tmp/test</value-->
-        <!-- Example: <value>hdfs://localhost:8020/tmp/test</value> -->
     </property>
     <property>
         <name>user.name</name>
-        <value>mapred</value>
+        <value>${username}</value>
     </property>
     <property>
         <name>inputDir</name>
@@ -94,7 +92,6 @@ EOF
 
 curl -s -i -k -u ${username}:${password} -X PUT "${gateway}/webhdfs/v1/${DIR}?op=MKDIRS" | grep 'HTTP/1.1 200 OK'
 curl -s -i -k -u ${username}:${password} -X PUT "${gateway}/webhdfs/v1/${INPUT_DIR}?op=MKDIRS" | grep 'HTTP/1.1 200 OK'
-curl -s -i -k -u ${username}:${password} -X PUT "${gateway}/webhdfs/v1/${OUTPUT_DIR}?op=MKDIRS" | grep 'HTTP/1.1 200 OK'
 
 ################################################################################
 # upload workflow.xml
@@ -128,6 +125,8 @@ curl -s -i -k -u ${username}:${password} -T LICENSE -X PUT ${LOCATION} | grep 'H
 
 JOB_ID=$(curl -s -k -u ${username}:${password} -H 'Content-Type:application/xml' -T workflow-configuration.xml -X POST "${gateway}/oozie/v1/jobs?action=start" | tr -d '\r' | sed -En 's/^{"id":"([^"]*)"}$/\1/p')
 
+echo jobid: ${JOB_ID}
+
 ################################################################################
 # get job status
 
@@ -144,10 +143,10 @@ done
 
 ################################################################################
 
-if [[ "${STATUS}" == 'SUCCCEDED' ]]
+if [[ "${STATUS}" == 'SUCCEEDED' ]]
 then
     # list the contents of OUTPUT_DIR
-    curl -s -i -k -u ${username}:${password} -X DELETE "${gateway}/webhdfs/v1/${OUTPUT_DIR}?op=LISTSTATUS"
+    curl -s -i -k -u ${username}:${password} -X GET "${gateway}/webhdfs/v1/${OUTPUT_DIR}?op=LISTSTATUS"
 
     # clean up - remove the temporary directory
     curl -s -i -k -u ${username}:${password} -X DELETE "${gateway}/webhdfs/v1/${DIR}?op=DELETE&recursive=true" | grep 'HTTP/1.1 200 OK' 
