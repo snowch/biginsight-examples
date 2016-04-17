@@ -1,36 +1,6 @@
-apply plugin: 'groovy'
 
 Properties props = new Properties()
 props.load(new FileInputStream("$projectDir/../../connection.properties"))
-
-
-// set the dependencies for running the groovy script
-buildscript {
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath 'org.codehaus.groovy:groovy-all:2.0.5'
-    }
-}
-
-// set the dependencies for compiling the groovy script
-repositories {
-    mavenCentral()
-}
-
-dependencies {
-    compile 'org.codehaus.groovy:groovy-all:2.0.5'
-}
-
-// tell gradle the groovy script is in the same folder as the build.gradle file
-sourceSets {
-    main {
-        groovy {
-            srcDirs = ['.']
-        }
-    }
-}
 
 // task to run the bash script
 task('Ls', type: Exec) {
