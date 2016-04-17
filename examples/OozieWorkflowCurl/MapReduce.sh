@@ -60,12 +60,10 @@ cat << EOF > workflow-configuration.xml
 <configuration>
     <property>
         <name>jobTracker</name>
-        <!--value>rm:8050</value-->
         <value>default</value>
     </property>
     <property>
         <name>nameNode</name>
-        <!--value>hdfs://nn:8020</value-->
         <value>default</value>
     </property>
     <property>
@@ -146,7 +144,7 @@ done
 if [[ "${STATUS}" == 'SUCCEEDED' ]]
 then
     # list the contents of OUTPUT_DIR
-    curl -s -i -k -u ${username}:${password} -X GET "${gateway}/webhdfs/v1/${OUTPUT_DIR}?op=LISTSTATUS"
+    curl -s -k -u ${username}:${password} -X GET "${gateway}/webhdfs/v1/${OUTPUT_DIR}?op=LISTSTATUS"
 
     # clean up - remove the temporary directory
     curl -s -i -k -u ${username}:${password} -X DELETE "${gateway}/webhdfs/v1/${DIR}?op=DELETE&recursive=true" | grep 'HTTP/1.1 200 OK' 
