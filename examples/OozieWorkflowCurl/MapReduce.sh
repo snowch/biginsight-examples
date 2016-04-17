@@ -54,8 +54,6 @@ EOF
 
 ################################################################################
 
-basename ${gateway}
-
 cat << EOF > workflow-configuration.xml
 <configuration>
     <property>
