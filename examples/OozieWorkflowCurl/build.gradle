@@ -27,5 +27,9 @@ task('Example', dependsOn:'jar', type: Exec) {
     environment 'username', props.username
     environment 'password', props.password
 
-    commandLine "bash", "MapReduce.sh"
+    if (project.hasProperty('debugExample')) {
+        commandLine "bash", "-x", "MapReduce.sh"
+    } else {
+        commandLine "bash", "MapReduce.sh"
+    }
 }
