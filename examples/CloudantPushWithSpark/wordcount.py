@@ -26,6 +26,7 @@ from pyspark.sql import SQLContext
 
 # create a Cloudant database using httplib
 # httplib is used because other libraries aren't available on BigInsights by default
+# This code will be made redundant by: https://github.com/cloudant-labs/spark-cloudant/pull/59/commits/01234e09cf71faca82b8dcaf67cb423c3206ad8c
 def createDatabase(hostname, username, password, dbname):
     import httplib
     import base64
