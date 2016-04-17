@@ -29,36 +29,37 @@ FILE="LICENSE"
 # create the temporary directory
 curl -s -i -k -u ${username}:${password} -X PUT "${gateway}/webhdfs/v1/${DIR}?op=MKDIRS" | grep 'HTTP/1.1 200 OK'
 
+################################################################################
+##### upload workflow.xml #####
+
+# register the name for the file, and get the location (use tr to strip header CRLF
+LOCATION=$(curl -s -i -k -u ${username}:${password} -X PUT "${gateway}/webhdfs/v1/${DIR}/workflow.xml?op=CREATE" | tr -d '\r' | sed -En "s/^Location: (.*)$/\1/p")
+
+# cmd to send the file to the location
+curl -s -i -k -u ${username}:${password} -T workflow-definition.xml -X PUT ${LOCATION} | grep 'HTTP/1.1 201 Created'
+
+################################################################################
+##### upload hadoop-examples.jar #####
+
+# register the name for the file, and get the location (use tr to strip header CRLF
+LOCATION=$(curl -s -i -k -u ${username}:${password} -X PUT "${gateway}/webhdfs/v1/${DIR}/hadoop-examples.jar?op=CREATE" | tr -d '\r' | sed -En "s/^Location: (.*)$/\1/p")
+
+# cmd to send the file to the location
+curl -s -i -k -u ${username}:${password} -T samples/hadoop-examples.jar -X PUT ${LOCATION} | grep 'HTTP/1.1 201 Created'
+
+################################################################################
+##### upload LICENSE #####
+
+# register the name for the file, and get the location (use tr to strip header CRLF
+LOCATION=$(curl -s -i -k -u ${username}:${password} -X PUT "${gateway}/webhdfs/v1/${DIR}/LICENSE?op=CREATE" | tr -d '\r' | sed -En "s/^Location: (.*)$/\1/p")
+
+# cmd to send the file to the location
+curl -s -i -k -u ${username}:${password} -T LICENSE -X PUT ${LOCATION} | grep 'HTTP/1.1 201 Created'
+
+################################################################################
+
 # TODO: add example code below
 
-# # 0. Optionally cleanup the test directory in case a previous example was run without cleaning up.
-# curl -i -k -u guest:guest-password -X DELETE \
-#         'https://localhost:8443/gateway/sandbox/webhdfs/v1/user/guest/example?op=DELETE&recursive=true'
-# 
-# # 1. Create the inode for workflow definition file in /user/guest/example
-# curl -i -k -u guest:guest-password -X PUT \
-#         'https://localhost:8443/gateway/sandbox/webhdfs/v1/user/guest/example/workflow.xml?op=CREATE'
-# 
-# # 2. Upload the workflow definition file.  This file can be found in {GATEWAY_HOME}/templates
-# curl -i -k -u guest:guest-password -T workflow-definition.xml -X PUT \
-#         '{Value Location header from command above}'
-# 
-# # 3. Create the inode for hadoop-examples.jar in /user/guest/example/lib
-# curl -i -k -u guest:guest-password -X PUT \
-#         'https://localhost:8443/gateway/sandbox/webhdfs/v1/user/guest/example/lib/hadoop-examples.jar?op=CREATE'
-# 
-# # 4. Upload hadoop-examples.jar to /user/guest/example/lib.  Use a hadoop-examples.jar from a Hadoop install.
-# curl -i -k -u guest:guest-password -T samples/hadoop-examples.jar -X PUT \
-#         '{Value Location header from command above}'
-# 
-# # 5. Create the inode for a sample input file readme.txt in /user/guest/example/input.
-# curl -i -k -u guest:guest-password -X PUT \
-#         'https://localhost:8443/gateway/sandbox/webhdfs/v1/user/guest/example/input/README?op=CREATE'
-# 
-# # 6. Upload readme.txt to /user/guest/example/input.  Use the readme.txt in {GATEWAY_HOME}.
-# # The sample below uses this README file found in {GATEWAY_HOME}.
-# curl -i -k -u guest:guest-password -T README -X PUT \
-#         '{Value of Location header from command above}'
 # 
 # # 7. Submit the job via Oozie
 # # Take note of the Job ID in the JSON response as this will be used in the next step.
@@ -78,6 +79,7 @@ curl -s -i -k -u ${username}:${password} -X PUT "${gateway}/webhdfs/v1/${DIR}?op
 #         'https://localhost:8443/gateway/sandbox/webhdfs/v1/user/guest/example?op=DELETE&recursive=true'
 
 
+################################################################################
 # clean up - remove the temporary directory
 curl -s -i -k -u ${username}:${password} -X DELETE "${gateway}/webhdfs/v1/${DIR}?op=DELETE&recursive=true" | grep 'HTTP/1.1 200 OK' 
 
