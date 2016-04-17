@@ -126,6 +126,7 @@ echo jobid: ${JOB_ID}
 ################################################################################
 # get job status
 
+# attempt to get status for a max of approx 200 seconds (20 attempts * 10 seconds)
 for i in {1..20}
 do
     STATUS=$(curl -s -k -u ${username}:${password} -X GET "${gateway}/oozie/v1/job/${JOB_ID}" | perl -pe 's|.*?"status":"([^"]*?)".*|\1|')
@@ -134,7 +135,7 @@ do
     then
         break
     fi
-    sleep 3
+    sleep 10
 done
 
 ################################################################################
