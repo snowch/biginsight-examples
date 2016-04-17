@@ -143,22 +143,21 @@ do
 done
 
 ################################################################################
-# list the contents of OUTPUT_DIR
- 
-# curl -i -k -u guest:guest-password -X GET \
-#         'https://localhost:8443/gateway/sandbox/webhdfs/v1/user/guest/example/output?op=LISTSTATUS'
-
-################################################################################
-# clean up - remove the temporary directory
-curl -s -i -k -u ${username}:${password} -X DELETE "${gateway}/webhdfs/v1/${DIR}?op=DELETE&recursive=true" | grep 'HTTP/1.1 200 OK' 
-
-################################################################################
 
 if [[ "${STATUS}" == 'SUCCCEDED' ]]
 then
+    # list the contents of OUTPUT_DIR
+    curl -s -i -k -u ${username}:${password} -X DELETE "${gateway}/webhdfs/v1/${OUTPUT_DIR}?op=LISTSTATUS"
+
+    # clean up - remove the temporary directory
+    curl -s -i -k -u ${username}:${password} -X DELETE "${gateway}/webhdfs/v1/${DIR}?op=DELETE&recursive=true" | grep 'HTTP/1.1 200 OK' 
+
     printf "\n>> MapReduce test was successful.\n\n"
     exit 0
 else
+    # clean up - remove the temporary directory
+    curl -s -i -k -u ${username}:${password} -X DELETE "${gateway}/webhdfs/v1/${DIR}?op=DELETE&recursive=true" | grep 'HTTP/1.1 200 OK' 
+
     printf "\n>> MapReduce test failed.\n\n"
     exit 1
 fi
