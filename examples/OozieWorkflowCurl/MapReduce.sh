@@ -133,6 +133,7 @@ do
     echo status: ${STATUS}
     if [[ "${STATUS}" != 'RUNNING' ]]
     then
+        # the job has finished running so exit the loop
         break
     fi
     sleep 10
