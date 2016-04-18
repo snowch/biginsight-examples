@@ -22,14 +22,16 @@ set -u
 # abort script if any commands return an error
 set -e
 
+# our working folders
 DIR="/user/${username}/test-$(date +%s)"
-
 INPUT_DIR="${DIR}/input"
 OUTPUT_DIR="${DIR}/output"
 
+# we will use MapReduce to perform a word count on the Apache License
 FILE="LICENSE"
 
 ################################################################################
+# create the workflow definition
 
 cat << EOF > workflow-definition.xml
 <workflow-app xmlns="uri:oozie:workflow:0.2" name="wordcount-workflow">
@@ -53,6 +55,7 @@ cat << EOF > workflow-definition.xml
 EOF
 
 ################################################################################
+# create the workflow configuration
 
 cat << EOF > workflow-configuration.xml
 <configuration>
@@ -129,6 +132,7 @@ echo jobid: ${JOB_ID}
 # attempt to get status for a max of approx 200 seconds (20 attempts * 10 seconds)
 for i in {1..20}
 do
+    # we need the non greedy operator ? to get the first match for 'status'.  sed doesn't support ? on all platforms.
     STATUS=$(curl -s -k -u ${username}:${password} -X GET "${gateway}/oozie/v1/job/${JOB_ID}" | perl -pe 's|.*?"status":"([^"]*?)".*|\1|')
     echo status: ${STATUS}
     if [[ "${STATUS}" != 'RUNNING' ]]

@@ -14,7 +14,7 @@ dependencies {
     compile(group: 'org.apache.hadoop', name: 'hadoop-mapreduce-client-core', version:'2.2.0') { }
 }
 
-// MapReduce classes
+// Jar up the MapReduce classes and save in the samples folder
 jar {
     archiveName = 'hadoop-examples.jar'
     destinationDir = file('samples')
