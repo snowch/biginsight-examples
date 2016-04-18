@@ -22,6 +22,11 @@ set -u
 # abort script if any commands return an error
 set -e
 
+# environment variables that are set by build.gradle for this script:
+#   ${gateway}
+#   ${username}
+#   ${password}
+
 # our working folders
 DIR="/user/${username}/test-$(date +%s)"
 INPUT_DIR="${DIR}/input"
