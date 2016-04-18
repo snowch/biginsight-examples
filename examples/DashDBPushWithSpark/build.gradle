@@ -102,13 +102,17 @@ task('SetupLibs') {
 
 task('AddJdbcJarsToClassLoader') {
 
+    outputs.upToDateWhen { false }
+
     dependsOn SetupLibs
 
-    URLClassLoader loader = GroovyObject.class.classLoader
-    jdbcjars.each { jar ->
-        def jarUrl = file("${projectDir}/lib/${jar}").toURL()
-        loader.addURL(jarUrl)
-    }
+    doLast {
+	    URLClassLoader loader = GroovyObject.class.classLoader
+	    jdbcjars.each { jar ->
+            def jarUrl = file("${projectDir}/lib/${jar}").toURL()
+            loader.addURL(jarUrl)
+	    }
+	}
 }
 
 task('CreateDashDBTable') {
@@ -116,12 +120,6 @@ task('CreateDashDBTable') {
     dependsOn AddJdbcJarsToClassLoader
 
     doLast {
-        URLClassLoader loader = GroovyObject.class.classLoader
-        jdbcjars.each { jar ->
-            def jarUrl = file("${projectDir}/lib/${jar}").toURL()
-            loader.addURL(jarUrl)
-        }
-
         def sql = Sql.newInstance( props.dashdb_push_jdbc_url, new Properties(), 'com.ibm.db2.jcc.DB2Driver' )
         sql.execute( "CREATE TABLE ${tmpTableName} AS (SELECT * FROM SAMPLES.LANGUAGE) DEFINITION ONLY".toString() )
         sql.close()
