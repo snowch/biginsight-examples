@@ -48,8 +48,9 @@ See the README file in each project for instructions how to run the example.
 
 #### Oozie (Using Knox API)
 
-- Execute a Mapreduce job using Oozie [[OozieWorkflowMapReduce](./OozieWorkflowMapReduce)]
-- Execute a Spark Java job using Oozie [[OozieWorkflowSpark](./OozieWorkflowSpark)]
+- Submit a Java Mapreduce job using Groovy [[OozieWorkflowMapReduce](./OozieWorkflowMapReduce)]
+- Submit a Java Mapreduce job using cURL [[OozieWorkflowCurl](./OozieWorkflowCurl)]
+- Submit a Java Spark job using Groovy [[OozieWorkflowSpark](./OozieWorkflowSpark)]
 
 *********************************************************************
 
