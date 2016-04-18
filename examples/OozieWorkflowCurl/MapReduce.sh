@@ -55,7 +55,7 @@ cat << EOF > workflow-definition.xml
         <error to="fail"/>
     </action>
     <kill name="fail">
-        <message>Java failed, error message[${wf:errorMessage(wf:lastErrorNode())}]</message>
+        <message>Java failed, error message[\${wf:errorMessage(wf:lastErrorNode())}]</message>
     </kill>
     <end name="end"/>
 </workflow-app>
