@@ -15,6 +15,11 @@ username:changeme
 
 password:changeme
 
+# Ambari URL should be following format: https://host:port/
+ambariUrl:changeme
+ambariUsername:changeme
+ambariPassword:changeme
+
 ###### strict ssh host key checking ######
 
 # uncomment known_hosts to disable strict ssh host key checking
