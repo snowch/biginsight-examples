@@ -8,7 +8,7 @@ These examples uses curl to perform operations on the cluster using WebHdfs. The
 
 The examples uses a gradle build file [./build.gradle](./build.gradle) to set environment variables for the scripts and to execute the scripts.
 
-Why use curl for the examples?  Developers can replicae what is being done by curl in the language of their own choice using the REST / JSON libraries they prefer for that language.  Note that JVM based developers will probably want to use the knox library - see the other examples here: https://github.com/snowch/biginsight-examples/tree/master/examples#hdfs-using-knox-api---webhdfs
+Why use curl for the examples?  Developers can replicate what is being done by curl in the language of their own choice using the REST / JSON libraries they prefer for that language.  Note that JVM based developers will probably want to use the knox library - see the other examples here: https://github.com/snowch/biginsight-examples/tree/master/examples#hdfs-using-knox-api---webhdfs
 
 
 *********************************************************************
