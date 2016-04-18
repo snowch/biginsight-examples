@@ -132,6 +132,7 @@ echo jobid: ${JOB_ID}
 # attempt to get status for a max of approx 200 seconds (20 attempts * 10 seconds)
 for i in {1..20}
 do
+    # we need the non greedy operator ? to get the first match for 'status'.  sed doesn't support ? on all platforms.
     STATUS=$(curl -s -k -u ${username}:${password} -X GET "${gateway}/oozie/v1/job/${JOB_ID}" | perl -pe 's|.*?"status":"([^"]*?)".*|\1|')
     echo status: ${STATUS}
     if [[ "${STATUS}" != 'RUNNING' ]]
