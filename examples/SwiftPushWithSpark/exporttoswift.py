@@ -38,13 +38,13 @@ if __name__ == "__main__":
 
     prefix = "fs.swift2d.service" + service_name
 
-    sc.hadoopConfiguration.set(prefix + ".auth.url","https://identity.open.softlayer.com/v3/auth/tokens")
-    sc.hadoopConfiguration.set(prefix + ".public", "true")
-    sc.hadoopConfiguration.set(prefix + ".tenant", project_id)
-    sc.hadoopConfiguration.set(prefix + ".password", password)
-    sc.hadoopConfiguration.set(prefix + ".username", username)
-    sc.hadoopConfiguration.set(prefix + ".auth.method", "keystoneV3")
-    sc.hadoopConfiguration.set(prefix + ".region", "dallas")
+    sc._jsc.hadoopConfiguration().set(prefix + ".auth.url","https://identity.open.softlayer.com/v3/auth/tokens")
+    sc._jsc.hadoopConfiguration().set(prefix + ".public", "true")
+    sc._jsc.hadoopConfiguration().set(prefix + ".tenant", project_id)
+    sc._jsc.hadoopConfiguration().set(prefix + ".password", password)
+    sc._jsc.hadoopConfiguration().set(prefix + ".username", username)
+    sc._jsc.hadoopConfiguration().set(prefix + ".auth.method", "keystoneV3")
+    sc._jsc.hadoopConfiguration().set(prefix + ".region", "dallas")
 
     distData = sc.parallelize([1,2,3,4,5])
     distData.saveAsTextFile("swift2d://{0}.{1}/one1.txt".format(container, service_name))
