@@ -63,7 +63,7 @@ if __name__ == "__main__":
     hhdf = sqlContext.createDataFrame(counts,['letter', 'count'])
 
     # destination url
-    swift_file_url = "swift2d://{0}.{1}/counts.txt".format(container, service_name)
+    swift_file_url = "swift2d://{0}.{1}/counts".format(container, service_name)
 
     print('*' * 80)
     print(swift_file_url)
