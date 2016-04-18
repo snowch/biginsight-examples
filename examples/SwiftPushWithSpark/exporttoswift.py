@@ -42,13 +42,13 @@ if __name__ == "__main__":
 
     sc._jsc.hadoopConfiguration().set("fs.swift2d.impl","com.ibm.stocator.fs.ObjectStoreFileSystem")
 
-    sc._jsc.hadoopConfiguration().set(prefix + ".auth.url","https://identity.open.softlayer.com/v3/auth/tokens")
-    sc._jsc.hadoopConfiguration().set(prefix + ".public", "true")
-    sc._jsc.hadoopConfiguration().set(prefix + ".tenant", project_id)
-    sc._jsc.hadoopConfiguration().set(prefix + ".password", password)
-    sc._jsc.hadoopConfiguration().set(prefix + ".username", username)
+    sc._jsc.hadoopConfiguration().set(prefix + ".auth.url",     "https://identity.open.softlayer.com/v3/auth/tokens")
+    sc._jsc.hadoopConfiguration().set(prefix + ".public",       "true")
+    sc._jsc.hadoopConfiguration().set(prefix + ".tenant",       project_id)
+    sc._jsc.hadoopConfiguration().set(prefix + ".password",     password)
+    sc._jsc.hadoopConfiguration().set(prefix + ".username",     username)
     sc._jsc.hadoopConfiguration().set(prefix + ".auth.method", "keystoneV3")
-    sc._jsc.hadoopConfiguration().set(prefix + ".region", "dallas")
+    sc._jsc.hadoopConfiguration().set(prefix + ".region",      "dallas")
 
     sqlContext = SQLContext(sc)
 
@@ -59,6 +59,17 @@ if __name__ == "__main__":
                   .reduceByKey(add) \
                   .filter(lambda x: x[0].isalnum())
 
-    counts.saveAsTextFile("swift2d://{0}.{1}/counts.txt".format(container, service_name))
+    # Create a sql dataframe from the counts dataframe
+    hhdf = sqlContext.createDataFrame(counts,['letter', 'count'])
+
+    # destination url
+    swift_file_url = "swift2d://{0}.{1}/counts.txt".format(container, service_name)
+
+    print('*' * 80)
+    print(swift_file_url)
+    print('*' * 80)
+
+    # save to swift
+    counts.saveAsTextFile(swift_file_url)
 
     sc.stop()
