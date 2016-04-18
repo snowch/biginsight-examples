@@ -1,8 +1,12 @@
 ### Overview
 
-This example uses the Knox client librray to initiate a session on the BigInsights cluster and perform a `ls` on the top level folder `/`.
+This example uses the Knox client librray to initiate a session on the BigInsights cluster and perform:
 
-The example uses a gradle build file [./build.gradle](./build.gradle) to retrieve the knox client libraries, set up a groovy session and execute the groovy script [./Example.groovy](./Example.groovy).  
+ - `ls` on the top level folder `/` [Ls.groovy](./Ls.groovy)
+ - `mkdir` operation [Mkdir.groovy](./Mkdir.groovy)
+ - upload a file [Put.groovy](./Put.groovy)
+
+The example uses a gradle build file [./build.gradle](./build.gradle) to retrieve the knox client libraries, set up a groovy session and execute the groovy scripts.
 
 For some other examples of Knox scripts, see the section [More Info](#more-info), below.
 

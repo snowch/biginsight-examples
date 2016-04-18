@@ -1,5 +1,8 @@
 apply plugin: 'groovy'
 
+Properties props = new Properties()
+props.load(new FileInputStream("$projectDir/../../connection.properties"))
+
 // set the dependencies for running the groovy script
 buildscript {
     repositories {
@@ -30,16 +33,39 @@ sourceSets {
     }
 }
 
-// task to run the groovy script
-task('Example', type: JavaExec) {
 
-    Properties props = new Properties()
-    props.load(new FileInputStream("$projectDir/../../connection.properties"))
+// task to run the groovy script
+task('Ls', type: JavaExec) {
 
     environment 'gateway', props.gateway
     environment 'username', props.username
     environment 'password', props.password
 
-    main = 'Example'
+    main = 'Ls'
     classpath = sourceSets.main.runtimeClasspath
+}
+task('Mkdir', type: JavaExec) {
+
+    environment 'gateway', props.gateway
+    environment 'username', props.username
+    environment 'password', props.password
+
+    main = 'Mkdir'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+task('Put', type: JavaExec) {
+
+    environment 'gateway', props.gateway
+    environment 'username', props.username
+    environment 'password', props.password
+
+    main = 'Put'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+task('Example') {
+
+    dependsOn Ls, Mkdir, Put
+
 }

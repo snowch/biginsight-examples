@@ -208,9 +208,7 @@ task baseTest(dependsOn: testSetup) << {
     println "Running base tests"
 
     [
-      'WebHdfsLs', 
-      'WebHdfsMkdir', 
-      'WebHdfsPut',
+      'WebHdfsGroovy',
       'WebHdfsCurl',
       'Hive',
       'HiveJava',
