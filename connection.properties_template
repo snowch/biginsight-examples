@@ -50,7 +50,16 @@ dashdb_push_jdbc_url:jdbc:db2://changeme:50001/BLUDB:user=dash6590;password=SPbO
 # Push to swift with Spark Example : Destination object store details
 ################################################################################
 
+# On bluemix see the Service Credentials section for these properties
+
+# this must be set to the project_id
 swift_push_project_id:changeme
+
+# this must be set to the userId on 
 swift_push_username:changeme
+
+# this must be set to the password
 swift_push_password:changeme
+
+# this must be set to the region
 swift_push_service_name:changeme
