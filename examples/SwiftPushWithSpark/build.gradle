@@ -1,0 +1,116 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
+    dependencies {
+        // uberjar
+        classpath 'com.github.jengelman.gradle.plugins:shadow:1.2.2'
+    }
+}
+
+plugins {
+  id 'org.hidetake.ssh' version '1.5.0'
+  id 'java'
+}
+
+// set the dependencies for compiling the groovy script and mapreduce classes
+repositories {
+    mavenCentral()
+    jcenter()
+}
+
+dependencies {
+    // the spark swift library
+    compile 'com.ibm.stocator:stocator:1.0.1'
+}
+
+
+Properties props = new Properties()
+props.load(new FileInputStream("$projectDir/../../connection.properties"))
+
+// extract BigInsights hostname from the gateway url
+def matcher = props.gateway =~ /^(https?:\/\/)([^:^\/]*)(:\d*)?(.*)?.*$/
+def hostname = matcher[0][2] 
+
+// libraries are downloaded from master-2
+def lib_hostname = hostname.replace('mastermanager', 'master-2')
+
+// temporary identifier for tables, folders, etc 
+def tmpId = "${new Date().getTime()}"
+
+// temporary folder name on cluster
+def tmpDir = "test-${tmpId}"
+
+// setup the connection details for ssh
+remotes {
+    bicluster {
+       host = hostname
+       user = props.username
+       password = props.password
+    }
+}
+
+ssh.settings {
+    if (props.known_hosts == 'allowAnyHosts') {
+        // disable ssh host key verification 
+        knownHosts = allowAnyHosts
+    }
+}
+
+task('clean') << {
+    delete './lib'
+}
+
+// create jar file with all dependencies
+task('SetupLibs', type: Jar) {
+    baseName = project.name + '-all'
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+}
+
+
+task('Example', dependsOn: SetupLibs) {
+
+    doLast {
+        
+        // ssh plugin documentation: https://gradle-ssh-plugin.github.io/docs/
+        
+        ssh.run {
+            session(remotes.bicluster) {
+
+                try {
+                    // initialise kerberos
+                    execute "kinit -k -t biadmin.keytab biadmin@IBM.COM"
+                } 
+                catch (Exception e) {
+                    println "problem running kinit - maybe this is a Basic cluster?"
+                }
+
+                // create temp local dir for holding sparkscript and jars
+                execute "mkdir ${tmpDir}"
+    
+                // upload spark script
+                put from: "${projectDir}/exporttoswift.py", into: "${tmpDir}/exporttoswift.py"
+                
+                put from: "${projectDir}/build/libs/SwiftPushWithSpark-all.jar", into: "${tmpDir}/SwiftPushWithSpark-all.jar"
+
+                def jars = "--jars \"${tmpDir}/SwiftPushWithSpark-all.jar\""
+
+                def proj_id   = props.swift_push_project_id
+                def username  = props.swift_push_username
+                def password  = props.swift_push_password
+                def service   = props.swift_push_service_name
+                def container = tmpId
+
+                // execute spark job
+                execute "pyspark ${jars} ${tmpDir}/exporttoswift.py '${proj_id}' '${username}' '${password}' '${service}' '${container}'"
+
+                // remove temporary local dir
+                execute "rm -rf ${tmpDir}"
+       
+                println "\nSUCCESS >> ******************** TODO **************"
+            }
+        }
+    }
+}
