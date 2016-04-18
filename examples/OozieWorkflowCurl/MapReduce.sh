@@ -129,7 +129,7 @@ curl -s -i -k -u ${username}:${password} -T LICENSE -X PUT ${LOCATION} | grep 'H
 ################################################################################
 # submit job
 
-JOB_ID=$(curl -s -k -u ${username}:${password} -H 'Content-Type:application/xml' -T workflow-configuration.xml -X POST "${gateway}/oozie/v1/jobs?action=start" | tr -d '\r' | sed -En 's/^{"id":"([^"]*)"}$/\1/p')
+JOB_ID=$(curl -s -k -u ${username}:${password} -H 'Content-Type:application/xml' -T workflow-configuration.xml -X POST "${gateway}/oozie/v1/jobs?action=start" | perl -pe 's|.*"id":"([^"]*?)".*|\1|')
 
 echo jobid: ${JOB_ID}
 
