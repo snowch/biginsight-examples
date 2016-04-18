@@ -42,6 +42,9 @@ def tmpId = "${new Date().getTime()}"
 // temporary folder name on cluster
 def tmpDir = "test-${tmpId}"
 
+// temporary hdfs dir
+def tmpHdfsDir = "/user/${props.username}/${tmpDir}"
+
 // setup the connection details for ssh
 remotes {
     bicluster {
@@ -89,13 +92,19 @@ task('Example', dependsOn: SetupLibs) {
 
                 // create temp local dir for holding sparkscript and jars
                 execute "mkdir ${tmpDir}"
-    
+
                 // upload spark script
                 put from: "${projectDir}/exporttoswift.py", into: "${tmpDir}/exporttoswift.py"
-                
+                put from: "${projectDir}/LICENSE", into: "${tmpDir}/LICENSE"
                 put from: "${projectDir}/build/libs/SwiftPushWithSpark-all.jar", into: "${tmpDir}/SwiftPushWithSpark-all.jar"
 
-                def jars = "--jars \"${tmpDir}/SwiftPushWithSpark-all.jar\""
+                // create temp hdfs folder for holding LICENSE file
+                execute "hadoop fs -mkdir ${tmpHdfsDir}"
+
+                // put LICENSE into hdfs
+                execute "hadoop fs -put ${tmpDir}/LICENSE ${tmpHdfsDir}/LICENSE"
+
+                def jars = "--jars ${tmpDir}/SwiftPushWithSpark-all.jar"
 
                 def proj_id   = props.swift_push_project_id
                 def username  = props.swift_push_username
@@ -104,7 +113,9 @@ task('Example', dependsOn: SetupLibs) {
                 def container = tmpId
 
                 // execute spark job
-                execute "pyspark ${jars} ${tmpDir}/exporttoswift.py '${proj_id}' '${username}' '${password}' '${service}' '${container}'"
+                execute "pyspark ${jars} ${tmpDir}/exporttoswift.py ${tmpHdfsDir}/LICENSE '${proj_id}' '${username}' '${password}' '${service}' '${container}'"
+                // remove temporary hdfs dir
+                execute "hadoop fs -rm -r ${tmpHdfsDir}"
 
                 // remove temporary local dir
                 execute "rm -rf ${tmpDir}"

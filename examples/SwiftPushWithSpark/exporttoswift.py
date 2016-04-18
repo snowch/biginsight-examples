@@ -22,21 +22,25 @@ import sys
 from operator import add
 
 from pyspark import SparkContext
+from pyspark.sql import SQLContext
 
 if __name__ == "__main__":
-    if len(sys.argv) != 6:
-        print("Usage: exporttoswift <project id> <username> <password> <service> <container>", file=sys.stderr)
+    if len(sys.argv) != 7:
+        print("Usage: exporttoswift <license file> <project id> <username> <password> <service> <container>", file=sys.stderr)
         exit(-1)
 
-    project_id   = sys.argv[1]
-    username     = sys.argv[2]
-    password     = sys.argv[3]
-    service_name = sys.argv[4]
-    container    = sys.argv[5]
+    license_filename = sys.argv[1]
+    project_id       = sys.argv[2]
+    username         = sys.argv[3]
+    password         = sys.argv[4]
+    service_name     = sys.argv[5]
+    container        = sys.argv[6]
 
     sc = SparkContext()
 
-    prefix = "fs.swift2d.service" + service_name
+    prefix = "fs.swift2d.service." + service_name
+
+    sc._jsc.hadoopConfiguration().set("fs.swift2d.impl","com.ibm.stocator.fs.ObjectStoreFileSystem")
 
     sc._jsc.hadoopConfiguration().set(prefix + ".auth.url","https://identity.open.softlayer.com/v3/auth/tokens")
     sc._jsc.hadoopConfiguration().set(prefix + ".public", "true")
@@ -46,7 +50,15 @@ if __name__ == "__main__":
     sc._jsc.hadoopConfiguration().set(prefix + ".auth.method", "keystoneV3")
     sc._jsc.hadoopConfiguration().set(prefix + ".region", "dallas")
 
-    distData = sc.parallelize([1,2,3,4,5])
-    distData.saveAsTextFile("swift2d://{0}.{1}/one1.txt".format(container, service_name))
+    sqlContext = SQLContext(sc)
+
+    # read file from HDFS
+    lines = sc.textFile(license_filename, 1)
+    counts = lines.flatMap(lambda x: x.split(' ')) \
+                  .map(lambda x: (x, 1)) \
+                  .reduceByKey(add) \
+                  .filter(lambda x: x[0].isalnum())
+
+    counts.saveAsTextFile("swift2d://{0}.{1}/counts.txt".format(container, service_name))
 
     sc.stop()
