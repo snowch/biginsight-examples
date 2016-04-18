@@ -51,19 +51,38 @@ task('SetupLibs') {
         // create a folder for the libraries
         mkdir("${projectDir}/lib")
 
-        // download jdbc drivers from the BigInsights cluster using SCP
-        ssh.run {
-            session(remotes.bicluster_libs) {
+        // Basic cluster has a defect meaning libraries aren't available
+        // to test dashdb on these clusters, copy the jars to the top level
+        // project's download directory
+        ['db2jcc.jar', 'db2jcc4.jar', 'db2jcc_license_cu.jar'].each { jar ->
+            if (file("${projectDir}/../../downloads/${jar}").exists() &&
+                !file("${projectDir}/lib/${jar}").exists()) 
+            {
+                copy{ 
+                    from("${projectDir}/../../downloads/${jar}")
+                    into("${projectDir}/lib/")
+                }
+            } 
+        }
 
-                get from: "/usr/ibmpacks/bigsql/4.1/db2/java/db2jcc.jar",
-                    into: "${projectDir}/lib/db2jcc.jar"
-                
-                get from: "/usr/ibmpacks/bigsql/4.1/db2/java/db2jcc4.jar",
-                    into: "${projectDir}/lib/db2jcc4.jar"
+        // TODO remove try/catch after Basic clusters have been fixed
+        try {
+            // download jdbc drivers from the BigInsights cluster using SCP
+            ssh.run {
+                session(remotes.bicluster_libs) {
 
-                get from: "/usr/ibmpacks/bigsql/4.1/db2/java/db2jcc_license_cu.jar",
-                    into: "${projectDir}/lib/db2jcc_license_cu.jar"
+                    get from: "/usr/ibmpacks/bigsql/4.1/db2/java/db2jcc.jar",
+                        into: "${projectDir}/lib/db2jcc.jar"
+                    
+                    get from: "/usr/ibmpacks/bigsql/4.1/db2/java/db2jcc4.jar",
+                        into: "${projectDir}/lib/db2jcc4.jar"
+
+                    get from: "/usr/ibmpacks/bigsql/4.1/db2/java/db2jcc_license_cu.jar",
+                        into: "${projectDir}/lib/db2jcc_license_cu.jar"
+                }
             }
+        } catch (Exception e) {
+            // ignore
         }
     }
 }

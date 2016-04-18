@@ -70,13 +70,32 @@ task('SetupLibs') {
         // create a folder for the libraries
         mkdir("${projectDir}/lib")
 
-        // download jdbc drivers from the BigInsights cluster using SCP
-        ssh.run {
-            session(remotes.bicluster_libs) {
-                jdbcjars.each { jar ->
-                    get from: "/usr/ibmpacks/bigsql/4.1/db2/java/${jar}", into: "${projectDir}/lib/${jar}"
+        // Basic cluster has a defect meaning libraries aren't available
+        // to test dashdb on these clusters, copy the jars to the top level
+        // project's download directory
+        jdbcjars.each { jar ->
+            if (file("${projectDir}/../../downloads/${jar}").exists() &&
+                !file("${projectDir}/lib/${jar}").exists()) 
+            {
+                copy{ 
+                    from("${projectDir}/../../downloads/${jar}")
+                    into("${projectDir}/lib/")
+                }
+            } 
+        }
+
+        // TODO: remove this try catch after basic clusters have been fixed
+        try {
+            // download jdbc drivers from the BigInsights cluster using SCP
+            ssh.run {
+                session(remotes.bicluster_libs) {
+                    jdbcjars.each { jar ->
+                        get from: "/usr/ibmpacks/bigsql/4.1/db2/java/${jar}", into: "${projectDir}/lib/${jar}"
+                    }
                 }
             }
+        } catch (Exception e) {
+            // ignore
         }
     }
 }
