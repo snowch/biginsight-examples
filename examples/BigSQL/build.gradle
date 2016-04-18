@@ -126,3 +126,19 @@ task('Example', type: JavaExec) {
     classpath = sourceSets.main.runtimeClasspath
 }
 
+// task to run the Example.groovy script
+task('ExampleInsertSelect', type: JavaExec) {
+
+    // if running this task with clean, ensure clean runs first
+    mustRunAfter clean 
+
+    dependsOn CreateTrustStore
+    dependsOn SetupLibs
+
+    environment 'hostname', hostname
+    environment 'username', props.username
+    environment 'password', props.password
+
+    main = 'ExampleInsertSelect'
+    classpath = sourceSets.main.runtimeClasspath
+}
