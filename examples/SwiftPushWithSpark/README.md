@@ -1,12 +1,12 @@
 #### Overview
 
-This example extends the [SparkPythonSsh](./SparkPythonSsh) example to upload the table of wordcounts to swift object store.
+This example extends the [SparkPythonSsh](./SparkPythonSsh) example to upload the table of wordcounts to swift object store using the [Stocator](https://github.com/SparkTC/stocator) spark library.
 
 
 *********************************************************************
 #### Instructions
 
-Make sure your connection.properties file has values set to point to the Cloudant account where you want the results saved:
+Make sure your connection.properties file has values set to point to the bluemix swift account where you want the results saved:
 
 ```
 # this must be set to the project_id
