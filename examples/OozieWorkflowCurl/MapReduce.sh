@@ -22,10 +22,12 @@ set -u
 # abort script if any commands return an error
 set -e
 
-# environment variables that are set by build.gradle for this script:
-#   ${gateway}
-#   ${username}
-#   ${password}
+# environment variables that are set by build.gradle for this script.
+# set the variables below to run this script standalone (without gradle)
+#
+#   gateway
+#   username
+#   password
 
 # our working folders
 DIR="/user/${username}/test-$(date +%s)"
