@@ -120,7 +120,7 @@ task('Example', dependsOn: SetupLibs) {
                 // remove temporary local dir
                 execute "rm -rf ${tmpDir}"
        
-                println "\nSUCCESS >> ******************** TODO **************"
+                println "\nSUCCESS >> test successful processing and uploading data to object store"
             }
         }
     }
