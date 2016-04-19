@@ -59,7 +59,7 @@ task('clean') << {
 
 // create jar file with all dependencies
 task('SetupLibs', type: Jar) {
-    baseName = project.name + '-all'
+    baseName = 'stocator-library-with-dependencies.jar'
     from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
     with jar
 }
@@ -96,7 +96,7 @@ task('ExamplePush', dependsOn: SetupLibs) {
                 // upload spark script
                 put from: "${projectDir}/exporttoswift.py", into: "${tmpDir}/exporttoswift.py"
                 put from: "${projectDir}/LICENSE", into: "${tmpDir}/LICENSE"
-                put from: "${projectDir}/build/libs/SwiftPushWithSpark-all.jar", into: "${tmpDir}/SwiftPushWithSpark-all.jar"
+                put from: "${projectDir}/build/libs/stocator-library-with-dependencies.jar", into: "${tmpDir}/stocator-library-with-dependencies.jar"
 
                 // create temp hdfs folder for holding LICENSE file
                 execute "hadoop fs -mkdir ${tmpHdfsDir}"
@@ -104,7 +104,7 @@ task('ExamplePush', dependsOn: SetupLibs) {
                 // put LICENSE into hdfs
                 execute "hadoop fs -put ${tmpDir}/LICENSE ${tmpHdfsDir}/LICENSE"
 
-                def jars = "--jars ${tmpDir}/SwiftPushWithSpark-all.jar"
+                def jars = "--jars ${tmpDir}/stocator-library-with-dependencies.jar"
 
                 def proj_id   = props.swift_push_project_id
                 def username  = props.swift_push_username
@@ -158,7 +158,7 @@ task('ExamplePull', dependsOn: SetupLibs) {
                 put from: "${projectDir}/exporttoswift.py", into: "${tmpDir}/exporttoswift.py"
                 put from: "${projectDir}/importfromswift.py", into: "${tmpDir}/importfromswift.py"
                 put from: "${projectDir}/LICENSE", into: "${tmpDir}/LICENSE"
-                put from: "${projectDir}/build/libs/SwiftPushWithSpark-all.jar", into: "${tmpDir}/SwiftPushWithSpark-all.jar"
+                put from: "${projectDir}/build/libs/stocator-library-with-dependencies.jar", into: "${tmpDir}/stocator-library-with-dependencies.jar"
 
                 // create temp hdfs folder for holding LICENSE file
                 execute "hadoop fs -mkdir ${tmpHdfsDir}"
@@ -166,7 +166,7 @@ task('ExamplePull', dependsOn: SetupLibs) {
                 // put LICENSE into hdfs
                 execute "hadoop fs -put ${tmpDir}/LICENSE ${tmpHdfsDir}/LICENSE"
 
-                def jars = "--jars ${tmpDir}/SwiftPushWithSpark-all.jar"
+                def jars = "--jars ${tmpDir}/stocator-library-with-dependencies.jar"
 
                 def proj_id   = props.swift_push_project_id
                 def username  = props.swift_push_username
