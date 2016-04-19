@@ -106,14 +106,16 @@ task('ExamplePush', dependsOn: SetupLibs) {
 
                 def jars = "--jars ${tmpDir}/stocator-library-with-dependencies.jar"
 
-                def proj_id   = props.swift_push_project_id
-                def username  = props.swift_push_username
-                def password  = props.swift_push_password
-                def service   = props.swift_push_service_name
-                def container = tmpId
+                def os_auth_url    = props.objectstore_auth_url
+                def os_tenant      = props.objectstore_tenant
+                def os_username    = props.objectstore_username
+                def os_password    = props. objectstore_password
+                def os_region      = props.objectstore_region
+                def os_auth_method = props.objectstore_auth_method
+                def os_container   = tmpId
 
                 // execute spark job
-                execute "pyspark ${jars} ${tmpDir}/exporttoswift.py ${tmpHdfsDir}/LICENSE '${proj_id}' '${username}' '${password}' '${service}' '${container}'"
+                execute "pyspark ${jars} ${tmpDir}/exporttoswift.py ${tmpHdfsDir}/LICENSE '${os_auth_url}' '${os_tenant}' '${os_username}' '${os_password}' '${os_region}' '${os_auth_method}' '${os_container}'"
                 // remove temporary hdfs dir
                 execute "hadoop fs -rm -r ${tmpHdfsDir}"
 
@@ -168,20 +170,22 @@ task('ExamplePull', dependsOn: SetupLibs) {
 
                 def jars = "--jars ${tmpDir}/stocator-library-with-dependencies.jar"
 
-                def proj_id   = props.swift_push_project_id
-                def username  = props.swift_push_username
-                def password  = props.swift_push_password
-                def service   = props.swift_push_service_name
-                def container = tmpId
+                def os_auth_url    = props.objectstore_auth_url
+                def os_tenant      = props.objectstore_tenant
+                def os_username    = props.objectstore_username
+                def os_password    = props. objectstore_password
+                def os_region      = props.objectstore_region
+                def os_auth_method = props.objectstore_auth_method
+                def os_container   = tmpId
 
                 // execute spark job to export from hdfs to swift
-                execute "pyspark ${jars} ${tmpDir}/exporttoswift.py ${tmpHdfsDir}/LICENSE '${proj_id}' '${username}' '${password}' '${service}' '${container}'"
+                execute "pyspark ${jars} ${tmpDir}/exporttoswift.py ${tmpHdfsDir}/LICENSE '${os_auth_url}' '${os_tenant}' '${os_username}' '${os_password}' '${os_region}' '${os_auth_method}' '${os_container}'"
                 
                 // clean up temporary hdfs dir - we will import the files from swift to here
                 execute "hadoop fs -rm -r ${tmpHdfsDir}"
 
                 // execute spark job to import from swift to hdfs
-                execute "pyspark ${jars} ${tmpDir}/importfromswift.py ${tmpHdfsDir} '${proj_id}' '${username}' '${password}' '${service}' '${container}'"
+                execute "pyspark ${jars} ${tmpDir}/importfromswift.py ${tmpHdfsDir} '${os_auth_url}' '${os_tenant}' '${os_username}' '${os_password}' '${os_region}' '${os_auth_method}' '${os_container}'"
 
                 // print contents of files imported from swift
                 execute "hadoop fs -ls ${tmpHdfsDir}/"

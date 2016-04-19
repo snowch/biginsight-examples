@@ -25,30 +25,32 @@ from pyspark import SparkContext
 from pyspark.sql import SQLContext
 
 if __name__ == "__main__":
-    if len(sys.argv) != 7:
-        print("Usage: exporttoswift <license file> <project id> <username> <password> <service> <container>", file=sys.stderr)
+    if len(sys.argv) != 9:
+        print("Usage: exporttoswift <license file> <auth url> <tenant> <username> <password> <region> <auth method> <container>", file=sys.stderr)
         exit(-1)
 
     license_filename = sys.argv[1]
-    project_id       = sys.argv[2]
-    username         = sys.argv[3]
-    password         = sys.argv[4]
-    service_name     = sys.argv[5]
-    container        = sys.argv[6]
+    os_auth_url      = sys.argv[2]
+    os_tenant        = sys.argv[3]
+    os_username      = sys.argv[4]
+    os_password      = sys.argv[5]
+    os_region        = sys.argv[6]
+    os_auth_method   = sys.argv[7]
+    os_container     = sys.argv[8]
 
     sc = SparkContext()
 
-    prefix = "fs.swift2d.service." + service_name
+    prefix = "fs.swift2d.service." + os_region
 
     sc._jsc.hadoopConfiguration().set("fs.swift2d.impl","com.ibm.stocator.fs.ObjectStoreFileSystem")
 
-    sc._jsc.hadoopConfiguration().set(prefix + ".auth.url",     "https://identity.open.softlayer.com/v3/auth/tokens")
+    sc._jsc.hadoopConfiguration().set(prefix + ".auth.url",     os_auth_url)
     sc._jsc.hadoopConfiguration().set(prefix + ".public",       "true")
-    sc._jsc.hadoopConfiguration().set(prefix + ".tenant",       project_id)
-    sc._jsc.hadoopConfiguration().set(prefix + ".password",     password)
-    sc._jsc.hadoopConfiguration().set(prefix + ".username",     username)
-    sc._jsc.hadoopConfiguration().set(prefix + ".auth.method", "keystoneV3")
-    sc._jsc.hadoopConfiguration().set(prefix + ".region",      "dallas")
+    sc._jsc.hadoopConfiguration().set(prefix + ".tenant",       os_tenant)
+    sc._jsc.hadoopConfiguration().set(prefix + ".username",     os_username)
+    sc._jsc.hadoopConfiguration().set(prefix + ".password",     os_password)
+    sc._jsc.hadoopConfiguration().set(prefix + ".auth.method",  os_auth_method)
+    sc._jsc.hadoopConfiguration().set(prefix + ".region",       os_region)
 
     sqlContext = SQLContext(sc)
 
@@ -63,7 +65,7 @@ if __name__ == "__main__":
     hhdf = sqlContext.createDataFrame(counts,['letter', 'count'])
 
     # destination url
-    swift_file_url = "swift2d://{0}.{1}/counts".format(container, service_name)
+    swift_file_url = "swift2d://{0}.{1}/counts".format(os_container, os_region)
 
     # save to swift
     counts.saveAsTextFile(swift_file_url)

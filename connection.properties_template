@@ -55,19 +55,41 @@ dashdb_pull_jdbc_url:jdbc:db2://changeme:50001/BLUDB:user=changeme;password=chan
 dashdb_push_jdbc_url:jdbc:db2://changeme:50001/BLUDB:user=dash6590;password=SPbOJTC8wVhm;sslConnection=true;
 
 ################################################################################
-# Push to swift with Spark Example : Destination object store details
+# Spark Object Store Integration Example : object store details
 ################################################################################
 
-# On bluemix see the Service Credentials section for these properties
+### auth url ###
 
-# this must be set to the project_id
-swift_push_project_id:changeme
+# SoftLayer Dallas    > E.g. https://dal05.objectstorage.softlayer.net/auth/v1.0/
+# Bluemix Keystone V3 > https://identity.open.softlayer.com/v3/auth/tokens
+objectstore_auth_url:https://identity.open.softlayer.com/v3/auth/tokens
 
-# this must be set to the userId on 
-swift_push_username:changeme
+### tenant ###
 
-# this must be set to the password
-swift_push_password:changeme
+# Bluemix Keystone V3 > use project_id
+objectstore_tenant:changeme
 
-# this must be set to the region
-swift_push_service_name:changeme
+### username ###
+
+# SoftLayer Dallas    > username 
+# Bluemix Keystone V3 > user_id
+objectstore_username:changeme
+
+### password ###
+
+# SoftLayer Dallas    > API key
+# Bluemix Keystone V3 > Password
+objectstore_password:changeme
+
+### region ###
+
+# SoftLayer Dallas    > E.g. dal05
+# Bluemix Keystone V3 > dallas
+objectstore_region:dallas
+
+### auth method ###
+
+# SoftLayer Dallas    > swiftauth
+# Bluemix Keystone V3 > keystoneV3
+objectstore_auth_method:keystoneV3
+

@@ -13,17 +13,41 @@ The [build.gradle](./build.gradle) script contains two main tasks for the above 
 Make sure your connection.properties file has values set to point to the bluemix swift account where you want the results saved:
 
 ```
-# this must be set to the project_id
-swift_push_project_id:changeme
+### auth url ###
 
-# this must be set to the userId on
-swift_push_username:changeme
+# SoftLayer Dallas    > E.g. https://dal05.objectstorage.softlayer.net/auth/v1.0/
+# Bluemix Keystone V3 > https://identity.open.softlayer.com/v3/auth/tokens
+objectstore_auth_url:https://identity.open.softlayer.com/v3/auth/tokens
 
-# this must be set to the password
-swift_push_password:changeme
+### tenant ###
 
-# this must be set to the region
-swift_push_service_name:changeme
+# Bluemix Keystone V3 > use project_id
+objectstore_tenant:changeme
+
+### username ###
+
+# SoftLayer Dallas    > username
+# Bluemix Keystone V3 > user_id
+objectstore_username:changeme
+
+### password ###
+
+# SoftLayer Dallas    > API key
+# Bluemix Keystone V3 > Password
+objectstore_password:changeme
+
+### region ###
+
+# SoftLayer Dallas    > E.g. dal05
+# Bluemix Keystone V3 > dallas
+objectstore_region:dallas
+
+### auth method ###
+
+# SoftLayer Dallas    > swiftauth
+# Bluemix Keystone V3 > keystoneV3
+objectstore_auth_method:keystoneV3
+
 ```
 
 See the [setup instructions](https://github.com/snowch/biginsight-examples) for more information on creating the connection.propertie file.
