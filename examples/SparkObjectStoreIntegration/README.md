@@ -32,13 +32,15 @@ Run this example by changing into the current directory then executing:
 - on *nix using:
 
 ```
-../../gradlew Example
+../../gradlew ExamplePush
+../../gradlew ExamplePull
 ```
 
 - on Windows using:
 
 ```
-../../gradlew.bat Example
+../../gradlew.bat ExamplePush
+../../gradlew.bat ExamplePull
 ```
 
 *********************************************************************
@@ -46,5 +48,6 @@ Run this example by changing into the current directory then executing:
 Note: you can run this script from the top level project folder using the gradle `-p` argument:
 
 ```
-./gradlew -p examples/SwiftPushWithSpark Example
+./gradlew -p examples/SwiftPushWithSpark ExamplePush
+./gradlew -p examples/SwiftPushWithSpark ExamplePull
 ```
