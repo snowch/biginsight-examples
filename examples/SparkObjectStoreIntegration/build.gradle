@@ -59,7 +59,7 @@ task('clean') << {
 
 // create jar file with all dependencies
 task('SetupLibs', type: Jar) {
-    baseName = 'stocator-library-with-dependencies.jar'
+    baseName = 'stocator-library-with-dependencies'
     from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
     with jar
 }
