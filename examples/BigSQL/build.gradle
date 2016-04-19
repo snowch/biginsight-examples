@@ -5,6 +5,7 @@ buildscript {
     }
     dependencies {
         classpath 'org.codehaus.groovy:groovy-all:2.0.5'
+        classpath 'org.apache.knox:gateway-shell:0.8.0'
     }
 }
 
@@ -47,6 +48,7 @@ repositories {
 
 dependencies {
     compile 'org.codehaus.groovy:groovy-all:2.0.5'
+    compile 'org.apache.knox:gateway-shell:0.8.0'
     // include the bigsql jar files
     runtime fileTree(dir: 'lib', include: '*.jar')
 }
@@ -126,8 +128,8 @@ task('Example', type: JavaExec) {
     classpath = sourceSets.main.runtimeClasspath
 }
 
-// task to run the Example.groovy script
-task('ExampleInsertSelect', type: JavaExec) {
+// task to run the ExampleInsert.groovy script
+task('ExampleInsert', type: JavaExec) {
 
     // if running this task with clean, ensure clean runs first
     mustRunAfter clean 
@@ -139,6 +141,24 @@ task('ExampleInsertSelect', type: JavaExec) {
     environment 'username', props.username
     environment 'password', props.password
 
-    main = 'ExampleInsertSelect'
+    main = 'ExampleInsert'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+// task to run the ExampleInsert.groovy script
+task('ExampleLoad', type: JavaExec) {
+
+    // if running this task with clean, ensure clean runs first
+    mustRunAfter clean 
+
+    dependsOn CreateTrustStore
+    dependsOn SetupLibs
+
+    environment 'hostname', hostname
+    environment 'gateway', props.gateway
+    environment 'username', props.username
+    environment 'password', props.password
+
+    main = 'ExampleLoad'
     classpath = sourceSets.main.runtimeClasspath
 }
