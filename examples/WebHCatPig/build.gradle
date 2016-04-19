@@ -64,7 +64,7 @@ task('Example', type: JavaExec) {
         session(remotes.bicluster) {
             try {
                 // initialise kerberos
-                execute "kinit -k -t biadmin.keytab biadmin@IBM.COM"
+                execute "kinit -k -t ${props.username}.keytab ${props.username}@IBM.COM"
             } 
             catch (Exception e) {
                 println "problem running kinit - maybe this is a Basic cluster?"
