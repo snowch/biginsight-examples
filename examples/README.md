@@ -18,6 +18,12 @@ See the README file in each project for instructions how to run the example.
 
 *********************************************************************
 
+#### Ambari
+
+- Get cluster name and then services installed on cluster [[Ambari](./Ambari)]
+
+*********************************************************************
+
 #### BigR 
 
 - Connect to BigR (requires R installed locally) [[BigR](./BigR)]

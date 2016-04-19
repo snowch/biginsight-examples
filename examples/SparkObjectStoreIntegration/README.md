@@ -12,7 +12,7 @@ The [build.gradle](./build.gradle) script contains two main tasks for the above 
 
 Make sure your connection.properties file has values set to point to the bluemix swift account where you want the results saved:
 
-```
+```bash
 ### auth url ###
 
 # SoftLayer Dallas    > E.g. https://dal05.objectstorage.softlayer.net/auth/v1.0/
