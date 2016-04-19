@@ -85,8 +85,8 @@ See the README file in each project for instructions how to run the example.
 
 #### Object Store (Swift, S3)
 
-- Pull data from a object store to HDFS using Spark (coming soon)
-- Push data from HDFS to a object store using Spark [[SwiftPushWithSpark](./SwiftPushWithSpark)]
+- Pull data from a object store to HDFS using Spark [[SparkObjectStoreIntegration](./SparkObjectStoreIntegration)]
+- Push data from HDFS to a object store using Spark [[SparkObjectStoreIntegration](./SparkObjectStoreIntegration)]
 
 *********************************************************************
 

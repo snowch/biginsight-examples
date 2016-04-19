@@ -263,7 +263,7 @@ task baseTest(dependsOn: testSetup) << {
       'HiveJava':['HIVE'],
       'SparkPythonSsh':['SPARK'],
       'SparkStreamingPythonSsh':['SPARK'],
-      'SwiftPushWithSpark':['SPARK'],
+      'SparkObjectStoreIntegration':['SPARK'],
       'CloudantPullWithSpark':['SPARK'],
       'CloudantPushWithSpark':['SPARK'],
       'DashDBPullWithSpark':['SPARK'],

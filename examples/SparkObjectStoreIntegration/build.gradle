@@ -36,14 +36,6 @@ def hostname = matcher[0][2]
 // libraries are downloaded from master-2
 def lib_hostname = hostname.replace('mastermanager', 'master-2')
 
-// temporary identifier for tables, folders, etc 
-def tmpId = "${new Date().getTime()}"
-
-// temporary folder name on cluster
-def tmpDir = "test-${tmpId}"
-
-// temporary hdfs dir
-def tmpHdfsDir = "/user/${props.username}/${tmpDir}"
 
 // setup the connection details for ssh
 remotes {
@@ -73,12 +65,20 @@ task('SetupLibs', type: Jar) {
 }
 
 
-task('Example', dependsOn: SetupLibs) {
+task('ExamplePush', dependsOn: SetupLibs) {
 
     doLast {
         
+        // temporary identifier for tables, folders, etc 
+        def tmpId = "${new Date().getTime()}"
+
+        // temporary folder name on cluster
+        def tmpDir = "test-${tmpId}"
+
+        // temporary hdfs dir
+        def tmpHdfsDir = "/user/${props.username}/${tmpDir}"
+
         // ssh plugin documentation: https://gradle-ssh-plugin.github.io/docs/
-        
         ssh.run {
             session(remotes.bicluster) {
 
@@ -124,4 +124,80 @@ task('Example', dependsOn: SetupLibs) {
             }
         }
     }
+}
+
+task('ExamplePull', dependsOn: SetupLibs) {
+
+    doLast {
+        
+        // temporary identifier for tables, folders, etc 
+        def tmpId = "${new Date().getTime()}"
+
+        // temporary folder name on cluster
+        def tmpDir = "test-${tmpId}"
+
+        // temporary hdfs dir
+        def tmpHdfsDir = "/user/${props.username}/${tmpDir}"
+
+        // ssh plugin documentation: https://gradle-ssh-plugin.github.io/docs/
+        ssh.run {
+            session(remotes.bicluster) {
+
+                try {
+                    // initialise kerberos
+                    execute "kinit -k -t ${props.username}.keytab ${props.username}@IBM.COM"
+                } 
+                catch (Exception e) {
+                    println "problem running kinit - maybe this is a Basic cluster?"
+                }
+
+                // create temp local dir for holding sparkscript and jars
+                execute "mkdir ${tmpDir}"
+
+                // upload spark script
+                put from: "${projectDir}/exporttoswift.py", into: "${tmpDir}/exporttoswift.py"
+                put from: "${projectDir}/importfromswift.py", into: "${tmpDir}/importfromswift.py"
+                put from: "${projectDir}/LICENSE", into: "${tmpDir}/LICENSE"
+                put from: "${projectDir}/build/libs/SwiftPushWithSpark-all.jar", into: "${tmpDir}/SwiftPushWithSpark-all.jar"
+
+                // create temp hdfs folder for holding LICENSE file
+                execute "hadoop fs -mkdir ${tmpHdfsDir}"
+
+                // put LICENSE into hdfs
+                execute "hadoop fs -put ${tmpDir}/LICENSE ${tmpHdfsDir}/LICENSE"
+
+                def jars = "--jars ${tmpDir}/SwiftPushWithSpark-all.jar"
+
+                def proj_id   = props.swift_push_project_id
+                def username  = props.swift_push_username
+                def password  = props.swift_push_password
+                def service   = props.swift_push_service_name
+                def container = tmpId
+
+                // execute spark job to export from hdfs to swift
+                execute "pyspark ${jars} ${tmpDir}/exporttoswift.py ${tmpHdfsDir}/LICENSE '${proj_id}' '${username}' '${password}' '${service}' '${container}'"
+                
+                // clean up temporary hdfs dir - we will import the files from swift to here
+                execute "hadoop fs -rm -r ${tmpHdfsDir}"
+                execute "hadoop fs -mkdir ${tmpHdfsDir}"
+
+                // execute spark job to import from swift to hdfs
+                execute "pyspark ${jars} ${tmpDir}/importfromswift.py ${tmpHdfsDir} '${proj_id}' '${username}' '${password}' '${service}' '${container}'"
+
+                // print contents of files imported from swift
+                //execute "hadoop fs -cat ${tmpHdfsDir}/*"
+
+                // remove temporary hdfs dir
+                execute "hadoop fs -rm -r ${tmpHdfsDir}"
+
+                // remove temporary local dir
+                execute "rm -rf ${tmpDir}"
+       
+                println "\nSUCCESS >> test successful importing data from object store"
+            }
+        }
+    }
+}
+task('Example') {
+    dependsOn ExamplePush, ExamplePull
 }
