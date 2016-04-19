@@ -15,6 +15,8 @@
 # limitations under the License.
 #
 
+import sys
+
 from pyspark import SparkContext
 from pyspark.sql import SQLContext
 
@@ -46,7 +48,11 @@ if __name__ == "__main__":
 
     sqlContext = SQLContext(sc)
     
-    # This script loads the data that was uploaded to object store using the script ./exporttoswift.py
+    # This script loads the data that was uploaded to object store using the script ./exporttoswift.py, e.g.
+    
+    # counts	                                              04/18/2016 8:21 PM	0 KB
+	# counts/_SUCCESS                                         04/18/2016 8:21 PM	0 KB
+	# counts/part-00000-attempt_201604181921_0003_m_000000_2  04/18/2016 8:21 PM	6 KB
 
     # ???? what goes here ?????
 
