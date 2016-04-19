@@ -9,14 +9,17 @@
 gateway:https://changeme:8443/gateway/default
 
 ###### cluster credentials ######
-#
+
 # E.g. biadmin
 username:changeme
-
 password:changeme
 
-# Ambari URL should be following format: https://host:port/
-ambariUrl:changeme
+###### ambari credentials ######
+
+# the ambari host is usually the same as the gateway
+ambariUrl:https://changeme:9443/api
+
+# E.g. biadmin
 ambariUsername:changeme
 ambariPassword:changeme
 

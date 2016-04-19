@@ -1,6 +1,9 @@
 import static org.gradle.testkit.runner.TaskOutcome.*
 import com.jcraft.jsch.JSchException
 import javax.net.ssl.*
+import groovyx.net.http.RESTClient
+import groovy.json.JsonSlurper
+
 
 buildscript {
     repositories {
@@ -9,6 +12,7 @@ buildscript {
     dependencies {
         classpath 'org.codehaus.groovy:groovy-all:2.0.5'
         classpath 'jline:jline:2.12'
+        classpath 'org.codehaus.groovy.modules.http-builder:http-builder:0.7.1'
         classpath gradleTestKit()
     }
 }
@@ -166,35 +170,80 @@ task('ClusterDetails') {
 
 // methods and tasks to test (build) example projects
 
-def buildProject(proj) {
+task('QueryAmbariServices') {
 
-        try {
-            GradleRunner.create()
-                    .withProjectDir(file("./examples/${proj}/"))
-                    .withArguments('clean')
-                    .build()
-        } catch (Exception e) {
-            // noop - some projects don't have clean tasks
+    def ambariUrl =  props.ambariUrl
+    def ambariUser = props.ambariUsername
+    def ambariPassword = props.ambariPassword
+
+    def client = new RESTClient( ambariUrl )
+    client.ignoreSSLIssues()
+
+    client.headers['Authorization'] = 'Basic ' + "$ambariUser:$ambariPassword".getBytes('iso-8859-1').encodeBase64()
+    client.headers['X-Requested-By'] = 'ambari'
+
+    // Make REST call to get clusters
+    def resp = client.get( path : 'api/v1/clusters' )
+
+    assert resp.status == 200  // HTTP response code; 404 means not found, etc.
+
+    // Parse output to JSON
+    def jsonSlurper = new JsonSlurper()
+    def object = jsonSlurper.parseText(resp.data.text)
+
+    // Get Cluster Name
+    def clusterName = object.items.Clusters[0].cluster_name
+
+    // Make REST to get services
+    def respServices = client.get( path : 'api/v1/clusters/' + clusterName + '/services' )
+
+    assert respServices.status == 200  // HTTP response code; 404 means not found, etc.
+
+    // Get services
+    def object_services = jsonSlurper.parseText(respServices.data.text)
+
+    def object_service_list = []
+    object_services.items.eachWithIndex { serviceName,  index ->
+        object_service_list << serviceName.ServiceInfo.service_name
+    } 
+
+    project.ext.set('ambari_services',  object_service_list)
+}
+
+
+def buildProject(proj, services=[]) {
+
+        if (!project.ext.get('ambari_services').containsAll(services)) {
+            println "Test skipped ./examples/${proj} [Required service(s) '${services.join(', ')}' not installed]"
+        } else {
+            try {
+                GradleRunner.create()
+                        .withProjectDir(file("./examples/${proj}/"))
+                        .withArguments('clean')
+                        .build()
+            } catch (Exception e) {
+                // noop - some projects don't have clean tasks
+            }
+
+            try {
+                FileWriter writer = new FileWriter("build/test/${proj}.txt")
+
+                GradleRunner.create()
+                        .withProjectDir(file("./examples/${proj}/"))
+                        .forwardStdError(writer)
+                        .forwardStdOutput(writer)
+                        .withArguments(['Example', '-PdebugExample'])
+                        .build()
+
+                writer.close()
+
+            } catch (Exception e) { 
+                println "Test failed  ./examples/${proj}"
+                return
+            }
+
+            println "Test passed  ./examples/${proj}"
         }
-
-        try {
-            FileWriter writer = new FileWriter("build/test/${proj}.txt")
-
-            GradleRunner.create()
-                    .withProjectDir(file("./examples/${proj}/"))
-                    .forwardStdError(writer)
-                    .forwardStdOutput(writer)
-                    .withArguments(['Example', '-PdebugExample'])
-                    .build()
-
-            writer.close()
-
-        } catch (Exception e) { 
-            println "Test failed  ./examples/${proj}"
-            return
-        }
-
-        println "Test passed  ./examples/${proj}"
 }
 
 task testSetup(dependsOn: verifyConfig) {
@@ -208,33 +257,35 @@ task baseTest(dependsOn: testSetup) << {
     println "Running base tests"
 
     [
-      'WebHdfsGroovy',
-      'WebHdfsCurl',
-      'HiveGroovy',
-      'HiveJava',
-      'SparkPythonSsh',
-      'SparkStreamingPythonSsh',
-      'SwiftPushWithSpark',
-      'CloudantPullWithSpark',
-      'CloudantPushWithSpark',
-      'DashDBPullWithSpark',
-      'DashDBPushWithSpark',
-      'OozieWorkflowMapReduce',
-      'OozieWorkflowSpark',
-      'OozieWorkflowCurl',
-      'WebHCatMapReduce',
-      'WebHCatPig',
-      'WebHCatHive',
-      'HBase',
-      'HBaseJava',
-      'HBaseManipulateSchemaAndPerformCRUD',
-    ].each() { proj -> buildProject(proj) }
+      'WebHdfsGroovy':['KNOX'],
+      'WebHdfsCurl':['KNOX'],
+      'HiveGroovy':['HIVE'],
+      'HiveJava':['HIVE'],
+      'SparkPythonSsh':['SPARK'],
+      'SparkStreamingPythonSsh':['SPARK'],
+      'SwiftPushWithSpark':['SPARK'],
+      'CloudantPullWithSpark':['SPARK'],
+      'CloudantPushWithSpark':['SPARK'],
+      'DashDBPullWithSpark':['SPARK'],
+      'DashDBPushWithSpark':['SPARK'],
+      'OozieWorkflowMapReduce':['KNOX', 'OOZIE', 'MAPREDUCE2'],
+      'OozieWorkflowSpark':['KNOX', 'OOZIE', 'SPARK'],
+      'OozieWorkflowCurl':['KNOX', 'OOZIE', 'MAPREDUCE2'],
+      'WebHCatMapReduce':['KNOX', 'MAPREDUCE2'],
+      'WebHCatPig':['KNOX', 'PIG'],
+      'WebHCatHive':['KNOX', 'HIVE'],
+      'HBase':['KNOX', 'HBASE'],
+      'HBaseJava':['KNOX', 'HBASE'],
+      'HBaseManipulateSchemaAndPerformCRUD':['KNOX', 'HBASE'],
+    ]
+    .each() { proj, service -> buildProject(proj, service) }
 
     // These examples are interactive so aren't easy to automate
     [
       'HiveBeeline',
       'Knoxshell',
-    ].each() { 
+    ]
+    .each() { 
         println "Test skipped ./examples/${it} [interactive examples are not tested]"
     }
    
@@ -244,7 +295,8 @@ task baseTest(dependsOn: testSetup) << {
       'Sqoop',
       'Solr',
       'Kafka',
-    ].each() { 
+    ]
+    .each() { 
         println "Test skipped ./examples/${it} [example not implemented due to known issue with BIoC clusters]"
     }
 }
@@ -255,10 +307,11 @@ task xTest(dependsOn: baseTest) << {
     println "Running BigX tests"
 
     [
-      'BigR', 
-      'BigSQL', 
-      'BigSQLJava',
-    ].each() { proj -> buildProject(proj) }
+      'BigR':['BIGR'], 
+      'BigSQL':['BIGSQL'], 
+      'BigSQLJava':['BIGSQL'],
+    ]
+    .each() { proj, service -> buildProject(proj, service) }
 }
 
 task test(dependsOn: xTest) << {
