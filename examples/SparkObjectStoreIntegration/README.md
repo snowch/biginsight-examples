@@ -76,3 +76,9 @@ Note: you can run this script from the top level project folder using the gradle
 ./gradlew -p examples/SwiftPushWithSpark ExamplePush
 ./gradlew -p examples/SwiftPushWithSpark ExamplePull
 ```
+
+*********************************************************************
+
+#### Known Issues
+
+See https://github.com/snowch/biginsight-examples/issues/31
