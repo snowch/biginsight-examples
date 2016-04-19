@@ -1,9 +1,17 @@
+import org.apache.hadoop.conf.Configuration
+import org.apache.hadoop.fs.FileSystem
+import org.apache.hadoop.fs.Path
+import org.apache.hadoop.fs.RemoteIterator
+
 buildscript {
     repositories {
         mavenCentral()
         jcenter()
     }
     dependencies {
+        classpath 'com.ibm.stocator:stocator:1.0.1'
+        classpath 'org.apache.hadoop:hadoop-mapreduce-client-core:2.2.0'
+        classpath 'org.apache.hadoop:hadoop-common:2.2.0'
         // uberjar
         classpath 'com.github.jengelman.gradle.plugins:shadow:1.2.2'
     }
@@ -64,6 +72,40 @@ task('SetupLibs', type: Jar) {
     with jar
 }
 
+def deleteContainer(os_auth_url, os_tenant, os_username, os_password, os_region, os_auth_method, os_container_name) {
+
+    def mConf = new Configuration(true)
+
+    mConf.set("fs.swift2d.impl","com.ibm.stocator.fs.ObjectStoreFileSystem")
+
+    def prefix = "fs.swift2d.service." + os_region
+
+    mConf.set(prefix + ".auth.url",     os_auth_url)
+    mConf.set(prefix + ".public",       "true")
+    mConf.set(prefix + ".tenant",       os_tenant)
+    mConf.set(prefix + ".username",     os_username)
+    mConf.set(prefix + ".password",     os_password)
+    mConf.set(prefix + ".auth.method",  os_auth_method)
+    mConf.set(prefix + ".region",       os_region)
+
+    def publicURL = "swift2d://${os_container_name}.${os_region}"
+
+    def path = new Path("${publicURL}/counts")
+
+    def fs = org.apache.hadoop.fs.FileSystem.get(URI.create(publicURL), mConf)
+
+    println "Attempting to delete ${path}"
+
+    // FIXME: Files are deleted, but the container isn't - we want to delete the container as well
+    // See: https://github.com/snowch/biginsight-examples/issues/30
+
+    def deleted = fs.delete(path)
+
+    if (!deleted) {
+        throw new GradleException("Unable to delete ${path}")
+    }
+}
+
 
 task('ExamplePush', dependsOn: SetupLibs) {
 
@@ -109,19 +151,23 @@ task('ExamplePush', dependsOn: SetupLibs) {
                 def os_auth_url    = props.objectstore_auth_url
                 def os_tenant      = props.objectstore_tenant
                 def os_username    = props.objectstore_username
-                def os_password    = props. objectstore_password
+                def os_password    = props.objectstore_password
                 def os_region      = props.objectstore_region
                 def os_auth_method = props.objectstore_auth_method
                 def os_container   = tmpId
-
+ 
                 // execute spark job
                 execute "pyspark ${jars} ${tmpDir}/exporttoswift.py ${tmpHdfsDir}/LICENSE '${os_auth_url}' '${os_tenant}' '${os_username}' '${os_password}' '${os_region}' '${os_auth_method}' '${os_container}'"
+
                 // remove temporary hdfs dir
                 execute "hadoop fs -rm -r ${tmpHdfsDir}"
 
                 // remove temporary local dir
                 execute "rm -rf ${tmpDir}"
-       
+
+                // delete container       
+                project.deleteContainer(os_auth_url, os_tenant, os_username, os_password, os_region, os_auth_method, os_container)
+
                 println "\nSUCCESS >> test successful processing and uploading data to object store"
             }
         }
@@ -173,7 +219,7 @@ task('ExamplePull', dependsOn: SetupLibs) {
                 def os_auth_url    = props.objectstore_auth_url
                 def os_tenant      = props.objectstore_tenant
                 def os_username    = props.objectstore_username
-                def os_password    = props. objectstore_password
+                def os_password    = props.objectstore_password
                 def os_region      = props.objectstore_region
                 def os_auth_method = props.objectstore_auth_method
                 def os_container   = tmpId
@@ -197,6 +243,9 @@ task('ExamplePull', dependsOn: SetupLibs) {
                 // remove temporary local dir
                 execute "rm -rf ${tmpDir}"
        
+                // delete container       
+                project.deleteContainer(os_auth_url, os_tenant, os_username, os_password, os_region, os_auth_method, os_container)
+
                 println "\nSUCCESS >> test successful importing data from object store"
             }
         }
