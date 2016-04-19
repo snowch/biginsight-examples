@@ -65,10 +65,6 @@ if __name__ == "__main__":
     # destination url
     swift_file_url = "swift2d://{0}.{1}/counts".format(container, service_name)
 
-    print('*' * 80)
-    print(swift_file_url)
-    print('*' * 80)
-
     # save to swift
     counts.saveAsTextFile(swift_file_url)
 
