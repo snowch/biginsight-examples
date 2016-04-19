@@ -1,10 +1,11 @@
 #### Overview
 
-This example extends the [SparkPythonSsh](./SparkPythonSsh) example with two further examples using Spark and the  [Stocator](https://github.com/SparkTC/stocator) spark library to:
+This example extends the [SparkPythonSsh](../SparkPythonSsh) example with two further examples using Spark and the  [Stocator](https://github.com/SparkTC/stocator) spark library to:
 
 - upload the table of wordcounts from the LICENSE file to an object store container
 - download the wordcounts in an object store container to HDFS
 
+The [build.gradle](./build.gradle) script contains two main tasks for the above behavior, with task names 'ExamplePush' and 'ExamplePull'.  Inspect these tasks for details.
 
 *********************************************************************
 #### Instructions
