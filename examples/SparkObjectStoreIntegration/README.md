@@ -1,6 +1,9 @@
 #### Overview
 
-This example extends the [SparkPythonSsh](./SparkPythonSsh) example to upload the table of wordcounts to swift object store using the [Stocator](https://github.com/SparkTC/stocator) spark library.
+This example extends the [SparkPythonSsh](./SparkPythonSsh) example with two further examples using Spark and the  [Stocator](https://github.com/SparkTC/stocator) spark library to:
+
+- upload the table of wordcounts from the LICENSE file to an object store container
+- download the wordcounts in an object store container to HDFS
 
 
 *********************************************************************
