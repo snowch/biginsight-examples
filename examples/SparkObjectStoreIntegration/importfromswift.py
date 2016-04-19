@@ -51,9 +51,10 @@ if __name__ == "__main__":
     sc._jsc.hadoopConfiguration().set(prefix + ".region",      "dallas")
 
     sqlContext = SQLContext(sc)
+    
+    # This script loads the data that was uploaded to object store using the script ./exporttoswift.py
 
-    # what goes here?
-
+    # ???? what goes here ?????
 
     # save the imported data to hdfs
     #importeddata.rdd.saveAsTextFile(hdfs_filename)
