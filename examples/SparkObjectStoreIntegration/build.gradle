@@ -179,13 +179,13 @@ task('ExamplePull', dependsOn: SetupLibs) {
                 
                 // clean up temporary hdfs dir - we will import the files from swift to here
                 execute "hadoop fs -rm -r ${tmpHdfsDir}"
-                execute "hadoop fs -mkdir ${tmpHdfsDir}"
 
                 // execute spark job to import from swift to hdfs
                 execute "pyspark ${jars} ${tmpDir}/importfromswift.py ${tmpHdfsDir} '${proj_id}' '${username}' '${password}' '${service}' '${container}'"
 
                 // print contents of files imported from swift
-                //execute "hadoop fs -cat ${tmpHdfsDir}/*"
+                execute "hadoop fs -ls ${tmpHdfsDir}/"
+                execute "hadoop fs -cat ${tmpHdfsDir}/*"
 
                 // remove temporary hdfs dir
                 execute "hadoop fs -rm -r ${tmpHdfsDir}"

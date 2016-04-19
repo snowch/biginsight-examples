@@ -15,7 +15,11 @@
 # limitations under the License.
 #
 
+from __future__ import print_function
+
+import re
 import sys
+from operator import add
 
 from pyspark import SparkContext
 from pyspark.sql import SQLContext
@@ -50,13 +54,16 @@ if __name__ == "__main__":
     
     # This script loads the data that was uploaded to object store using the script ./exporttoswift.py, e.g.
     
-    # counts	                                              04/18/2016 8:21 PM	0 KB
-	# counts/_SUCCESS                                         04/18/2016 8:21 PM	0 KB
-	# counts/part-00000-attempt_201604181921_0003_m_000000_2  04/18/2016 8:21 PM	6 KB
+    # counts                                                  04/18/2016 8:21 PM        0 KB
+    # counts/_SUCCESS                                         04/18/2016 8:21 PM        0 KB
+    # counts/part-00000-attempt_201604181921_0003_m_000000_2  04/18/2016 8:21 PM        6 KB
 
-    # ???? what goes here ?????
+    swift_file_url = "swift2d://{0}.{1}/counts".format(container, service_name)
+
+    # import the data
+    imported_data = sc.textFile(swift_file_url)
 
     # save the imported data to hdfs
-    #importeddata.rdd.saveAsTextFile(hdfs_filename)
+    imported_data.saveAsTextFile(hdfs_filename)
     
     sc.stop()
