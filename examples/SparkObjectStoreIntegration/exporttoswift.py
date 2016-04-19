@@ -15,11 +15,7 @@
 # limitations under the License.
 #
 
-from __future__ import print_function
-
-import re
 import sys
-from operator import add
 
 from pyspark import SparkContext
 from pyspark.sql import SQLContext
