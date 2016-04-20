@@ -2,6 +2,7 @@ import org.apache.hadoop.conf.Configuration
 import org.apache.hadoop.fs.FileSystem
 import org.apache.hadoop.fs.Path
 import org.apache.hadoop.fs.RemoteIterator
+import com.ibm.stocator.fs.swift.SwiftAPIClient
 
 buildscript {
     repositories {
@@ -89,21 +90,20 @@ def deleteContainer(os_auth_url, os_tenant, os_username, os_password, os_region,
     mConf.set(prefix + ".region",       os_region)
 
     def publicURL = "swift2d://${os_container_name}.${os_region}"
-
-    def path = new Path("${publicURL}/counts")
-
     def fs = org.apache.hadoop.fs.FileSystem.get(URI.create(publicURL), mConf)
 
+    def path = new Path("${publicURL}/counts")
     println "Attempting to delete ${path}"
 
-    // FIXME: Files are deleted, but the container isn't - we want to delete the container as well
-    // See: https://github.com/snowch/biginsight-examples/issues/30
-
-    def deleted = fs.delete(path)
-
-    if (!deleted) {
+    // delete objects in container
+    if (!fs.delete(path)) {
         throw new GradleException("Unable to delete ${path}")
     }
+
+    // delete container
+    def client = new SwiftAPIClient(URI.create(publicURL), mConf)
+    client.account.getContainer(os_container_name).delete()
+
 }
 
 
