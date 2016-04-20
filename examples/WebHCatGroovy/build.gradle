@@ -50,7 +50,7 @@ jar {
 }
 
 // task to run the groovy script
-task('Example', dependsOn:'jar', type: JavaExec) {
+task('MapReduce', dependsOn:'jar', type: JavaExec) {
 
     Properties props = new Properties()
     props.load(new FileInputStream("$projectDir/../../connection.properties"))
@@ -59,6 +59,39 @@ task('Example', dependsOn:'jar', type: JavaExec) {
     environment 'username', props.username
     environment 'password', props.password
 
-    main = 'Example'
+    main = 'MapReduce'
     classpath = sourceSets.main.runtimeClasspath
 }
+
+task('Pig', type: JavaExec) {
+
+    Properties props = new Properties()
+    props.load(new FileInputStream("$projectDir/../../connection.properties"))
+
+    environment 'gateway', props.gateway
+    environment 'username', props.username
+    environment 'password', props.password
+
+    main = 'Pig'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+task('Hive', type: JavaExec) {
+
+    Properties props = new Properties()
+    props.load(new FileInputStream("$projectDir/../../connection.properties"))
+
+    environment 'gateway', props.gateway
+    environment 'username', props.username
+    environment 'password', props.password
+
+    main = 'Hive'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+task('Example') {
+
+    dependsOn MapReduce, Pig, Hive
+
+}
+
