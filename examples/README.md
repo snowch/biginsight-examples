@@ -73,9 +73,9 @@ See the README file in each project for instructions how to run the example.
 
 #### WebHCat/Templeton (Using Knox API)
 
-- Execute a MapReduce Job using Groovy  [[WebHCatMapReduce](./WebHCatMapReduce)]
-- Execute a Pig Job using Groovy [[WebHCatPig](./WebHCatPig)]
-- Execute a Hive Job using Groovy [[WebHCatHive](./WebHCatHive)]
+- Execute a MapReduce Job using Groovy  [[WebHCatGroovy](./WebHCatGroovy)]
+- Execute a Pig Job using Groovy [[WebHCatGroovy](./WebHCatGroovy)]
+- Execute a Hive Job using Groovy [[WebHCatGroovy](./WebHCatGroovy)]
 
 *********************************************************************
 
