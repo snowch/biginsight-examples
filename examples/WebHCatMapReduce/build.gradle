@@ -22,7 +22,10 @@ dependencies {
     compile 'org.codehaus.groovy:groovy-all:2.0.5'
     compile 'org.apache.knox:gateway-shell:0.6.0'
     compile 'commons-io:commons-io:2.4'
-    // compile MapReduce class
+    
+    // the following two statements are required to compile the MapReduce class
+    // this is only required for the WebHCatMapReduce Example
+    
     compile(group: 'org.apache.hadoop', name: 'hadoop-common', version:'2.2.0') { }
     compile(group: 'org.apache.hadoop', name: 'hadoop-mapreduce-client-core', version:'2.2.0') { }
 }
@@ -36,7 +39,9 @@ sourceSets {
     }
 }
 
-// MapReduce classes
+// the jar statement is required to package the MapReduce class
+// this is only required for the WebHCatMapReduce Example
+    
 jar {
     archiveName = 'hadoop-examples.jar'
     destinationDir = file('samples')
