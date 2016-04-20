@@ -33,10 +33,10 @@ See the README file in each project for instructions how to run the example.
 
 #### BigSQL
 
-- Connect to Big SQL from Groovy [[BigSQL](./BigSQL)]
+- Connect to Big SQL from Groovy [[BigSQLGroovy](./BigSQLGroovy)]
+- Insert/Select with Big SQL from Groovy [[BigSQLGroovy](./BigSQLGroovy)]
+- Load/Select with Big SQL from Groovy [[BigSQLGroovy](./BigSQLGroovy)]
 - Connect to Big SQL from Java [[BigSQLJava](./BigSQLJava)]
-- Insert/Select with Big SQL from Groovy [[BigSQL](./BigSQL)]
-- Load/Select with Big SQL from Groovy [[BigSQL](./BigSQL)]
 
 *********************************************************************
 
