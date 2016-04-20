@@ -21,6 +21,7 @@ See the README file in each project for instructions how to run the example.
 #### Ambari
 
 - Get cluster name and then services installed on cluster [[Ambari](./Ambari)]
+- Perform HDFS Service Check via Ambari REST [[Ambari](./Ambari)]
 
 *********************************************************************
 
@@ -32,8 +33,10 @@ See the README file in each project for instructions how to run the example.
 
 #### BigSQL
 
-- Connect to BigSQL from Groovy [[BigSQL](./BigSQL)]
-- Connect to BigSQL from Java [[BigSQLJava](./BigSQLJava)]
+- Connect to Big SQL from Groovy [[BigSQL](./BigSQL)]
+- Connect to Big SQL from Java [[BigSQLJava](./BigSQLJava)]
+- Insert/Select with Big SQL from Groovy [[BigSQL](./BigSQL)]
+- Load/Select with Big SQL from Groovy [[BigSQL](./BigSQL)]
 
 *********************************************************************
 
