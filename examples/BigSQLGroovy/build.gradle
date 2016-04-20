@@ -23,7 +23,7 @@ def matcher = props.gateway =~ /^(https?:\/\/)([^:^\/]*)(:\d*)?(.*)?.*$/
 def hostname = matcher[0][2] 
 
 // BigSQL listens on the master-2 node, also libraries are downloaded from master-2
-hostname = hostname.replace('mastermanager', 'master-2')
+hostname = hostname.replace('mastermanager', 'master-1')
 
 // setup the connection details for ssh
 remotes {
@@ -112,7 +112,7 @@ task ('SetupLibs') {
 }
 
 // task to run the Example.groovy script
-task('Example', type: JavaExec) {
+task('Connect', type: JavaExec) {
 
     // if running this task with clean, ensure clean runs first
     mustRunAfter clean 
@@ -124,12 +124,12 @@ task('Example', type: JavaExec) {
     environment 'username', props.username
     environment 'password', props.password
 
-    main = 'Example'
+    main = 'Connect'
     classpath = sourceSets.main.runtimeClasspath
 }
 
 // task to run the ExampleInsert.groovy script
-task('ExampleInsert', type: JavaExec) {
+task('Insert', type: JavaExec) {
 
     // if running this task with clean, ensure clean runs first
     mustRunAfter clean 
@@ -141,12 +141,12 @@ task('ExampleInsert', type: JavaExec) {
     environment 'username', props.username
     environment 'password', props.password
 
-    main = 'ExampleInsert'
+    main = 'Insert'
     classpath = sourceSets.main.runtimeClasspath
 }
 
 // task to run the ExampleInsert.groovy script
-task('ExampleLoad', type: JavaExec) {
+task('Load', type: JavaExec) {
 
     // if running this task with clean, ensure clean runs first
     mustRunAfter clean 
@@ -159,6 +159,14 @@ task('ExampleLoad', type: JavaExec) {
     environment 'username', props.username
     environment 'password', props.password
 
-    main = 'ExampleLoad'
+    main = 'Load'
     classpath = sourceSets.main.runtimeClasspath
 }
+
+task('Example') {
+
+    dependsOn Connect
+    // dependsOn Connect, Insert, Load
+
+}
+
