@@ -1,6 +1,6 @@
 apply plugin: 'groovy'
 
-// the following two statements are required to compile the MapReduce class
+// the following apply plugin statement is required to compile and package the MapReduce class
 // this is only required for the WebHCatMapReduce Example
     
 apply plugin: 'java'
