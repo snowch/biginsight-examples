@@ -38,7 +38,7 @@ sourceSets {
 }
 
 // task to run the Example.groovy script
-task('Example', type: JavaExec) {
+task('ListServices', type: JavaExec) {
 
     // if running this task with clean, ensure clean runs first
     mustRunAfter clean 
@@ -47,11 +47,11 @@ task('Example', type: JavaExec) {
     environment 'ambariUsername', props.ambariUsername
     environment 'ambariPassword', props.ambariPassword
 
-    main = 'Example'
+    main = 'ListServices'
     classpath = sourceSets.main.runtimeClasspath
 }
 
-task('ExampleServiceCheck', type: JavaExec) {
+task('HdfsServiceCheck', type: JavaExec) {
 
     // if running this task with clean, ensure clean runs first
     mustRunAfter clean 
@@ -60,6 +60,11 @@ task('ExampleServiceCheck', type: JavaExec) {
     environment 'ambariUsername', props.ambariUsername
     environment 'ambariPassword', props.ambariPassword
 
-    main = 'ExampleServiceCheck'
+    main = 'HdfsServiceCheck'
     classpath = sourceSets.main.runtimeClasspath
+}
+
+task('Example') {
+
+    dependsOn ListServices, HdfsServiceCheck
 }
