@@ -50,3 +50,16 @@ task('Example', type: JavaExec) {
     main = 'Example'
     classpath = sourceSets.main.runtimeClasspath
 }
+
+task('ExampleServiceCheck', type: JavaExec) {
+
+    // if running this task with clean, ensure clean runs first
+    mustRunAfter clean 
+
+    environment 'ambariUrl', props.ambariUrl
+    environment 'ambariUsername', props.ambariUsername
+    environment 'ambariPassword', props.ambariPassword
+
+    main = 'ExampleServiceCheck'
+    classpath = sourceSets.main.runtimeClasspath
+}
