@@ -32,8 +32,7 @@ See the 5 minute demo at the end of the README to see these steps in action.
   - Click More Information and then View Certificate on the Security page.
   - In the Certificate Viewer, select the Details tab and then click Export.
   - Save the certificate in this folder with the filename `certificate`
-- Ssh into the BigInsights cluster 'mastermanager' node to install the cluster's SSL certificate into ./ssh/known_hosts
-- Ssh into the BigInsights cluster 'master-2' node to install the cluster's SSL certificate into ./ssh/known_hosts (this step is not required for Basic clusters)
+- In your `connection.properties` uncomment the line `# known_hosts:allowAnyHosts`
 - Run `./gradlew test` (unix) `gradlew.bat test` (windows) to run the whole set of examples as a test
 - Detailed output for the tests can be found in the folder `./build/test/`
 
