@@ -308,7 +308,7 @@ task xTest(dependsOn: baseTest) << {
 
     [
       'BigR':['BIGR'], 
-      'BigSQL':['BIGSQL'], 
+      'BigSQLGroovy':['BIGSQL'], 
       'BigSQLJava':['BIGSQL'],
     ]
     .each() { proj, service -> buildProject(proj, service) }
