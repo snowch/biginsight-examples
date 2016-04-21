@@ -261,7 +261,7 @@ task baseTest(dependsOn: testSetup) << {
       'WebHdfsCurl':['KNOX'],
       'HiveGroovy':['HIVE'],
       'HiveJava':['HIVE'],
-      'SparkPythonSsh':['SPARK'],
+      'SparkWordCount':['SPARK'],
       'SparkStreamingPythonSsh':['SPARK'],
       'SparkObjectStoreIntegration':['SPARK'],
       'CloudantPullWithSpark':['SPARK'],
