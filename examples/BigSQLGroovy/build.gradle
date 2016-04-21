@@ -23,7 +23,7 @@ def matcher = props.gateway =~ /^(https?:\/\/)([^:^\/]*)(:\d*)?(.*)?.*$/
 def hostname = matcher[0][2] 
 
 // BigSQL listens on the master-2 node, also libraries are downloaded from master-2
-hostname = hostname.replace('mastermanager', 'master-1')
+hostname = hostname.replace('mastermanager', 'master-2')
 
 // setup the connection details for ssh
 remotes {
