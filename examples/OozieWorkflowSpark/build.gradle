@@ -13,7 +13,6 @@ buildscript {
     dependencies {
         classpath 'org.codehaus.groovy:groovy-all:2.0.5'
         classpath 'org.apache.knox:gateway-shell:0.6.0'
-        classpath 'commons-io:commons-io:2.4'
         // uberjar
         classpath 'com.github.jengelman.gradle.plugins:shadow:1.2.2'
     }
@@ -27,7 +26,6 @@ repositories {
 dependencies {
     compile 'org.codehaus.groovy:groovy-all:2.0.5'
     compile 'org.apache.knox:gateway-shell:0.6.0'
-    compile 'commons-io:commons-io:2.4'
     // compile Spark class
     compile 'org.apache.spark:spark-core_2.10:1.4.1'
 }
