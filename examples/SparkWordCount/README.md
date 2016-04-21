@@ -6,7 +6,8 @@ The [./build.gradle](./build.gradle) script does all the work using a ssh plugin
 
 - using scp, copy [./wordcount.py](./wordcount.py) and [./LICENSE](./LICENSE) files to the BigInsights cluster
 - from the ssh session, use the `hadoop fs` command to add the LICENSE to hdfs
-- from the ssh session, execute the wordcount.py script with the `pyspark` command.
+- from the ssh session, execute the wordcount.py script with the `pyspark` command (PythonWordCount example).
+- from the ssh session, execute the WordCount class with the `spark-submit` command (ScalaWordCount example).
 
 Output from the command will contain the wordcounts:
 
@@ -32,13 +33,15 @@ Run this example by changing into the current directory then executing:
 - on *nix using:
 
 ```
-../../gradlew Example
+../../gradlew PythonWordCount
+../../gradlew ScalaWordCount
 ```
 
 - on Windows using:
 
 ```
-../../gradlew.bat Example
+../../gradlew.bat PythonWordCount
+../../gradlew.bat ScalaWordCount
 ```
 
 *********************************************************************
@@ -46,5 +49,6 @@ Run this example by changing into the current directory then executing:
 Note: you can run this script from the top level project folder using the gradle `-p` argument:
 
 ```
-./gradlew -p examples/SparkPythonSsh Example
+./gradlew -p examples/SparkWordCount PythonWordCount 
+./gradlew -p examples/SparkWordCount ScalaWordCount
 ```
