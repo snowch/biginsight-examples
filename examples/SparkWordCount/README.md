@@ -33,7 +33,6 @@ bicluster#54|APPENDIX:: 1
 ...
 
 ```
-[1] From https://github.com/apache/spark/blob/master/examples/src/main/python/wordcount.py
 *********************************************************************
 #### Instructions
 
