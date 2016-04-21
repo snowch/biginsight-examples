@@ -51,6 +51,19 @@ task('ListServices', type: JavaExec) {
     classpath = sourceSets.main.runtimeClasspath
 }
 
+task('ShowMaster', type: JavaExec) {
+
+    // if running this task with clean, ensure clean runs first
+    mustRunAfter clean 
+
+    environment 'ambariUrl', props.ambariUrl
+    environment 'ambariUsername', props.ambariUsername
+    environment 'ambariPassword', props.ambariPassword
+
+    main = 'ShowMaster'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
 task('AlertServices', type: JavaExec) {
 
     // if running this task with clean, ensure clean runs first
