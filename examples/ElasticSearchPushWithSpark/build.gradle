@@ -101,6 +101,8 @@ task('Example') {
 
                 // remove temporary local dir
                 execute "rm -rf ${tmpDir}"
+
+                execute "curl -s -u ${user}:${pass} 'https://${host}:${port}/spark/${tmpDir}/_search?pretty=true&q=*:*'"
             
                 println "\nSUCCESS >> Successfully TODO"
             }
