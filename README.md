@@ -43,6 +43,28 @@ See the README.md file in each example in the [[examples](examples)] folder for 
 
 ### 5 Minute Demo
 
+After performing the setup steps, here is the output from running the WebHdfsGroovy Ls example to list the files and directories in the hdfs root directory:
+
+```bash
+snowch$ ./gradlew -p examples/WebHdfsGroovy Ls
+:compileJava UP-TO-DATE
+:compileGroovy
+:processResources UP-TO-DATE
+:classes
+:Ls
+log4j:WARN No appenders could be found for logger (org.apache.http.impl.conn.PoolingClientConnectionManager).
+log4j:WARN Please initialize the log4j system properly.
+log4j:WARN See http://logging.apache.org/log4j/1.2/faq.html#noconfig for more info.
+
+>> [app-logs, apps, biginsights, ibmpacks, iop, mapred, mr-history, secureDir, securedir, tmp, user]
+
+>> Ls test was successful.
+
+BUILD SUCCESSFUL
+
+Total time: 4.899 secs
+```
+
 To watch a 5 Minute Demo setting up the project and running an example, see [here](./DEMO_README.md).
 
 *********************************************************************
