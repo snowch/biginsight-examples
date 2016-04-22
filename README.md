@@ -12,6 +12,7 @@ See the 5 minute demo at the end of the README to watch an example of setting up
 
 ### Pre-requisites
 
+- A BigInsights cluster
 - Java 8 JDK installed
 - Git client installed
 - You are comfortable running commands in the terminal or console
