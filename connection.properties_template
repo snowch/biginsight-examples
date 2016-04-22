@@ -105,3 +105,11 @@ objectstore_region:dallas
 # Bluemix Keystone V3 > keystoneV3
 objectstore_auth_method:keystoneV3
 
+################################################################################
+# Elasticsearch Integration Example : elasticsearch host details
+################################################################################
+#
+elasticsearch_host:changeme
+elasticsearch_port:changeme
+elasticsearch_user:changeme
+elasticsearch_pass:changeme
