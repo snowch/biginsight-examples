@@ -62,11 +62,7 @@ Master 2   SSH URL ::      ssh://biadmin@ehaasp-12345-master-2.bi.services.bluem
 
 ### 5 Minute Demo
 
-Refresh the browser to restart the demo to the beginning.
-
-![Demo](./Overview.gif)
-
-NOTE: the cluster was deleted after recording the demo.
+To watch a 5 Minute Demo setting up the project and running an example, see [here](./DEMO_README.md).
 
 *********************************************************************
 
