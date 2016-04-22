@@ -38,11 +38,6 @@ See the 5 minute demo at the end of the README to see these steps in action.
 *********************************************************************
 ### Running the scripts
 
-See the README.md file in each example in the [[examples](examples)] folder for instructions how to run the script.
-*********************************************************************
-
-### 5 Minute Demo
-
 After performing the setup steps, here is the output from running the WebHdfsGroovy Ls example to list the files and directories in the hdfs root directory:
 
 ```bash
@@ -64,6 +59,12 @@ BUILD SUCCESSFUL
 
 Total time: 4.899 secs
 ```
+
+See the README.md file in each example in the [[examples](examples)] folder for instructions how to run the script.
+
+*********************************************************************
+
+### 5 Minute Demo
 
 To watch a 5 Minute Demo setting up the project and running an example, see [here](./DEMO_README.md).
 
