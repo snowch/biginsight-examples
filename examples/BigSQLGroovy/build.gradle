@@ -23,7 +23,7 @@ def matcher = props.gateway =~ /^(https?:\/\/)([^:^\/]*)(:\d*)?(.*)?.*$/
 def hostname = matcher[0][2] 
 
 // BigSQL listens on the master-2 node, also libraries are downloaded from master-2
-hostname = hostname.replace('mastermanager', 'master-2')
+hostname = hostname.replace('mastermanager', 'master-1')
 
 // setup the connection details for ssh
 remotes {
@@ -145,6 +145,22 @@ task('Insert', type: JavaExec) {
     classpath = sourceSets.main.runtimeClasspath
 }
 
+task('Hbase', type: JavaExec) {
+
+    // if running this task with clean, ensure clean runs first
+    mustRunAfter clean 
+
+    dependsOn CreateTrustStore
+    dependsOn SetupLibs
+
+    environment 'hostname', hostname
+    environment 'username', props.username
+    environment 'password', props.password
+
+    main = 'Hbase'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
 // task to run the ExampleInsert.groovy script
 task('Load', type: JavaExec) {
 
@@ -160,6 +176,24 @@ task('Load', type: JavaExec) {
     environment 'password', props.password
 
     main = 'Load'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+// Federation example
+task('Federation', type: JavaExec) {
+
+    // if running this task with clean, ensure clean runs first
+    mustRunAfter clean 
+
+    dependsOn CreateTrustStore
+    dependsOn SetupLibs
+
+    environment 'hostname', hostname
+    environment 'gateway', props.gateway
+    environment 'username', props.username
+    environment 'password', props.password
+
+    main = 'Federation'
     classpath = sourceSets.main.runtimeClasspath
 }
 
