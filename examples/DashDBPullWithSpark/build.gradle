@@ -1,4 +1,5 @@
 plugins {
+  // we use the ssh plugin to execute actions on the server over ssh
   id 'org.hidetake.ssh' version '1.5.0'
 }
 
@@ -18,7 +19,6 @@ task('Example') {
         def tmpHdfsDir = "/user/${props.username}/${tmpDir}"
         
         // ssh plugin documentation: https://gradle-ssh-plugin.github.io/docs/
-        
         ssh.run {
             // remotes.bicluster is defined in shared/common-helpers.gradle
             session(remotes.bicluster) {
