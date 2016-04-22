@@ -3,23 +3,27 @@
 # BigInsights cluster
 ################################################################################
 
-# E.g. https://bi-hadoop-prod-4066.services.dal.bluemix.net:8443/gateway/default
+###### cluster gateway and credentials ######
+
+# These properties are required
+
+# E.g. gateway:https://bi-hadoop-prod-4066.services.dal.bluemix.net:8443/gateway/default
 # Important!  ensure you use a domain name and not an IP address for the host
 
 gateway:https://changeme:8443/gateway/default
 
-###### cluster credentials ######
-
-# E.g. biadmin
+# E.g. username:biadmin
 username:changeme
 password:changeme
 
-###### ambari credentials ######
+###### ambari url and credentials ######
+
+# These properties are required
 
 # the ambari host is usually the same as the gateway
 ambariUrl:https://changeme:9443/api
 
-# E.g. biadmin
+# E.g. ambariUsername:biadmin
 ambariUsername:changeme
 ambariPassword:changeme
 
@@ -38,6 +42,8 @@ ambariPassword:changeme
 # Push to Cloudant with Spark Example : Destination Cloudant store details
 ################################################################################
 
+# These properties are optional
+
 cl_push_hostname:changeme.cloudant.com
 cl_push_username:changeme
 cl_push_password:changeme
@@ -46,17 +52,23 @@ cl_push_password:changeme
 # Pull from dashDB with Spark Example : Source dashDB details
 ################################################################################
 
+# This property is optional
+
 dashdb_pull_jdbc_url:jdbc:db2://changeme:50001/BLUDB:user=changeme;password=changeme;sslConnection=true;
 
 ################################################################################
 # Push to dashDB with Spark Example : Destination dashDB details
 ################################################################################
 
+# This property is optional
+
 dashdb_push_jdbc_url:jdbc:db2://changeme:50001/BLUDB:user=dash6590;password=SPbOJTC8wVhm;sslConnection=true;
 
 ################################################################################
 # Spark Object Store Integration Example : object store details
 ################################################################################
+
+# These properties are optional
 
 ### auth url ###
 
