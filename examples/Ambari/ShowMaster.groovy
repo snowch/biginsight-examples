@@ -30,6 +30,7 @@ def services = [
    'BIGSQL':'BIGSQL_HEAD',
    'KNOX':'KNOX_GATEWAY',
    'HIVE':'HIVE_SERVER',
+   'BIGR':'BIGRCONNECTOR'
 ]
 
 println ""
