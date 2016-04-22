@@ -2,25 +2,29 @@ plugins {
   id 'org.hidetake.ssh' version '1.5.0'
 }
 
+// load some common helper methods
+apply from: "${projectDir}/../../shared/common-helpers.gradle"
+
 Properties props = new Properties()
 props.load(new FileInputStream("$projectDir/../../connection.properties"))
 
-// extract BigInsights hostname from the gateway url
-def matcher = props.gateway =~ /^(https?:\/\/)([^:^\/]*)(:\d*)?(.*)?.*$/
-def hostname = matcher[0][2] 
+// getHostnameFromUrl() method defined in shared/common-helpers.gradle
+def gateway_hostname = getHostnameFromUrl(props.gateway)
 
-// libraries are downloaded from master-2
-def lib_hostname = hostname.replace('mastermanager', 'master-2')
+// getMasters() method defined in shared/common-helpers.gradle
+def bigsql_head_hostname = getMasters(props.ambariUrl, props.ambariUsername, props.ambariPassword)['BIGSQL_HEAD']
 
 // setup the connection details for ssh
 remotes {
+    // we connect to this host using ssh to run the spark scripts
     bicluster {
-       host = hostname
+       host = gateway_hostname
        user = props.username
        password = props.password
     }
-    bicluster_libs {
-       host = lib_hostname
+    // we use ssh (scp) to download the jdbc libraries needed to connect to dashDB
+    bicluster_bigsql_head {
+       host = bigsql_head_hostname
        user = props.username
        password = props.password
     }
@@ -69,7 +73,7 @@ task('SetupLibs') {
         try {
             // download jdbc drivers from the BigInsights cluster using SCP
             ssh.run {
-                session(remotes.bicluster_libs) {
+                session(remotes.bicluster_bigsql_head) {
 
                     get from: "/usr/ibmpacks/bigsql/4.1/db2/java/db2jcc.jar",
                         into: "${projectDir}/lib/db2jcc.jar"
