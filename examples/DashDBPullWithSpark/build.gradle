@@ -8,92 +8,9 @@ apply from: "${projectDir}/../../shared/common-helpers.gradle"
 Properties props = new Properties()
 props.load(new FileInputStream("$projectDir/../../connection.properties"))
 
-// getHostnameFromUrl() method defined in shared/common-helpers.gradle
-def gateway_hostname = getHostnameFromUrl(props.gateway)
-
-// getMasters() method defined in shared/common-helpers.gradle
-def bigsql_head_hostname = getMasters(props.ambariUrl, props.ambariUsername, props.ambariPassword)['BIGSQL_HEAD']
-
-// setup the connection details for ssh
-remotes {
-    // we connect to this host using ssh to run the spark scripts
-    bicluster {
-       host = gateway_hostname
-       user = props.username
-       password = props.password
-    }
-    // we use ssh (scp) to download the jdbc libraries needed to connect to dashDB
-    bicluster_bigsql_head {
-       host = bigsql_head_hostname
-       user = props.username
-       password = props.password
-    }
-}
-
-ssh.settings {
-    if (props.known_hosts == 'allowAnyHosts') {
-        // disable ssh host key verification 
-        knownHosts = allowAnyHosts
-    }
-}
-
-task('clean') << {
-    delete './lib'
-}
-
-
-task('SetupLibs') {
-
-    // if running this task with clean, ensure clean runs first
-    mustRunAfter clean 
-
-    // tell gradle we don't need to run this task if the ./lib folder exists
-    outputs.files file("${projectDir}/lib/")
-
-    doLast {
-
-        // create a folder for the libraries
-        mkdir("${projectDir}/lib")
-
-        // Basic cluster has a defect meaning libraries aren't available
-        // to test dashdb on these clusters, copy the jars to the top level
-        // project's download directory
-        ['db2jcc.jar', 'db2jcc4.jar', 'db2jcc_license_cu.jar'].each { jar ->
-            if (file("${projectDir}/../../downloads/${jar}").exists() &&
-                !file("${projectDir}/lib/${jar}").exists()) 
-            {
-                copy{ 
-                    from("${projectDir}/../../downloads/${jar}")
-                    into("${projectDir}/lib/")
-                }
-            } 
-        }
-
-        // TODO remove try/catch after Basic clusters have been fixed
-        try {
-            // download jdbc drivers from the BigInsights cluster using SCP
-            ssh.run {
-                session(remotes.bicluster_bigsql_head) {
-
-                    get from: "/usr/ibmpacks/bigsql/4.1/db2/java/db2jcc.jar",
-                        into: "${projectDir}/lib/db2jcc.jar"
-                    
-                    get from: "/usr/ibmpacks/bigsql/4.1/db2/java/db2jcc4.jar",
-                        into: "${projectDir}/lib/db2jcc4.jar"
-
-                    get from: "/usr/ibmpacks/bigsql/4.1/db2/java/db2jcc_license_cu.jar",
-                        into: "${projectDir}/lib/db2jcc_license_cu.jar"
-                }
-            }
-        } catch (Exception e) {
-            // ignore
-        }
-    }
-}
-
 task('Example') {
 
-    dependsOn SetupLibs
+    dependsOn SetupLibs  // SetupLibs task is defined in shared/common-helpers.build
 
     doLast {
         def tmpDir = "test-${new Date().getTime()}"
@@ -103,6 +20,7 @@ task('Example') {
         // ssh plugin documentation: https://gradle-ssh-plugin.github.io/docs/
         
         ssh.run {
+            // remotes.bicluster is defined in shared/common-helpers.gradle
             session(remotes.bicluster) {
 
                 try {
