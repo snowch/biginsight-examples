@@ -72,7 +72,7 @@ NOTE: the cluster was deleted after recording the demo.
 
 ### Smoke testing your cluster
 
-The examples can be used to smoke test your cluster.  For more information, see [here](./SMOKETESTING_README.MD).
+The examples can be used to smoke test your cluster.  For more information, see [here](./SMOKETESTING_README.md).
 
 
 *********************************************************************
