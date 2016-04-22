@@ -41,25 +41,6 @@ See the 5 minute demo at the end of the README to see these steps in action.
 See the README.md file in each example in the [[examples](examples)] folder for instructions how to run the script.
 *********************************************************************
 
-### Quick Links
-
-Running `./gradlew` from the top level folder will print some key links for your cluster, e.g.:
-
-```
-$ ./gradlew
---------------------------------------------------------------------------------------------------------------------------------------
-                                                       CLUSTER DETAILS
---------------------------------------------------------------------------------------------------------------------------------------
-Ambari URL         ::      https://ehaasp-12345-mastermanager.bi.services.bluemix.net:9443/
-BigInsights URL    ::      https://ehaasp-12345-mastermanager.bi.services.bluemix.net:8443/gateway/default/BigInsightsWeb/index.html
-YARN URL           ::      https://ehaasp-12345-mastermanager.bi.services.bluemix.net:8443/gateway/yarnui/yarn/apps
-Master Mgr SSH URL ::      ssh://biadmin@ehaasp-12345-mastermanager.bi.services.bluemix.net
-Master 2   SSH URL ::      ssh://biadmin@ehaasp-12345-master-2.bi.services.bluemix.net
---------------------------------------------------------------------------------------------------------------------------------------
-```
-
-*********************************************************************
-
 ### 5 Minute Demo
 
 To watch a 5 Minute Demo setting up the project and running an example, see [here](./DEMO_README.md).
@@ -75,24 +56,7 @@ The examples can be used to smoke test your cluster.  For more information, see 
 
 ### Tips
 
-If you want to use the scripts for multiple clusters, you can create multiple connection.properties and certificate files, e.g
-
-- connection.properties.cluster1, connection.properties.cluster2
-- certificate.cluster1, certificate.cluster2
-
-You can set the current cluster on *nix using the `ln` command, e.g
-
-```
-# run tests on cluster 1
-ln -sf connection.properties.cluster1 connection.properties
-ln -sf certificate.cluster1 certificate
-./gradlew test
-
-# run tests on cluster 2
-ln -sf connection.properties.cluster2 connection.properties
-ln -sf certificate.cluster2 certificate
-./gradlew test
-```
+For some tips using this project, for example with multiple clusters, see [here](./TIPS_README.md).
 
 *********************************************************************
 
