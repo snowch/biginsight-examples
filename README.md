@@ -40,7 +40,7 @@ See the 5 minute demo at the end of the README to see these steps in action.
 After performing the setup steps, here is the output from running the WebHdfsGroovy Ls example to list the files and directories in the hdfs root directory:
 
 ```bash
-snowch$ ./gradlew -p examples/WebHdfsGroovy Ls
+biginsight-examples snowch$ ./gradlew -p examples/WebHdfsGroovy Ls
 :compileJava UP-TO-DATE
 :compileGroovy
 :processResources UP-TO-DATE
