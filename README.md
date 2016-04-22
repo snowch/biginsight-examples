@@ -8,12 +8,11 @@ The core idea is that you can run an example project to see it working against y
 
 See the 5 minute demo at the end of the README to watch an example of setting up the biginsight-examples project and then run 'ls /' on the cluster using the Knox webHdfs API.
 
-NOTE: I run these scripts primarily on a Mac OS/X machine.  Please let me know if you have trouble running them on other operating systems.
-
 *********************************************************************
 
 ### Pre-requisites
 
+- A BigInsights cluster
 - Java 8 JDK installed
 - Git client installed
 - You are comfortable running commands in the terminal or console
@@ -38,7 +37,30 @@ See the 5 minute demo at the end of the README to see these steps in action.
 *********************************************************************
 ### Running the scripts
 
-See the README.md file in each example in the [[examples](examples)] folder for instructions how to run the script.
+After performing the setup steps, here is the output from running the WebHdfsGroovy Ls example to list the files and directories in the hdfs root directory:
+
+```bash
+biginsight-examples snowch$ ./gradlew -p examples/WebHdfsGroovy Ls
+:compileJava UP-TO-DATE
+:compileGroovy
+:processResources UP-TO-DATE
+:classes
+:Ls
+log4j:WARN No appenders could be found for logger (org.apache.http.impl.conn.PoolingClientConnectionManager).
+log4j:WARN Please initialize the log4j system properly.
+log4j:WARN See http://logging.apache.org/log4j/1.2/faq.html#noconfig for more info.
+
+>> [app-logs, apps, biginsights, ibmpacks, iop, mapred, mr-history, secureDir, securedir, tmp, user]
+
+>> Ls test was successful.
+
+BUILD SUCCESSFUL
+
+Total time: 4.899 secs
+```
+
+Each example project has a README.md file describing how to run the project.  All of the example projects are available in the [[examples](examples)] folder.
+
 *********************************************************************
 
 ### 5 Minute Demo
