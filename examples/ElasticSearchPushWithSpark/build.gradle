@@ -13,39 +13,58 @@ apply from: "${projectDir}/../../shared/common-helpers.gradle"
 
 task('CreateTruststore') << {
 
+    delete('./ca_certificate*')
+    delete('./es_certificate*')
+    delete('./truststore.jks')
+    delete('./truststore.jar')
+
     def host = props.elasticsearch_host
     def port = props.elasticsearch_port
-    def certs 
+    def cert
 
     def trustManager = [
         checkClientTrusted: { chain, authType ->  },
-        checkServerTrusted: { chain, authType -> certs = chain },
+        checkServerTrusted: { chain, authType -> cert = chain[0] },
         getAcceptedIssuers: { null }
     ] as X509TrustManager
 
     def context = SSLContext.getInstance("TLS")
     context.init(null, [trustManager] as TrustManager[], null)
     context.socketFactory.createSocket(host, port as int).with {
+        addHandshakeCompletedListener( 
+            [ handshakeCompleted: { event -> 
+                def cacerts = event.getPeerCertificates() 
+                    cacerts.eachWithIndex{ cacert, idx ->
+
+                        // FIXME: use groovy to create the keystore and write the ca certs to it
+                        (new File("${projectDir}/ca_certificate_${idx}")).text = 
+                                   "-----BEGIN CERTIFICATE-----\n" + \
+                                   "${cacert.encoded.encodeBase64(true)}" + \
+                                   "-----END CERTIFICATE-----"
+
+                    }   
+                } 
+            ] as HandshakeCompletedListener
+        )
         startHandshake()
         close()
     }
 
-    delete('./es_certificate*')
-    delete('./truststore.jks')
-    delete('./truststore.jar')
+    // FIXME: use groovy to create the keystore and write the ca certs to it
+    // in the addHandshakeCompletedListener
+    ant.exec(executable: 'keytool', dir:'./') { arg(line: "-import -trustcacerts -alias ca_certificate_0 -file ./ca_certificate_0 -keystore ./truststore.jks -storepass mypassword -noprompt") }
+    ant.exec(executable: 'keytool', dir:'./') { arg(line: "-import -trustcacerts -alias ca_certificate_1 -file ./ca_certificate_1 -keystore ./truststore.jks -storepass mypassword -noprompt") }
 
-    certs.eachWithIndex{ cert, idx ->
+    def certtext = "-----BEGIN CERTIFICATE-----\n" + \
+               "${cert.encoded.encodeBase64(true)}" + \
+               "-----END CERTIFICATE-----"
 
-        def certtext = "-----BEGIN CERTIFICATE-----\n" + \
-                   "${cert.encoded.encodeBase64(true)}" + \
-                   "-----END CERTIFICATE-----"
+    (new File("${projectDir}/es_certificate")).text = certtext
 
-        (new File("${projectDir}/es_certificate_${idx}")).text = certtext
-
-        ant.exec(executable: 'keytool', dir:'./') {
-            arg(line: "-import -trustcacerts -alias es_certificate_${idx} -file ./es_certificate_${idx} -keystore ./truststore.jks -storepass mypassword -noprompt")
-        }
-    }   
+    // FIXME: use groovy to write the es server cert to the truststore
+    ant.exec(executable: 'keytool', dir:'./') {
+        arg(line: "-import -trustcacerts -alias es_certificate -file ./es_certificate -keystore ./truststore.jks -storepass mypassword -noprompt")
+    }
 
     ant.exec(executable: 'jar', dir:'./') {
         arg(line: '-cf truststore.jar truststore.jks')

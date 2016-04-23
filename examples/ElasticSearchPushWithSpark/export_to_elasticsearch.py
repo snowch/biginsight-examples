@@ -45,7 +45,7 @@ if __name__ == "__main__":
     conf.set("es.net.ssl","true")
     conf.set("es.net.ssl.truststore.location","truststore.jks")
     conf.set("es.net.ssl.truststore.pass","mypassword")
-    conf.set("es.net.ssl.cert.allow.self.signed","true")
+    #conf.set("es.net.ssl.cert.allow.self.signed","true")
     conf.set("es.nodes.wan.only","true")
 
 

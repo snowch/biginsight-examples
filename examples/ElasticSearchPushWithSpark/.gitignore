@@ -1,4 +1,5 @@
 lib/
-es_certificate_*
+es_certificate*
+ca_certificate*
 truststore.jar
 truststore.jks
