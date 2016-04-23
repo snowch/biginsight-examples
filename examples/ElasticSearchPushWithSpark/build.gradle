@@ -40,22 +40,20 @@ task('CreateTruststore') << {
         close()
     }
 
+    // This is required to prevent a ConcurrentModificationException when iterating
     certs = certs.asImmutable()
 
-    // FIXME: use groovy to create the truststore and write the certs to it
     certs.eachWithIndex { cert, idx ->
 
-        def certtext = "-----BEGIN CERTIFICATE-----\n" + \
-                   "${cert.encoded.encodeBase64(true)}" + \
+        (new File("${projectDir}/es_certificate_${idx}")).text = 
+                   "-----BEGIN CERTIFICATE-----\n" + 
+                   "${cert.encoded.encodeBase64(true)}" +
                    "-----END CERTIFICATE-----"
-
-        (new File("${projectDir}/es_certificate_${idx}")).text = certtext
 
         ant.exec(executable: 'keytool', dir:'./') {
             arg(line: "-import -trustcacerts -alias es_certificate_${idx} -file ./es_certificate_${idx} -keystore ./truststore.jks -storepass mypassword -noprompt")
         }
     }
-
 
     ant.exec(executable: 'jar', dir:'./') {
         arg(line: '-cf truststore.jar truststore.jks')
