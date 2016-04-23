@@ -111,6 +111,11 @@ See the README file in each project for instructions how to run the example.
 - Push data to dashDB database using Spark [[DashDBPushWithSpark](./DashDBPushWithSpark)] 
 - Pull data from a dashDB database using Big SQL [[DashDBPullWithBigSQL](./DashDBPullWithBigSQL)]
 
+*********************************************************************
+
+#### Elasticsearch
+
+- Push data to Elasticsearch using Spark [[ElasticSearchPushWithSpark](./ElasticSearchPushWithSpark)] 
 
 *********************************************************************
 
