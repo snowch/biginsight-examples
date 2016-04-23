@@ -110,7 +110,11 @@ task('Example') {
                 // remove temporary local dir
                 execute "rm -rf ${tmpDir}"
 
+                // print document
                 execute "curl -s -u ${user}:${pass} 'https://${host}:${port}/spark/${tmpDir}/_search?pretty=true&q=*:*'"
+               
+                // verify document exists
+                execute "curl -s -u ${user}:${pass} 'https://${host}:${port}/spark/${tmpDir}/_search?pretty=true&q=*:*' | grep '\"_source\":{\"age\":1,\"name\":\"Alice\"}'"
             
                 println "\nSUCCESS >> Successfully TODO"
             }
