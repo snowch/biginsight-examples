@@ -45,16 +45,16 @@ if __name__ == "__main__":
     conf.set("es.net.ssl","true")
     conf.set("es.net.ssl.truststore.location","truststore.jks")
     conf.set("es.net.ssl.truststore.pass","mypassword")
-    #conf.set("es.net.ssl.cert.allow.self.signed","true")
     conf.set("es.nodes.wan.only","true")
-
 
     sc = SparkContext(conf=conf)
     sqlContext = SQLContext(sc)
 
+    # create a test document
     d = [{'name': 'Alice', 'age': 1}]
     df = sqlContext.createDataFrame(d)
 
+    # persist it to elasticsearch
     df.write.format("org.elasticsearch.spark.sql").save("spark/{0}".format(tmpDir))
 
     sc.stop()
