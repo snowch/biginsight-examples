@@ -17,6 +17,8 @@ plugins {
 Properties props = new Properties()
 props.load(new FileInputStream("$projectDir/../../connection.properties"))
 
+// Set default service name to check
+def service_name = "HDFS"
 
 // set the dependencies for compiling the groovy script
 repositories {
@@ -35,6 +37,13 @@ sourceSets {
             srcDirs = ['.']
         }
     }
+}
+
+// Get service name from command line argument
+// For example -Pservice=YARN. 
+// See service ServiceCheck.grooyv for valid value
+if (project.hasProperty('service')) {
+   service_name = service
 }
 
 // task to run the Example.groovy script
@@ -87,6 +96,21 @@ task('HdfsServiceCheck', type: JavaExec) {
     environment 'ambariPassword', props.ambariPassword
 
     main = 'HdfsServiceCheck'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+task('ServiceCheck', type: JavaExec) {
+
+    // if running this task with clean, ensure clean runs first
+    mustRunAfter clean 
+
+    environment 'ambariUrl', props.ambariUrl
+    environment 'ambariUsername', props.ambariUsername
+    environment 'ambariPassword', props.ambariPassword
+    environment 'service_name', service_name
+  
+
+    main = 'ServiceCheck'
     classpath = sourceSets.main.runtimeClasspath
 }
 
