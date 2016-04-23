@@ -11,6 +11,13 @@ props.load(new FileInputStream("$projectDir/../../connection.properties"))
 // load some common helper methods
 apply from: "${projectDir}/../../shared/common-helpers.gradle"
 
+// Download the elasticsearch server's certificate and CA certificates and import them into a truststore
+// Elasticsearch will use the truststore to verify the server it is connecting to.  See export_to_elasticsearch.py
+// script for the `es.net.ssl*` configration parameters.
+
+// In a production environment, the truststore would probaly be created manually after veriying the certificate chain
+// for authenticity.
+
 task('CreateTruststore') << {
 
     delete('./ca_certificate*')
