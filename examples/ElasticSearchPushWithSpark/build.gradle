@@ -123,7 +123,7 @@ task('Example') {
                 // verify document exists
                 execute "curl -s -u ${user}:${pass} 'https://${host}:${port}/spark/${tmpDir}/_search?pretty=true&q=*:*' | grep '\"_source\":{\"age\":1,\"name\":\"Alice\"}'"
             
-                println "\nSUCCESS >> Successfully TODO"
+                println "\nSUCCESS >> Successfully exported a document to Elasticsearch"
             }
 
         }
