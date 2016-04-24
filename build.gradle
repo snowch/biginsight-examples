@@ -269,7 +269,7 @@ task baseTest(dependsOn: testSetup) << {
       'DashDBPullWithSpark':['SPARK'],
       'DashDBPushWithSpark':['SPARK'],
       'DashDBPullWithBigSQL':['BIGSQL'],
-      'ElasticSearchIntegrationWithSpark':['SPARK'],
+      'ElasticsearchIntegrationWithSpark':['SPARK'],
       'OozieWorkflowMapReduce':['KNOX', 'OOZIE', 'MAPREDUCE2'],
       'OozieWorkflowSpark':['KNOX', 'OOZIE', 'SPARK'],
       'OozieWorkflowCurl':['KNOX', 'OOZIE', 'MAPREDUCE2'],
