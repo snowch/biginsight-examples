@@ -115,8 +115,8 @@ See the README file in each project for instructions how to run the example.
 
 #### Elasticsearch
 
-- Push data to Elasticsearch using Spark [[ElasticSearchIntegrationWithSpark](./ElasticSearchIntegrationWithSpark)] 
-- Pull data from Elasticsearch to HDFS using Spark [[ElasticSearchIntegrationWithSpark](./ElasticSearchIntegrationWithSpark)] 
+- Push data to Elasticsearch using Spark [[ElasticsearchIntegrationWithSpark](./ElasticsearchIntegrationWithSpark)] 
+- Pull data from Elasticsearch to HDFS using Spark [[ElasticsearchIntegrationWithSpark](./ElasticsearchIntegrationWithSpark)] 
 
 *********************************************************************
 
