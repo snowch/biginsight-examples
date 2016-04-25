@@ -14,7 +14,7 @@ remotes {
     }
    // we use ssh (scp) to download the jdbc libraries needed to connect to dashDB
     bicluster_bigsql_head {
-       host = getMasters(props.ambariUrl, props.ambariUsername, props.ambariPassword)['BIGSQL_HEAD']
+       host = getMasters(props)['BIGSQL_HEAD']
        user = props.username
        password = props.password
     }
@@ -40,6 +40,10 @@ buildscript {
 def getHostnameFromUrl(url) {
     def matcher = url =~ /^(https?:\/\/)([^:^\/]*)(:\d*)?(.*)?.*$/
     return matcher[0][2]
+}
+
+def getMasters(props) {
+    return getMasters(props.ambariUrl, props.ambariUsername, props.ambariPassword)
 }
 
 def getMasters(ambariUrl, ambariUsername, ambariPassword) {

@@ -14,32 +14,12 @@ plugins {
   id 'org.hidetake.ssh' version '1.5.0'
 }
 
+// load some common helper methods
+apply from: "${projectDir}/../../shared/common-helpers.gradle"
+
 // get the cluster connection details
 Properties props = new Properties()
 props.load(new FileInputStream("$projectDir/../../connection.properties"))
-
-// extract BigInsights hostname from the gateway url
-def matcher = props.gateway =~ /^(https?:\/\/)([^:^\/]*)(:\d*)?(.*)?.*$/
-def hostname = matcher[0][2] 
-
-// BigSQL listens on the master-2 node, also libraries are downloaded from master-2
-hostname = hostname.replace('mastermanager', 'master-1')
-
-// setup the connection details for ssh
-remotes {
-    bicluster {
-       host = hostname
-       user = props.username
-       password = props.password
-    }
-}
-
-ssh.settings {
-    if (props.known_hosts == 'allowAnyHosts') {
-        // disable ssh host key verification 
-        knownHosts = allowAnyHosts
-    }
-}
 
 // set the dependencies for compiling the groovy script
 repositories {
@@ -81,35 +61,6 @@ task ('CreateTrustStore', type:Exec) {
     commandLine "keytool -import -trustcacerts -alias biginsights -file ${projectDir}/../../certificate -keystore ./truststore.jks -storepass mypassword -noprompt".split()
 }
 
-task ('SetupLibs') {
-
-    // if running this task with clean, ensure clean runs first
-    mustRunAfter clean 
-
-   // tell gradle we don't need to run this task if the ./lib folder exists
-    outputs.files file("${projectDir}/lib/")
-
-    doLast {
-
-        // create a folder for the libraries
-        mkdir("${projectDir}/lib")
-
-        // download jdbc drivers from the BigInsights cluster using SCP
-        ssh.run {
-            session(remotes.bicluster) {
-
-                get from: "/usr/ibmpacks/bigsql/4.1/db2/java/db2jcc.jar",
-                    into: "${projectDir}/lib/db2jcc.jar"
-                
-                get from: "/usr/ibmpacks/bigsql/4.1/db2/java/db2jcc4.jar",
-                    into: "${projectDir}/lib/db2jcc4.jar"
-
-                get from: "/usr/ibmpacks/bigsql/4.1/db2/java/db2jcc_license_cu.jar",
-                    into: "${projectDir}/lib/db2jcc_license_cu.jar"
-            }
-        }
-    }
-}
 
 // task to run the Example.groovy script
 task('Connect', type: JavaExec) {
@@ -120,7 +71,7 @@ task('Connect', type: JavaExec) {
     dependsOn CreateTrustStore
     dependsOn SetupLibs
 
-    environment 'hostname', hostname
+    environment 'hostname', getMasters(props)['BIGSQL_HEAD'][0]
     environment 'username', props.username
     environment 'password', props.password
 
@@ -137,7 +88,7 @@ task('Insert', type: JavaExec) {
     dependsOn CreateTrustStore
     dependsOn SetupLibs
 
-    environment 'hostname', hostname
+    environment 'hostname', getMasters(props)['BIGSQL_HEAD'][0]
     environment 'username', props.username
     environment 'password', props.password
 
@@ -153,7 +104,7 @@ task('Hbase', type: JavaExec) {
     dependsOn CreateTrustStore
     dependsOn SetupLibs
 
-    environment 'hostname', hostname
+    environment 'hostname', getMasters(props)['BIGSQL_HEAD'][0]
     environment 'username', props.username
     environment 'password', props.password
 
@@ -170,7 +121,7 @@ task('Load', type: JavaExec) {
     dependsOn CreateTrustStore
     dependsOn SetupLibs
 
-    environment 'hostname', hostname
+    environment 'hostname', getMasters(props)['BIGSQL_HEAD'][0]
     environment 'gateway', props.gateway
     environment 'username', props.username
     environment 'password', props.password
@@ -188,7 +139,7 @@ task('Federation', type: JavaExec) {
     dependsOn CreateTrustStore
     dependsOn SetupLibs
 
-    environment 'hostname', hostname
+    environment 'hostname', getMasters(props)['BIGSQL_HEAD'][0]
     environment 'gateway', props.gateway
     environment 'username', props.username
     environment 'password', props.password
