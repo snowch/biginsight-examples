@@ -12,6 +12,14 @@ This example retrieves data from a dashDB sample schema and saves it to the user
 
 Take a look at the [build.gradle](./build.gradle) file, starting with the Example task defintion `task('Example') { ... }`  and then move on to the spark script [exporttodashdb.py](./exporttodashdb.py) to see exactly what is being done.
 
+NOTE:
+
+Basic clusters do not have the jar files available.  As a workaround, source a copy of the following jars and place them in the 'downloads' folder.  See [here](https://github.com/snowch/biginsight-examples/issues/17) for more info.
+
+- db2jcc.jar
+- db2jcc4.jar
+- db2jcc_license_cu.jar
+
 *********************************************************************
 #### Instructions
 
