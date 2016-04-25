@@ -317,7 +317,8 @@ task xTest(dependsOn: baseTest) << {
 }
 
 task test(dependsOn: xTest) << {
-    println "Finished running tests.  *** Test output can be found in '${projectDir}/build/test/' ***"
+    println "Finished running tests."
+    println "*** Test output can be found in '${projectDir}/build/test/' ***"
 }
 
 
