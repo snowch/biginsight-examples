@@ -278,7 +278,6 @@ task baseTest(dependsOn: testSetup) << {
       'WebHCatHive':['KNOX', 'HIVE'],
       'HBaseGroovy':['KNOX', 'HBASE'],
       'HBaseJava':['KNOX', 'HBASE'],
-      'HBaseManipulateSchemaAndPerformCRUD':['KNOX', 'HBASE'],
     ]
     .each() { proj, service -> buildProject(proj, service) }
 
