@@ -7,16 +7,18 @@ props.load(new FileInputStream("$projectDir/../../connection.properties"))
 // setup the connection details for ssh
 remotes {
     bicluster {
-        // getHostnameFromUrl() method defined in shared/common-helpers.gradle
        host = getHostnameFromUrl(props.gateway)
        user = props.username
        password = props.password
     }
-   // we use ssh (scp) to download the jdbc libraries needed to connect to dashDB
-    bicluster_bigsql_head {
-       host = getMasters(props)['BIGSQL_HEAD']
-       user = props.username
-       password = props.password
+    def bigsql_head = getMasters(props)['BIGSQL_HEAD']
+    if (bigsql_head) {
+        // we use ssh (scp) to download the jdbc libraries needed to connect to dashDB
+        bicluster_bigsql_head {
+           host = bigsql_head
+           user = props.username
+           password = props.password
+        }
     }
 }
 
@@ -66,6 +68,8 @@ def getMasters(ambariUrl, ambariUsername, ambariPassword) {
     // Get Cluster Name
     def clusterName = object.items.Clusters[0].cluster_name
 
+    println "Clustername: ${clusterName}"
+
     // Define service and corresponding master components
     def services = [
        'BIGSQL':'BIGSQL_HEAD',
@@ -76,15 +80,21 @@ def getMasters(ambariUrl, ambariUsername, ambariPassword) {
     def masterMap = [:]
     services.each { service_name, component_name ->
 
-       // Make REST to get compoent info
-       def respComponent = client.get( path : 'api/v1/clusters/' + clusterName + '/services/' + service_name + '/components/' + component_name )
+       println "Looking up service [${service_name}] component [${component_name}] on ${clusterName}"
 
-       assert respComponent.status == 200  // HTTP response code; 404 means not found, etc.
+       try {
+           // Make REST to get compoent info
+           def respComponent = client.get( path : 'api/v1/clusters/' + clusterName + '/services/' + service_name + '/components/' + component_name )
 
-       // Get hostname
-       def object_component = jsonSlurper.parseText(respComponent.data.text)
+           assert respComponent.status == 200  // HTTP response code; 404 means not found, etc.
 
-       masterMap[component_name] = object_component.host_components.HostRoles.host_name
+           // Get hostname
+           def object_component = jsonSlurper.parseText(respComponent.data.text)
+
+           masterMap[component_name] = object_component.host_components.HostRoles.host_name
+        } catch (Exception e) {
+           // ignore
+        }
     }
     return masterMap
 }
@@ -112,23 +122,9 @@ task('SetupLibs') {
         // create a folder for the libraries
         mkdir("${projectDir}/lib")
 
-        // Basic cluster has a defect meaning libraries aren't available
-        // to test dashdb on these clusters, copy the jars to the top level
-        // project's download directory
-        ['db2jcc.jar', 'db2jcc4.jar', 'db2jcc_license_cu.jar'].each { jar ->
-            if (file("${projectDir}/../../downloads/${jar}").exists() &&
-                !file("${projectDir}/lib/${jar}").exists()) 
-            {
-                copy{ 
-                    from("${projectDir}/../../downloads/${jar}")
-                    into("${projectDir}/lib/")
-                }
-            } 
-        }
+        def bigsql_head = getMasters(props)['BIGSQL_HEAD']
+        if (bigsql_head) {
 
-        // TODO remove try/catch after Basic clusters have been fixed
-        try {
-            // download jdbc drivers from the BigInsights cluster using SCP
             ssh.run {
                 session(remotes.bicluster_bigsql_head) {
 
@@ -142,8 +138,25 @@ task('SetupLibs') {
                         into: "${projectDir}/lib/db2jcc_license_cu.jar"
                 }
             }
-        } catch (Exception e) {
-            // ignore
+
+        } else {
+            // Basic cluster has a defect meaning libraries aren't available
+            // to test dashdb on these clusters, copy the jars to the top level
+            // project's download directory
+            ['db2jcc.jar', 'db2jcc4.jar', 'db2jcc_license_cu.jar'].each { jar ->
+                if (!file("${projectDir}/lib/${jar}").exists()) 
+                {
+                    def src = file("${projectDir}/../../downloads/${jar}")
+                    def dst = file("${projectDir}/lib/")
+
+                    println "Attepmting to copy ${src.absolutePath} to ${dst.absolutePath}"
+
+                    if (!src.exists()) {
+                        throw new GradleException("${src.absolutePath} not found. Have you copied ${jar} to ${src.absolutePath}? See https://github.com/snowch/biginsight-examples/issues/17/")
+                    }
+                    copy{ from(src) into(dst) }
+                } 
+            }
         }
     }
 }
