@@ -276,7 +276,7 @@ task baseTest(dependsOn: testSetup) << {
       'WebHCatMapReduce':['KNOX', 'MAPREDUCE2'],
       'WebHCatPig':['KNOX', 'PIG'],
       'WebHCatHive':['KNOX', 'HIVE'],
-      'HBase':['KNOX', 'HBASE'],
+      'HBaseGroovy':['KNOX', 'HBASE'],
       'HBaseJava':['KNOX', 'HBASE'],
       'HBaseManipulateSchemaAndPerformCRUD':['KNOX', 'HBASE'],
     ]
