@@ -37,16 +37,32 @@ sourceSets {
     }
 }
 
-// task to run the groovy script
-task('Example', type: JavaExec) {
+Properties props = new Properties()
+props.load(new FileInputStream("$projectDir/../../connection.properties"))
 
-    Properties props = new Properties()
-    props.load(new FileInputStream("$projectDir/../../connection.properties"))
+
+// task to run the groovy script
+task('Connect', type: JavaExec) {
 
     environment 'gateway', props.gateway
     environment 'username', props.username
     environment 'password', props.password
 
-    main = 'Example'
+    main = 'Connect'
     classpath = sourceSets.main.runtimeClasspath
+}
+
+// task to run the groovy script
+task('ManipulateSchemaAndPerformCRUD', type: JavaExec) {
+
+    environment 'gateway', props.gateway
+    environment 'username', props.username
+    environment 'password', props.password
+
+    main = 'ManipulateSchemaAndPerformCRUD'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+task('Example') {
+    dependsOn Connect, ManipulateSchemaAndPerformCRUD
 }

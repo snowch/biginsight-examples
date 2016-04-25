@@ -3,13 +3,15 @@ Run this example by changing into the current directory then executing:
 - on *nix using:
 
 ```
-../../gradlew Example
+../../gradlew Connect
+../../gradlew ManipulateSchemaAndPerformCRUD
 ```
 
 - on Windows using:
 
 ```
-../../gradlew.bat Example
+../../gradlew.bat Connect
+../../gradlew.bat ManipulateSchemaAndPerformCRUD
 ```
 
 *********************************************************************
@@ -17,7 +19,8 @@ Run this example by changing into the current directory then executing:
 Note: you can run this script from the top level project folder using the gradle `-p` argument:
 
 ```
-./gradlew -p examples/Hive Example
+./gradlew -p examples/HBaseGroovy Connect
+./gradlew -p examples/HBaseGroovy ManipulateSchemaAndPerformCRUD
 ```
 
 *********************************************************************
@@ -26,5 +29,5 @@ Note: you can run this script from the top level project folder using the gradle
 
 Switch on HTTP trace debugging with:
 ```
-../../gradlew Example -PdebugExample
+../../gradlew Connect -PdebugExample
 ```
