@@ -82,7 +82,7 @@ def getMasters(ambariUrl, ambariUsername, ambariPassword) {
     // Get Cluster Name
     def clusterName = object.items.Clusters[0].cluster_name
 
-    println "Clustername: ${clusterName}"
+    // println "Clustername: ${clusterName}"
 
     // Define service and corresponding master components
     def services = [
@@ -94,7 +94,7 @@ def getMasters(ambariUrl, ambariUsername, ambariPassword) {
     def masterMap = [:]
     services.each { service_name, component_name ->
 
-       println "Looking up service [${service_name}] component [${component_name}] on ${clusterName}"
+       // println "Looking up service [${service_name}] component [${component_name}] on ${clusterName}"
 
        try {
            // Make REST to get compoent info

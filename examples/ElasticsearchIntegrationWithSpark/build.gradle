@@ -68,7 +68,7 @@ task('CreateTruststore') << {
 }
 
 
-task('Example') {
+task('ExamplePush') {
 
     dependsOn CreateTruststore
 
@@ -128,4 +128,77 @@ task('Example') {
 
         }
     }
+}
+
+task('ExamplePull') {
+
+    dependsOn CreateTruststore
+
+    doLast {
+        def tmpDir = "test-${new Date().getTime()}"
+
+        def tmpHdfsDir = "/user/${props.username}/${tmpDir}"
+        
+        // ssh plugin documentation: https://gradle-ssh-plugin.github.io/docs/
+        ssh.run {
+            // remotes.bicluster is defined in shared/common-helpers.gradle
+            session(remotes.bicluster) {
+
+                try {
+                    // initialise kerberos
+                    execute "kinit -k -t ${props.username}.keytab ${props.username}@IBM.COM"
+                } 
+                catch (Exception e) {
+                    println "problem running kinit - maybe this is a Basic cluster?"
+                }
+
+                // create temp local dir for holding sparkscript
+                execute "mkdir ${tmpDir}"
+
+                // upload spark script
+                put from: "${projectDir}/export_to_elasticsearch.py", into: "${tmpDir}/export_to_elasticsearch.py"
+                put from: "${projectDir}/import_from_elasticsearch.py", into: "${tmpDir}/import_from_elasticsearch.py"
+                put from: "${projectDir}/truststore.jar", into: "${tmpDir}/truststore.jar"
+
+                def jars = "--jars \"${tmpDir}/truststore.jar\""
+                def pkgs = "--packages org.elasticsearch:elasticsearch-spark_2.10:2.3.0"
+
+                def host = props.elasticsearch_host
+                def port = props.elasticsearch_port
+                def user = props.elasticsearch_user
+                def pass = props.elasticsearch_pass
+
+                // create some data in elasticsearch
+                execute "pyspark ${jars} ${pkgs} ${tmpDir}/export_to_elasticsearch.py ${host} ${port} ${user} ${pass} ${tmpDir}"
+
+               // now import it to hdfs
+                execute "pyspark ${jars} ${pkgs} ${tmpDir}/import_from_elasticsearch.py ${host} ${port} ${user} ${pass} ${tmpDir} ${tmpHdfsDir}"
+
+                // list the files
+                execute "hadoop fs -ls ${tmpHdfsDir}"
+
+                // dump the files
+                execute "hadoop fs -cat ${tmpHdfsDir}/*"
+
+                // remove temporary hdfs dir
+                execute "hadoop fs -rm -r ${tmpHdfsDir}"
+
+                // remove temporary local dir
+                execute "rm -rf ${tmpDir}"
+
+                // print document
+                execute "curl -s -u ${user}:${pass} 'https://${host}:${port}/spark/${tmpDir}/_search?pretty=true&q=*:*'"
+               
+                // verify document exists
+                execute "curl -s -u ${user}:${pass} 'https://${host}:${port}/spark/${tmpDir}/_search?pretty=true&q=*:*' | grep '\"_source\":{\"age\":1,\"name\":\"Alice\"}'"
+            
+                println "\nSUCCESS >> Successfully exported a document to Elasticsearch"
+            }
+
+        }
+    }
+}
+
+task('Example') {
+    dependsOn ExamplePush, ExamplePull
 }
