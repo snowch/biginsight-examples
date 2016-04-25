@@ -44,11 +44,25 @@ def getHostnameFromUrl(url) {
     return matcher[0][2]
 }
 
+def isURLValid(url) {
+    try {
+        new URL(url)
+            return true
+    } catch (MalformedURLException e) {
+        return false
+    }
+} 
+
 def getMasters(props) {
     return getMasters(props.ambariUrl, props.ambariUsername, props.ambariPassword)
 }
 
 def getMasters(ambariUrl, ambariUsername, ambariPassword) {
+
+    assert isURLValid(ambariUrl) : "Could not find ambariUrl in connection.properties"
+    assert ambariUsername : "Could not find ambariUsername in connection.properties"
+    assert ambariPassword : "Could not find ambariPassword in connection.properties"
+
 
     def client = new RESTClient( ambariUrl )
     client.ignoreSSLIssues()
