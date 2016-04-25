@@ -10,7 +10,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.ibm.stocator:stocator:1.0.1'
+        classpath 'com.ibm.stocator:stocator:1.0.2'
         classpath 'org.apache.hadoop:hadoop-mapreduce-client-core:2.2.0'
         classpath 'org.apache.hadoop:hadoop-common:2.2.0'
         // uberjar
@@ -31,7 +31,7 @@ repositories {
 
 dependencies {
     // the spark swift library
-    compile 'com.ibm.stocator:stocator:1.0.1'
+    compile 'com.ibm.stocator:stocator:1.0.2'
 }
 
 
