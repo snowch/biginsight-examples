@@ -71,7 +71,7 @@ task ('installPackages', type:Exec) {
 
 
 // task to run a R script
-task('Example', dependsOn: installPackages, type: Exec) {
+task('Connect', dependsOn: installPackages, type: Exec) {
 
     // BigR service listens on master-2 node
     hostname = hostname.replace('mastermanager', 'master-2')
@@ -85,4 +85,8 @@ task('Example', dependsOn: installPackages, type: Exec) {
 
     // execute R script - inpect example.r for details
     commandLine "Rscript", "--verbose", "--vanilla", "${projectDir}/example.r"
+}
+
+task('Example') {
+    dependsOn Connect
 }

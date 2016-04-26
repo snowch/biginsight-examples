@@ -149,9 +149,6 @@ task('Federation', type: JavaExec) {
 }
 
 task('Example') {
-
-    dependsOn Connect
-    // dependsOn Connect, Insert, Load
-
+     dependsOn Connect, Insert, Load
 }
 
