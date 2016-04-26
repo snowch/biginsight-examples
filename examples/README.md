@@ -16,7 +16,7 @@ See the README file in each project for instructions how to run the example.
 - Create a folder using cURL [[WebHdfsCurl](./WebHdfsCurl/)]
 - Upload a file using cURL [[WebHdfsCurl](./WebHdfsCurl/)]
 
-NOTE: These examples require a Unix like environment (e.g. cygwin on Windows) with curl installed.
+NOTE: The cURL examples require a Unix like environment (e.g. cygwin on Windows) with curl installed.
 
 *********************************************************************
 
