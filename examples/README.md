@@ -16,6 +16,8 @@ See the README file in each project for instructions how to run the example.
 - Create a folder using cURL [[WebHdfsCurl](./WebHdfsCurl/)]
 - Upload a file using cURL [[WebHdfsCurl](./WebHdfsCurl/)]
 
+NOTE: These examples require a Unix like environment (e.g. cygwin on Windows) with curl installed.
+
 *********************************************************************
 
 #### Ambari
@@ -66,6 +68,8 @@ See the README file in each project for instructions how to run the example.
 - Submit a Java Mapreduce job using Groovy [[OozieWorkflowMapReduce](./OozieWorkflowMapReduce)]
 - Submit a Java Mapreduce job using cURL [[OozieWorkflowCurl](./OozieWorkflowCurl)]
 - Submit a Java Spark job using Groovy [[OozieWorkflowSpark](./OozieWorkflowSpark)]
+
+NOTE: OozieWorkflowCurl requires a Unix like environment (e.g. cygwin on Windows) with curl installed.
 
 *********************************************************************
 
