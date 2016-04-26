@@ -31,9 +31,9 @@ Take a look at the [build.gradle](./build.gradle) file, starting with the Exampl
 *********************************************************************
 #### Instructions
 
-NOTE:
+*NOTE:*
 
-Basic clusters do not have the jar files available.  As a workaround, source a copy of the following jars and place them in the 'downloads' folder.  See [here](https://github.com/snowch/biginsight-examples/issues/17) for more info.
+Basic clusters do not have the jar files available.  As a workaround, manually obtain a copy of the following jars and place them in the 'downloads' folder.  See [here](https://github.com/snowch/biginsight-examples/issues/17) for more info.
 
 - db2jcc.jar
 - db2jcc4.jar
