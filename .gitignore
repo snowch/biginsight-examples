@@ -7,3 +7,5 @@ build/
 samples/
 .vagrant/
 *.swp
+**/userHome/
+**/.DS_Store

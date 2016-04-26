@@ -42,9 +42,6 @@ props.load(new FileInputStream("$projectDir/../../connection.properties"))
 def matcher = props.gateway =~ /^(https?:\/\/)([^:^\/]*)(:\d*)?(.*)?.*$/
 def hostname = matcher[0][2] 
 
-// libraries are downloaded from master-2
-def lib_hostname = hostname.replace('mastermanager', 'master-2')
-
 
 // setup the connection details for ssh
 remotes {
@@ -62,9 +59,12 @@ ssh.settings {
     }
 }
 
-task('clean') << {
+task('customClean') << {
     delete './lib'
 }
+
+// ensure gradle's standard clean target executes out customClean target
+clean.dependsOn customClean
 
 // create jar file with all dependencies
 task('SetupLibs', type: Jar) {

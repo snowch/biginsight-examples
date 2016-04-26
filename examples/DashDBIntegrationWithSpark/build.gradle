@@ -1,0 +1,169 @@
+import groovy.sql.Sql
+
+plugins {
+  // we use the ssh plugin to execute actions on the server over ssh
+  id 'org.hidetake.ssh' version '1.5.0'
+}
+
+// load some common helper methods
+apply from: "${projectDir}/../../shared/common-helpers.gradle"
+
+Properties props = new Properties()
+props.load(new FileInputStream("$projectDir/../../connection.properties"))
+
+// temporary identifier for tables, folders, etc 
+def tmpId = "${new Date().getTime()}"
+
+// temporary folder name on cluster
+def tmpDir = "test-${tmpId}"        
+
+// temporary hdfs folder name on cluster
+def tmpHdfsDir = "/user/${props.username}/${tmpDir}"
+
+// get the dashdb schema name
+def schema = (props.dashdb_push_jdbc_url =~ 'user=([^;]*);')[0][1]
+
+// temporary Table name
+def tmpTableName = "${schema}.LANGUAGE_${tmpId}"
+
+task('ExamplePull') {
+
+    dependsOn SetupLibs  // SetupLibs task is defined in shared/common-helpers.build
+
+    doLast {
+        // ssh plugin documentation: https://gradle-ssh-plugin.github.io/docs/
+        ssh.run {
+            // remotes.bicluster is defined in shared/common-helpers.gradle
+            session(remotes.bicluster) {
+
+                try {
+                    // initialise kerberos
+                    execute "kinit -k -t ${props.username}.keytab ${props.username}@IBM.COM"
+                } 
+                catch (Exception e) {
+                    println "problem running kinit - maybe this is a Basic cluster?"
+                }
+
+                // create temp local dir for holding sparkscript
+                execute "mkdir ${tmpDir}"
+
+                put from: "${projectDir}/lib/db2jcc.jar",            into: "${tmpDir}/db2jcc.jar"
+                put from: "${projectDir}/lib/db2jcc4.jar",           into: "${tmpDir}/db2jcc4.jar"
+                put from: "${projectDir}/lib/db2jcc_license_cu.jar", into: "${tmpDir}/db2jcc_license_cu.jar"
+
+                // upload spark script
+                put from: "${projectDir}/importfromdashdb.py", into: "${tmpDir}/importfromdashdb.py"
+
+                // create temp hdfs folder for holding exported data
+                execute "hadoop fs -mkdir ${tmpHdfsDir}"
+
+                def jarfiles = ["${tmpDir}/db2jcc.jar", "${tmpDir}/db2jcc4.jar", "${tmpDir}/db2jcc_license_cu.jar"]
+
+                def jars = "--jars \"${jarfiles.join(',')}\""
+                def dcp  = "--driver-class-path \"${jarfiles.join(':')}\""
+                def conf = "--conf \"spark.driver.extraClassPath=${jarfiles.join(':')}\""
+
+                // execute spark job
+                execute "pyspark ${conf} ${jars} ${dcp} ${tmpDir}/importfromdashdb.py '${props.dashdb_pull_jdbc_url}' ${tmpHdfsDir}/SALES"
+
+                // print contents of file imported from Cloudant
+                execute "hadoop fs -cat ${tmpHdfsDir}/SALES/*"
+
+                // remove temporary hdfs dir
+                execute "hadoop fs -rm -r ${tmpHdfsDir}"
+
+                // remove temporary local dir
+                execute "rm -rf ${tmpDir}"
+            
+                println "\nSUCCESS >> Successfully Imported data from dashDB to HDFS"
+            }
+        }
+    }
+}
+
+task('AddJdbcJarsToClassLoader') {
+
+    outputs.upToDateWhen { false }
+
+    dependsOn SetupLibs  // SetupLibs task is defined in shared/common-helpers.build
+
+    doLast {
+        URLClassLoader loader = GroovyObject.class.classLoader
+        [ 'db2jcc.jar', 'db2jcc4.jar', 'db2jcc_license_cu.jar' ].each { jar ->
+            def jarUrl = file("${projectDir}/lib/${jar}").toURL()
+            loader.addURL(jarUrl)
+        }
+    }
+}
+
+task('CreateDashDBTable') {
+
+    dependsOn AddJdbcJarsToClassLoader
+
+    doLast {
+        def sql = Sql.newInstance( props.dashdb_push_jdbc_url, new Properties(), 'com.ibm.db2.jcc.DB2Driver' )
+        sql.execute( "CREATE TABLE ${tmpTableName} AS (SELECT * FROM SAMPLES.LANGUAGE) DEFINITION ONLY".toString() )
+        sql.close()
+    }
+}
+
+task('ExamplePush') {
+
+    dependsOn SetupLibs, AddJdbcJarsToClassLoader, CreateDashDBTable
+
+    doLast {
+        
+        // ssh plugin documentation: https://gradle-ssh-plugin.github.io/docs/
+        ssh.run {
+            // remotes.bicluster is defined in shared/common-helpers.gradle
+            session(remotes.bicluster) {
+
+                try {
+                    // initialise kerberos
+                    execute "kinit -k -t ${props.username}.keytab ${props.username}@IBM.COM"
+                } 
+                catch (Exception e) {
+                    println "problem running kinit - maybe this is a Basic cluster?"
+                }
+
+                // create temp local dir for holding sparkscript and jars
+                execute "mkdir ${tmpDir}"
+    
+                // upload jars
+                put from: "${projectDir}/lib/db2jcc.jar",            into: "${tmpDir}/db2jcc.jar"
+                put from: "${projectDir}/lib/db2jcc4.jar",           into: "${tmpDir}/db2jcc4.jar"
+                put from: "${projectDir}/lib/db2jcc_license_cu.jar", into: "${tmpDir}/db2jcc_license_cu.jar"
+
+                // upload spark script
+                put from: "${projectDir}/exporttodashdb.py", into: "${tmpDir}/exporttodashdb.py"
+
+                def jarfiles = ["${tmpDir}/db2jcc.jar", "${tmpDir}/db2jcc4.jar", "${tmpDir}/db2jcc_license_cu.jar"]
+
+                def jars = "--jars \"${jarfiles.join(',')}\""
+                def dcp  = "--driver-class-path \"${jarfiles.join(':')}\""
+                def conf = "--conf \"spark.driver.extraClassPath=${jarfiles.join(':')}\""
+                
+                // execute spark job
+                execute "pyspark ${conf} ${jars} ${dcp} ${tmpDir}/exporttodashdb.py '${props.dashdb_push_jdbc_url}' ${tmpTableName}"
+
+                // remove temporary local dir
+                execute "rm -rf ${tmpDir}"
+       
+                // verify some data was exported and clean up temp table
+                def sql = Sql.newInstance( props.dashdb_push_jdbc_url, new Properties(), 'com.ibm.db2.jcc.DB2Driver' )
+                def rows = sql.rows( "SELECT * FROM ${tmpTableName}".toString() )
+                sql.execute( "DROP TABLE ${tmpTableName}".toString() )
+                sql.close()
+
+                // verify some data was exported 
+                assert rows.size() > 0
+            
+                println "\nSUCCESS >> Successfully Exported ${rows.size()} rows to dashDB"
+            }
+        }
+    }
+}
+
+task('Example') {
+    dependsOn ExamplePull, ExamplePush
+}

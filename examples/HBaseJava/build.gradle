@@ -21,7 +21,7 @@ dependencies {
 }
 
 // task to run the groovy script
-task('Example', type: JavaExec) {
+task('Connect', type: JavaExec) {
 
     Properties props = new Properties()
     props.load(new FileInputStream("$projectDir/../../connection.properties"))
@@ -32,4 +32,8 @@ task('Example', type: JavaExec) {
 
     main = 'Example'
     classpath = sourceSets.main.runtimeClasspath
+}
+
+task('Example') {
+    dependsOn Connect
 }

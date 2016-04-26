@@ -1,7 +1,14 @@
 #### Overview
 
-This example retrieves data from a Cloudant database (examples.cloudant.com) and saves it to HDFS.
+##### Export to Cloudant
 
+This example extends the [SparkPythonSsh](./SparkPythonSsh) example to upload the table of wordcounts to Cloudant. A database will be created for you that holds this data.  See the build output for the database name.
+
+This pattern is an example of uploading the results of batch processed data to a NoSQL store for random access rather than sequential access.
+
+##### Import from Cloudant
+
+This example retrieves data from a Cloudant database (examples.cloudant.com) and saves it to HDFS.
 
 *********************************************************************
 #### Instructions
@@ -21,13 +28,15 @@ Run this example by changing into the current directory then executing:
 - on *nix using:
 
 ```
-../../gradlew Example
+../../gradlew ExamplePull
+../../gradlew ExamplePush
 ```
 
 - on Windows using:
 
 ```
-../../gradlew.bat Example
+../../gradlew.bat ExamplePull
+../../gradlew.bat ExamplePush
 ```
 
 *********************************************************************
@@ -35,6 +44,6 @@ Run this example by changing into the current directory then executing:
 Note: you can run this script from the top level project folder using the gradle `-p` argument:
 
 ```
-./gradlew -p examples/CloudantPullWithSpark Example
+./gradlew -p examples/CloudantIntegrationWithSpark ExamplePull
+./gradlew -p examples/CloudantIntegrationWithSpark ExamplePush
 ```
-*********************************************************************

@@ -1,4 +1,6 @@
+import static org.gradle.testfixtures.ProjectBuilder.*
 import static org.gradle.testkit.runner.TaskOutcome.*
+import org.gradle.testfixtures.ProjectBuilder
 import com.jcraft.jsch.JSchException
 import javax.net.ssl.*
 import groovyx.net.http.RESTClient
@@ -212,38 +214,90 @@ task('QueryAmbariServices') {
 
 
 def buildProject(proj, services=[]) {
+    
+    if (!project.ext.get('ambari_services').containsAll(services)) {
+        println "Test skipped ./examples/${proj} [Required service(s) '${services.join(', ')}' not installed]"
+    } else {
 
-        if (!project.ext.get('ambari_services').containsAll(services)) {
-            println "Test skipped ./examples/${proj} [Required service(s) '${services.join(', ')}' not installed]"
+        if (project.hasProperty('summaryOutput')) {
+            buildProjectSummary(proj, services=[])
         } else {
-            try {
-                GradleRunner.create()
-                        .withProjectDir(file("./examples/${proj}/"))
-                        .withArguments('clean')
-                        .build()
-            } catch (Exception e) {
-                // noop - some projects don't have clean tasks
-            }
-
-            try {
-                FileWriter writer = new FileWriter("build/test/${proj}.txt")
-
-                GradleRunner.create()
-                        .withProjectDir(file("./examples/${proj}/"))
-                        .forwardStdError(writer)
-                        .forwardStdOutput(writer)
-                        .withArguments(['Example', '-PdebugExample'])
-                        .build()
-
-                writer.close()
-
-            } catch (Exception e) { 
-                println "Test failed  ./examples/${proj}"
-                return
-            }
-
-            println "Test passed  ./examples/${proj}"
+            buildProjectDetailed(proj, services=[])
         }
+    }
+}
+
+def buildProjectSummary(proj, services=[]) {
+
+    try {
+        GradleRunner.create()
+                .withProjectDir(file("./examples/${proj}/"))
+                .withArguments('clean')
+                .build()
+    } catch (Exception e) {
+        // noop - some projects don't have clean tasks
+    }
+
+    try {
+        FileWriter writer = new FileWriter("build/test/${proj}.txt")
+
+        GradleRunner.create()
+                .withProjectDir(file("./examples/${proj}/"))
+                .forwardStdError(writer)
+                .forwardStdOutput(writer)
+                .withArguments(['Example', '-PdebugExample'])
+                .build()
+
+        writer.close()
+
+    } catch (Exception e) { 
+        println "Test failed  ./examples/${proj}"
+        return
+    }
+
+    println "Test passed  ./examples/${proj}"
+}
+
+def buildProjectDetailed(proj, services=[]) {
+
+
+    def subTasks = ProjectBuilder.builder()
+                .withProjectDir(file("./examples/${proj}/"))
+                .build()    
+                .getTasksByName("Example", false).first()
+                .getDependsOn()
+
+    subTasks.each { subTask ->
+
+        // ensure we have a clean environment for each test
+        try {
+            GradleRunner.create()
+                    .withProjectDir(file("./examples/${proj}/"))
+                    .withArguments('clean')
+                    .build()
+        } catch (Exception e) {
+            // noop - some projects don't have clean tasks
+        }
+
+        if (!(subTask instanceof org.gradle.api.Task)) {
+            // if this isn't a task, continue looping
+            return false
+        }
+        try {
+            FileWriter writer = new FileWriter("build/test/${proj}-${subTask.name}.txt")
+            GradleRunner.create()
+                    .withProjectDir(file("./examples/${proj}/"))
+                    .forwardStdError(writer)
+                    .forwardStdOutput(writer)
+                    .withArguments([subTask.name, '-PdebugExample'])
+                    .build()
+            writer.close()
+        } catch (Exception e) { 
+            println "Test failed  ./examples/${proj}:${subTask.name}"
+            return
+        }
+        println "Test passed  ./examples/${proj}:${subTask.name}"
+    }
 }
 
 task testSetup(dependsOn: verifyConfig) {
@@ -254,9 +308,15 @@ task testSetup(dependsOn: verifyConfig) {
 
 
 task baseTest(dependsOn: testSetup) << {
+
+    if (!project.hasProperty('summaryOutput')) {
+        println "Running with detailed test output (for summary output, run gradle with -PsummaryOutput)"
+    }
+
     println "Running base tests"
 
     [
+      'Ambari':[],
       'WebHdfsGroovy':['KNOX'],
       'WebHdfsCurl':['KNOX'],
       'HiveGroovy':['HIVE'],
@@ -264,18 +324,13 @@ task baseTest(dependsOn: testSetup) << {
       'SparkWordCount':['SPARK'],
       'SparkStreamingPythonSsh':['SPARK'],
       'ObjectStoreIntegrationWithSpark':['SPARK'],
-      'CloudantPullWithSpark':['SPARK'],
-      'CloudantPushWithSpark':['SPARK'],
-      'DashDBPullWithSpark':['SPARK'],
-      'DashDBPushWithSpark':['SPARK'],
-      'DashDBPullWithBigSQL':['BIGSQL'],
+      'CloudantIntegrationWithSpark':['SPARK'],
+      'DashDBIntegrationWithSpark':['SPARK'],
       'ElasticsearchIntegrationWithSpark':['SPARK'],
       'OozieWorkflowMapReduce':['KNOX', 'OOZIE', 'MAPREDUCE2'],
       'OozieWorkflowSpark':['KNOX', 'OOZIE', 'SPARK'],
       'OozieWorkflowCurl':['KNOX', 'OOZIE', 'MAPREDUCE2'],
-      'WebHCatMapReduce':['KNOX', 'MAPREDUCE2'],
-      'WebHCatPig':['KNOX', 'PIG'],
-      'WebHCatHive':['KNOX', 'HIVE'],
+      'WebHCatGroovy':['KNOX', 'MAPREDUCE2', 'PIG', 'HIVE'],
       'HBaseGroovy':['KNOX', 'HBASE'],
       'HBaseJava':['KNOX', 'HBASE'],
     ]
