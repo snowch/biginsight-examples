@@ -109,8 +109,21 @@ task('ServiceCheck', type: JavaExec) {
     environment 'ambariPassword', props.ambariPassword
     environment 'service_name', service_name
   
-
     main = 'ServiceCheck'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+task('RestartService', type: JavaExec) {
+
+    // if running this task with clean, ensure clean runs first
+    mustRunAfter clean 
+
+    environment 'ambariUrl', props.ambariUrl
+    environment 'ambariUsername', props.ambariUsername
+    environment 'ambariPassword', props.ambariPassword
+    environment 'service_name', service_name
+  
+    main = 'RestartService'
     classpath = sourceSets.main.runtimeClasspath
 }
 
