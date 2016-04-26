@@ -21,21 +21,6 @@ apply from: "${projectDir}/../../shared/common-helpers.gradle"
 Properties props = new Properties()
 props.load(new FileInputStream("$projectDir/../../connection.properties"))
 
-// setup the connection details for ssh
-remotes {
-    bicluster {
-       host = getMasters(props)['BIGSQL_HEAD'][0]
-       user = props.username
-       password = props.password
-    }
-}
-
-ssh.settings {
-    if (props.known_hosts == 'allowAnyHosts') {
-        // disable ssh host key verification 
-        knownHosts = allowAnyHosts
-    }
-}
 
 // set the dependencies for compiling the groovy script
 repositories {
@@ -56,11 +41,6 @@ sourceSets {
             srcDirs = ['.']
         }
     }
-}
-
-clean {
-    delete './lib'
-    delete './truststore.jks'
 }
 
 task ('CreateTrustStore', type:Exec) {
@@ -98,7 +78,6 @@ task('Load', type: JavaExec) {
 }
 
 task('Example') {
-
     dependsOn Load
 }
 
