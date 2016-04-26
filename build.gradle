@@ -30,9 +30,7 @@ props.load(new FileInputStream("$projectDir/connection.properties"))
 // extract BigInsights hostname from the gateway url
 def matcher = props.gateway =~ /^(https?:\/\/)([^:^\/]*)(:\d*)?(.*)?.*$/
 
-def mastermanager_hostname = matcher[0][2] 
-
-def master2_hostname = mastermanager_hostname.replace('mastermanager', 'master-2')
+def mastermanager_hostname = matcher[0][2]
 
 // setup the connection details for ssh
 remotes {
@@ -41,12 +39,8 @@ remotes {
        user = props.username
        password = props.password
     }
-    bicluster_master2 {
-       host = master2_hostname
-       user = props.username
-       password = props.password
-    }
-    def bigsql_head = getMasters(props)['BIGSQL_HEAD']
+
+    def bigsql_head = getMasters(props)['BIGSQL_HEAD']?.get(0)
     if (bigsql_head) {
         // we use ssh (scp) to download the jdbc libraries needed to connect to dashDB
         bicluster_bigsql_head {
@@ -164,10 +158,13 @@ task('DownloadJdbcJars') {
             }
 
         } else {
-            throw new GradleException(
-                "Unable to download db2jcc.jar, db2jcc4.jar, db2jcc_license_cu.jar from the cluster\n" +
-                "Maybe this is a basic cluster?  If so, manually obtain the above files and place them in the downloads folder"
-                )
+            if (!file("${projectDir}/downloads/db2jcc.jar").exists() ||
+                !file("${projectDir}/downloads/db2jcc4.jar").exists() ||
+                !file("${projectDir}/downloads/db2jcc_license_cu.jar")) {
+
+                println "Unable to download db2jcc.jar, db2jcc4.jar, db2jcc_license_cu.jar from the cluster\n"
+                println "Maybe this is a basic cluster?  If so, manually obtain the above files and place them in the downloads folder"
+            }
         }
     }
 }
@@ -192,16 +189,17 @@ task verifySshConnectivity << {
         System.err.println "   Resolution: ssh into ${mastermanager_hostname} or set known_hosts:allowAnyHosts in connection.properties"
     }
 
-    if (master2_hostname != mastermanager_hostname) {
+    def bigsql_head = getMasters(props)['BIGSQL_HEAD']?.get(0)
+    if (bigsql_head) {
         try {
             ssh.run {
-                session(remotes.bicluster_master2) {
-                    execute "echo successfully connected to ${master2_hostname} over ssh"
+                session(remotes.bicluster_bigsql_head) {
+                    execute "echo successfully connected to ${bigsql_head} over ssh"
                 }
             }
         } catch (JSchException e) {
             System.err.println "** SSH error: ${e.message} - some tests will fail **"
-            System.err.println "   Resolution: ssh into ${master2_hostname} or set known_hosts:allowAnyHosts in connection.properties"
+            System.err.println "   Resolution: ssh into ${bigsql_head} or set known_hosts:allowAnyHosts in connection.properties"
         }
     }
 }
@@ -277,13 +275,14 @@ task('ClusterDetails') {
     printSep()
     printCenter("\033[1mCLUSTER DETAILS\033[0m")
     printSep()
-    println "Ambari URL         ::      https://${mastermanager_hostname}:9443/"
-    println "BigInsights URL    ::      https://${mastermanager_hostname}:8443/gateway/default/BigInsightsWeb/index.html"
-    println "YARN URL           ::      https://${mastermanager_hostname}:8443/gateway/yarnui/yarn/apps"
-    println "Master Mgr SSH URL ::      ssh://${props.username}@${mastermanager_hostname}"
-    // Basic plan doesn't have a master2
-    if (master2_hostname != mastermanager_hostname) {
-        println "Master 2   SSH URL ::      ssh://${props.username}@${master2_hostname}"
+    println "Ambari URL          :      https://${mastermanager_hostname}:9443/"
+    println "BigInsights URL     :      https://${mastermanager_hostname}:8443/gateway/default/BigInsightsWeb/index.html"
+    println "YARN URL            :      https://${mastermanager_hostname}:8443/gateway/yarnui/yarn/apps"
+    println "Master Mgr SSH URL  :      ssh://${props.username}@${mastermanager_hostname}"
+
+    def bigsql_head = getMasters(props)['BIGSQL_HEAD']?.get(0)
+    if (bigsql_head) {
+    println "BigSQL Host SSH URL :      ssh://${props.username}@${bigsql_head}"
     }
     printSep()
 }
