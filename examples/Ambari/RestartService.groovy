@@ -18,10 +18,10 @@ if ( state == "STARTED" ) {
     println "Check request ${id} : " + cluster.checkRequest(id)
 
     println "\nStart service ${service}: "
-    id = cluster.startService('KAFKA')
+    id = cluster.startService(service)
     println "Check request ${id} : " + cluster.checkRequest(id)
 } else {
     println "\nStart service: "
-    id = cluster.startService('KAFKA')
+    id = cluster.startService(service)
     println "Check request ${id} : " + cluster.checkRequest(id)
 }
