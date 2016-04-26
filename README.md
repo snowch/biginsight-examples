@@ -26,12 +26,12 @@ See the 5 minute demo at the end of the README to see these steps in action.
 - Clone this repository `git clone https://github.com/snowch/biginsight-examples.git`
 - Copy `connection.properties_template` to `connection.properties`
 - Edit `connection.properties` to add your connection details for BigInsights and other optional services such as dashDB
+- In `connection.properties` uncomment the line `# known_hosts:allowAnyHosts`
 - Export the cluster certificate from your browser. The following steps apply to Firefox:
   - Click the lock icon in your browser's address bar.
   - Click More Information and then View Certificate on the Security page.
   - In the Certificate Viewer, select the Details tab and then click Export.
   - Save the certificate in this folder with the filename `certificate`
-- In your `connection.properties` uncomment the line `# known_hosts:allowAnyHosts`
 - Run `./gradlew DownloadLibs` (unix) `gradlew.bat DownloadLibs` (windows) to download libraries from the cluster
 - Run `./gradlew test` (unix) `gradlew.bat test` (windows) to run the whole set of examples as a test (detailed output for the tests can be found in the folder `./build/test/`)
 
