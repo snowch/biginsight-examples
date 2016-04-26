@@ -93,22 +93,22 @@ See the README file in each project for instructions how to run the example.
 
 #### Cloudant
 
-- Pull data from a Cloudant database to HDFS using Spark [[CloudantPullWithSpark](./CloudantPullWithSpark)]
-- Push data from HDFS to a Cloudant database using Spark [[CloudantPushWithSpark](./CloudantPushWithSpark)]
+- Pull data from a Cloudant database to HDFS using Spark [[CloudantIntegrationWithSpark](./CloudantIntegrationWithSpark)]
+- Push data from HDFS to a Cloudant database using Spark [[CloudantIntegrationWithSpark](./CloudantIntegrationWithSpark)]
 
 *********************************************************************
 
 #### Object Store (Swift, S3)
 
-- Pull data from a object store to HDFS using Spark [[ObjectStoreIntegrationWithSpark]](./ObjectStoreIntegrationWithSpark)]
+- Pull data from a object store to HDFS using Spark [[ObjectStoreIntegrationWithSpark](./ObjectStoreIntegrationWithSpark)]
 - Push data from HDFS to a object store using Spark [[ObjectStoreIntegrationWithSpark](./ObjectStoreIntegrationWithSpark)]
 
 *********************************************************************
 
 #### dashDB
 
-- Pull data from a dashDB database to HDFS using Spark [[DashDBPullWithSpark](./DashDBPullWithSpark)]
-- Push data to dashDB database using Spark [[DashDBPushWithSpark](./DashDBPushWithSpark)] 
+- Pull data from a dashDB database to HDFS using Spark [[DashDBIntegrationWithSpark](./DashDBIntegrationWithSpark)]
+- Push data to dashDB database using Spark [[DashDBIntegrationWithSpark](./DashDBIntegrationWithSpark)] 
 - Pull data from a dashDB database using Big SQL [[DashDBPullWithBigSQL](./DashDBPullWithBigSQL)]
 
 *********************************************************************
