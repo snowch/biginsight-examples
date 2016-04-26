@@ -136,41 +136,19 @@ task('SetupLibs') {
         // create a folder for the libraries
         mkdir("${projectDir}/lib")
 
-        def bigsql_head = getMasters(props)['BIGSQL_HEAD']
-        if (bigsql_head) {
+        ['db2jcc.jar', 'db2jcc4.jar', 'db2jcc_license_cu.jar'].each { jar ->
+            if (!file("${projectDir}/lib/${jar}").exists()) 
+            {
+                def src = file("${projectDir}/../../downloads/${jar}")
+                def dst = file("${projectDir}/lib/")
 
-            ssh.run {
-                session(remotes.bicluster_bigsql_head) {
+                println "Attepmting to copy ${src.absolutePath} to ${dst.absolutePath}"
 
-                    get from: "/usr/ibmpacks/bigsql/4.1/db2/java/db2jcc.jar",
-                        into: "${projectDir}/lib/db2jcc.jar"
-                    
-                    get from: "/usr/ibmpacks/bigsql/4.1/db2/java/db2jcc4.jar",
-                        into: "${projectDir}/lib/db2jcc4.jar"
-
-                    get from: "/usr/ibmpacks/bigsql/4.1/db2/java/db2jcc_license_cu.jar",
-                        into: "${projectDir}/lib/db2jcc_license_cu.jar"
+                if (!src.exists()) {
+                    throw new GradleException("${src.absolutePath} not found. Have you copied ${jar} to ${src.absolutePath}? See https://github.com/snowch/biginsight-examples/issues/17/")
                 }
-            }
-
-        } else {
-            // Basic cluster has a defect meaning libraries aren't available
-            // to test dashdb on these clusters, copy the jars to the top level
-            // project's download directory
-            ['db2jcc.jar', 'db2jcc4.jar', 'db2jcc_license_cu.jar'].each { jar ->
-                if (!file("${projectDir}/lib/${jar}").exists()) 
-                {
-                    def src = file("${projectDir}/../../downloads/${jar}")
-                    def dst = file("${projectDir}/lib/")
-
-                    println "Attepmting to copy ${src.absolutePath} to ${dst.absolutePath}"
-
-                    if (!src.exists()) {
-                        throw new GradleException("${src.absolutePath} not found. Have you copied ${jar} to ${src.absolutePath}? See https://github.com/snowch/biginsight-examples/issues/17/")
-                    }
-                    copy{ from(src) into(dst) }
-                } 
-            }
+                copy{ from(src) into(dst) }
+            } 
         }
     }
 }

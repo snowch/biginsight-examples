@@ -32,6 +32,7 @@ See the 5 minute demo at the end of the README to see these steps in action.
   - In the Certificate Viewer, select the Details tab and then click Export.
   - Save the certificate in this folder with the filename `certificate`
 - In your `connection.properties` uncomment the line `# known_hosts:allowAnyHosts`
+- Run `./gradlew DownloadLibs` (unix) `gradlew.bat DownloadLibs` (windows) to download libraries from the cluster
 - Run `./gradlew test` (unix) `gradlew.bat test` (windows) to run the whole set of examples as a test (detailed output for the tests can be found in the folder `./build/test/`)
 
 *********************************************************************
