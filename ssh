@@ -1,0 +1,5 @@
+#!/bin/sh
+
+SSH_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+${SSH_DIR}/gradlew -p ${SSH_DIR} ssh --no-daemon --console plain -q
