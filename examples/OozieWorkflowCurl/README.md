@@ -12,6 +12,8 @@ Run this example by changing into the current directory then executing:
 ../../gradlew.bat Example
 ```
 
+NOTE: This cURL example requires a Unix like environment (e.g. cygwin on Windows) with bash and curl installed.
+
 *********************************************************************
 
 Note: you can run this script from the top level project folder using the gradle `-p` argument:

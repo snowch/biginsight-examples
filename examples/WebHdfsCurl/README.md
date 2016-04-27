@@ -10,6 +10,7 @@ The examples uses a gradle build file [./build.gradle](./build.gradle) to set en
 
 Why use curl for the examples?  Developers can replicate what is being done by curl in the language of their own choice using the REST / JSON libraries they prefer for that language.  Note that JVM based developers will probably want to use the knox library - see the other examples here: https://github.com/snowch/biginsight-examples/tree/master/examples#hdfs-using-knox-api---webhdfs
 
+NOTE: The cURL examples require a Unix like environment (e.g. cygwin on Windows) with bash and curl installed.
 
 *********************************************************************
 
