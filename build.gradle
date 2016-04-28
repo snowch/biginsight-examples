@@ -1,3 +1,4 @@
+import org.apache.tools.ant.taskdefs.condition.Os
 import static org.gradle.testfixtures.ProjectBuilder.*
 import static org.gradle.testkit.runner.TaskOutcome.*
 import org.gradle.testfixtures.ProjectBuilder
@@ -254,10 +255,14 @@ task verifyConfig(dependsOn: [verifyCertificate, verifySshConnectivity]) << {
 
 def termWidth() {
     // jline doesn't play nicely on some windows machines
-    try {
-        return  jline.TerminalFactory.get().getWidth()
-    } catch (Exception e) {
+    if (Os.isFamily(Os.FAMILY_WINDOWS)) {
         return 80
+    } else {
+        try {
+            return  jline.TerminalFactory.get().getWidth()
+        } catch (Exception e) {
+            return 80
+        }
     }
 }
 
