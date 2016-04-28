@@ -39,8 +39,8 @@ sql.execute("CREATE WRAPPER drda")
 // Create server mapping
 println "Create server mapping"
 sql.execute """
-   CREATE SERVER DASHDB TYPE DB2/UDB VERSION 11.00 WRAPPER DRDA
-   AUTHORIZATION "${dash_user}" PASSWORD "${dash_password}"
+   CREATE SERVER DASHDB TYPE DB2/UDB VERSION 10.7 WRAPPER DRDA
+   AUTHORIZATION "${env.username}" PASSWORD "${env.password}"
    OPTIONS (DBNAME 'BLUDB', COLLATING_SEQUENCE 'N')
 """.toString()
 

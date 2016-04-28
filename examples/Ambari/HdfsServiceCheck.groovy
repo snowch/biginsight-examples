@@ -55,7 +55,7 @@ println "Request href is: ${object_request.href}"
 println "\nPolling up to 60s for job completion..."
 status = "IN_PROGRESS";
 count = 0;
-while( status == "IN_PROGRESS" && count++ < 30 ) {
+while( status == "IN_PROGRESS" && count++ < 60 ) {
   sleep( 1000 )
   def check_request = client.get( path : 'api/v1/clusters/' + clusterName + '/requests/' + requestId )
   request_status = jsonSlurper.parseText(check_request.data.text)
