@@ -7,9 +7,13 @@ BIGSQL should be setup such that federation is on and appropriate library are in
 
 ## Setup client keystore for SSL
 
-Make sure to get the CA certificate file from DASHDB and copy it to `/home/bigsql/sqllib/security/keystore/DigiCertGlobalRootCA.crt` on the BigSQL host.
+Make sure to get the CA certificate file from DASHDB and copy it to `/home/bigsql/sqllib/security/keystore/DigiCertGlobalRootCA.crt` on the BigSQL host.  E.g. using scp:
 
-Go to keystory directory:
+```
+scp DigiCertGlobalRootCA.crt biadmin@<bigsql head node>:/home/bigsql/sqllib/security/keystore/DigiCertGlobalRootCA.crt
+```
+
+Ssh into the Big SQL head node and go to keystory directory:
 
 ```
 cd /home/bigsql/sqllib/security/keystore
