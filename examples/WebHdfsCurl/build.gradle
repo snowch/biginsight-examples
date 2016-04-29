@@ -3,33 +3,15 @@ Properties props = new Properties()
 props.load(new FileInputStream("$projectDir/../../connection.properties"))
 
 // task to run the bash script
-task('Ls', type: Exec) {
+['Ls', 'Mkdir', 'Put'].each { taskName ->
+   task "$taskName" (type: Exec) {
 
     environment 'gateway', props.gateway
     environment 'username', props.username
     environment 'password', props.password
 
-    commandLine "bash", "Ls.sh"
-}
-
-// task to run the bash script
-task('Mkdir', type: Exec) {
-
-    environment 'gateway', props.gateway
-    environment 'username', props.username
-    environment 'password', props.password
-
-    commandLine "bash", "Mkdir.sh"
-}
-
-// task to run the bash script
-task('Put', type: Exec) {
-
-    environment 'gateway', props.gateway
-    environment 'username', props.username
-    environment 'password', props.password
-
-    commandLine "bash", "Put.sh"
+    commandLine "bash", "${taskName}.sh"
+   }
 }
 
 task('Test') {
