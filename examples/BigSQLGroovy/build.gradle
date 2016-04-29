@@ -74,6 +74,10 @@ task ('CreateTrustStore', type:Exec) {
       environment 'hostname', getMasters(props)['BIGSQL_HEAD'][0]
       environment 'username', props.username
       environment 'password', props.password
+      environment 'dashUser', props.dashUser
+      environment 'dashPassword', props.dashPassword
+      environment 'dashHost', props.dashHost
+      environment 'dashPort', props.dashPort
 
       main = taskName
       classpath = sourceSets.main.runtimeClasspath
