@@ -26,7 +26,7 @@ Update database manager configuration to use key and stash file:
 db2 update dbm cfg using SSL_CLNT_KEYDB /home/bigsql/sqllib/security/keystore/dashclient.kdb 
 db2 update dbm cfg using SSL_CLNT_STASH /home/bigsql/sqllib/security/keystore/dashclient.sth 
 ```
-**NOTE:** *On BigInsights on Cloud clusters, the above operations need to be requested via a support ticket:*
+**NOTE:** *On BigInsights on Cloud clusters, the above 'db2 update' operations need to be requested via a support ticket:*
 
 ## Catalog remote database
 
