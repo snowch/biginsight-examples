@@ -80,6 +80,22 @@ task ('installPackages', type:Exec) {
     }
 }
 
+task('GenerateConfig') << {
+
+println """
+################################################################################
+# Paste these settings info connnect.r overwriting the Sys.getenv(...) values
+################################################################################
+libdir   <- "${projectDir}/lib"
+hostname <- "${getMasters(props)['BIGSQL_HEAD'][0]}"
+username <- "${props.username}"
+password <- "${props.password}"
+projdir  <- "${projectDir}"
+debug    <- FALSE
+################################################################################
+"""
+}
+
 task('Example') {
     dependsOn Connect, UploadData
 }
