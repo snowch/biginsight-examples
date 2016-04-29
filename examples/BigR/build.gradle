@@ -9,26 +9,6 @@ apply from: "${projectDir}/../../shared/common-helpers.gradle"
 Properties props = new Properties()
 props.load(new FileInputStream("$projectDir/../../connection.properties"))
 
-// extract BigInsights hostname from the gateway url
-def matcher = props.gateway =~ /^(https?:\/\/)([^:^\/]*)(:\d*)?(.*)?.*$/
-def hostname = matcher[0][2] 
-
-// setup the connection details for ssh
-remotes {
-    bicluster {
-       host = hostname
-       user = props.username
-       password = props.password
-    }
-}
-
-ssh.settings {
-    if (props.known_hosts == 'allowAnyHosts') {
-        // disable ssh host key verification 
-        knownHosts = allowAnyHosts
-    }
-}
-
 task('customClean') << {
     delete "${projectDir}/Rhistory"
     delete "${projectDir}/truststore.jks"
@@ -85,7 +65,7 @@ task ('installPackages', type:Exec) {
         environment 'password', props.password
         environment 'projdir',  projectDir
 
-        if (project.hasProperty('debugExample')) {
+        if (project.hasProperty('debugBigR')) {
             environment 'debug', "TRUE"
         } else {
             environment 'debug', "FALSE"
