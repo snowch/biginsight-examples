@@ -435,8 +435,6 @@ task testSetup() {
 
 task baseTest(dependsOn: testSetup) << {
 
-    return
-
     if (!project.hasProperty('summaryOutput')) {
         println "Running with detailed test output (for summary output, run gradle with -PsummaryOutput)"
     }
