@@ -506,7 +506,12 @@ task test(dependsOn: xTest) << {
 ////////////////////////////////////////////////////////////////////////////////
 
 task ssh(type: Exec) {
-    println "** TIP: enable passwordless ssh by running `ssh-copy-id ${props.username}@${mastermanager_hostname}` or `cat ~/.ssh/id_rsa.pub | ssh ${props.username}@${mastermanager_hostname} 'cat >> ~/.ssh/authorized_keys'`**\n"
+    println "***"
+    println "TIP: enable passwordless ssh by running, either of the following commands:"
+    println ""
+    println "  `ssh-copy-id ${props.username}@${mastermanager_hostname}` or"
+    println "  `cat ~/.ssh/id_rsa.pub | ssh ${props.username}@${mastermanager_hostname} 'cat >> ~/.ssh/authorized_keys'`"
+    println "***"
     standardInput = System.in
     standardOutput = System.out
     commandLine "ssh", "-t", "-t", "${props.username}@${mastermanager_hostname}"

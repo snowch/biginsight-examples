@@ -2,43 +2,46 @@ plugins {
   id 'org.hidetake.ssh' version '1.5.0'
 }
 
+// load some common helper methods
+apply from: "${projectDir}/../../shared/common-helpers.gradle"
+
 // get the cluster connection details
 Properties props = new Properties()
 props.load(new FileInputStream("$projectDir/../../connection.properties"))
 
-// extract BigInsights hostname from the gateway url
-def matcher = props.gateway =~ /^(https?:\/\/)([^:^\/]*)(:\d*)?(.*)?.*$/
-def hostname = matcher[0][2] 
-
-// setup the connection details for ssh
-remotes {
-    bicluster {
-       host = hostname
-       user = props.username
-       password = props.password
-    }
+task('customClean') << {
+    delete "${projectDir}/Rhistory"
+    delete "${projectDir}/truststore.jks"
+    delete "${projectDir}/bigr.tar.gz"
+    delete "${projectDir}/lib"
 }
 
-ssh.settings {
-    if (props.known_hosts == 'allowAnyHosts') {
-        // disable ssh host key verification 
-        knownHosts = allowAnyHosts
-    }
-}
-
-task('clean') << {
-    delete './Rhistory'
-    delete './truststore.jks'
-    delete './bigr.tar.gz'
-    delete './lib'
-}
+// ensure clean n shared/common-helpers.gradle executes our customClean target
+clean.dependsOn customClean
 
 task ('installPackages', type:Exec) {
 
-    mustRunAfter clean
+    mustRunAfter clean, customClean
+
+    // only grab the file if it doesn't already exist locally
+    if (!file("${projectDir}/bigr.tar.gz").exists()) {
+
+        ssh.run {
+             // remotes.bicluster is defined in shared/common-helpers.gradle
+            session(remotes.bicluster) {
+
+                // grab the bigr package from the cluster
+                get from: "/usr/ibmpacks/current/bigr/bigr/bigr_*.tar.gz",
+                    into: "${projectDir}/bigr.tar.gz"
+            }
+        }
+    }
 
     // tell gradle we don't need to run this task if the ./lib/bigr/ folder exists
-    outputs.files file("${projectDir}/lib/bigr/")
+    if (file("${projectDir}/lib/bigr/").exists()) {
+        commandLine 'echo', "Found directory ${projectDir}/lib/bigr/ - Skipping installPackages as packages are already installed"
+        return
+    } 
 
     // ensure the ssl certificate exists
     if (!file("${projectDir}/../../certificate").exists()) {
@@ -50,43 +53,33 @@ task ('installPackages', type:Exec) {
         arg(line: '-import -trustcacerts -alias biginsights -file ../../certificate -keystore ./truststore.jks -storepass mypassword -noprompt')
     }
 
-    // only grab the file if it doesn't already exist locally
-    if (!(new File('./bigr.tar.gz').exists())) {
-
-        ssh.run {
-            session(remotes.bicluster) {
-
-                // grab the bigr package from the cluster
-                get from: "/usr/ibmpacks/current/bigr/bigr/bigr_*.tar.gz",
-                    into: "${projectDir}/bigr.tar.gz"
-            }
-        }
-    }
-
     // set where we want the R packages installed
     environment 'libdir',   "${projectDir}/lib"
 
     commandLine 'Rscript', "--verbose", "--vanilla", "${projectDir}/install_packages.r"
 }
 
+['Connect', 'UploadData'].each { taskName ->
+    task "$taskName" (dependsOn: installPackages, type: Exec) {
 
-// task to run a R script
-task('Connect', dependsOn: installPackages, type: Exec) {
+        // pass environment variables to the R script
+        environment 'libdir',   "${projectDir}/lib"
+        environment 'hostname', getMasters(props)['BIGSQL_HEAD'][0]
+        environment 'username', props.username
+        environment 'password', props.password
+        environment 'projdir',  projectDir
 
-    // BigR service listens on master-2 node
-    hostname = hostname.replace('mastermanager', 'master-2')
+        if (project.hasProperty('debugBigR')) {
+            environment 'debug', "TRUE"
+        } else {
+            environment 'debug', "FALSE"
+        }
 
-    // pass environment variables to the R script
-    environment 'libdir',   "${projectDir}/lib"
-    environment 'hostname', hostname
-    environment 'gateway',  props.gateway
-    environment 'username', props.username
-    environment 'password', props.password
-
-    // execute R script - inpect example.r for details
-    commandLine "Rscript", "--verbose", "--vanilla", "${projectDir}/example.r"
+        // execute R script - inpect example.r for details
+        commandLine "Rscript", "--verbose", "--vanilla", "${projectDir}/${taskName.toLowerCase()}.r"
+    }
 }
 
 task('Example') {
-    dependsOn Connect
+    dependsOn Connect, UploadData
 }

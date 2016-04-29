@@ -1,12 +1,14 @@
-
 libdir   <- Sys.getenv("libdir")
 hostname <- Sys.getenv("hostname")
 username <- Sys.getenv("username")
 password <- Sys.getenv("password")
+projdir  <- Sys.getenv("projdir")
+debug    <- Sys.getenv("debug")
 
 .libPaths(libdir)
 
 library(bigr)
+bigr:::bigr.debug(toupper(debug))
 
 # truststore is created by the build.gradle script
 
@@ -15,11 +17,10 @@ bigr.connect(
     user = username,
     password = password,
     ssl = TRUE,
-    trustStorePath = "./truststore.jks",
+    trustStorePath = paste(projdir, "/truststore.jks", sep=""),
     trustStorePassword = "mypassword",
     keyManager = "SunX509"
     )
 
 is.bigr.connected()  
 
-print(">> Connectivity test was successful.")
