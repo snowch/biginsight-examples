@@ -27,11 +27,12 @@ ssh.settings {
 }
 
 task('clean') << {
-    delete './Rhistory'
-    delete './truststore.jks'
-    delete './bigr.tar.gz'
-    delete './lib'
+    delete "${projectDir}/Rhistory"
+    delete "${projectDir}/truststore.jks"
+    delete "${projectDir}/bigr.tar.gz"
+    delete "${projectDir}/lib"
 }
+
 
 task ('installPackages', type:Exec) {
 
