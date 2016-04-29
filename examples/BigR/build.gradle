@@ -85,7 +85,8 @@ task('GenerateSampleScript') << {
     def f = file('./connect_template.r')
 
     if (f.exists()) {
-        throw new GradleException('File connect_template.r already exists, delete it and retry this task.')
+        println('\nERROR: File connect_template.r already exists. Please delete it and try again.')
+        return
     }
 
     f.text = """
