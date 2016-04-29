@@ -33,7 +33,7 @@ air_hdfs <- bigr.frame(dataPath = "/user/bigr/examples/airline_demo.csv",
                   dataSource = "DEL",
                   delimiter=",", header = T,
                   coltypes = ifelse(1:29 %in% c(9,11,17,18,23), "character", "integer"),
-                  useMapReduce = F)
+                  useMapReduce = T)
 
 air_hdfs_rows <- nrow(air_hdfs)
 
