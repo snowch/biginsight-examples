@@ -21,10 +21,27 @@ clean.dependsOn customClean
 
 task ('installPackages', type:Exec) {
 
-    mustRunAfter clean
+    mustRunAfter clean, customClean
+
+    // only grab the file if it doesn't already exist locally
+    if (!file("${projectDir}/bigr.tar.gz").exists()) {
+
+        ssh.run {
+             // remotes.bicluster is defined in shared/common-helpers.gradle
+            session(remotes.bicluster) {
+
+                // grab the bigr package from the cluster
+                get from: "/usr/ibmpacks/current/bigr/bigr/bigr_*.tar.gz",
+                    into: "${projectDir}/bigr.tar.gz"
+            }
+        }
+    }
 
     // tell gradle we don't need to run this task if the ./lib/bigr/ folder exists
-    outputs.files file("${projectDir}/lib/bigr/")
+    if (file("${projectDir}/lib/bigr/").exists()) {
+        commandLine 'echo', "Found directory ${projectDir}/lib/bigr/ - Skipping installPackages as packages are already installed"
+        return
+    } 
 
     // ensure the ssl certificate exists
     if (!file("${projectDir}/../../certificate").exists()) {
@@ -34,19 +51,6 @@ task ('installPackages', type:Exec) {
     // import the BigInsights manager certificate
     ant.exec(executable: 'keytool', dir:'./') {
         arg(line: '-import -trustcacerts -alias biginsights -file ../../certificate -keystore ./truststore.jks -storepass mypassword -noprompt')
-    }
-
-    // only grab the file if it doesn't already exist locally
-    if (!(new File('./bigr.tar.gz').exists())) {
-
-        ssh.run {
-            session(remotes.bicluster) {
-
-                // grab the bigr package from the cluster
-                get from: "/usr/ibmpacks/current/bigr/bigr/bigr_*.tar.gz",
-                    into: "${projectDir}/bigr.tar.gz"
-            }
-        }
     }
 
     // set where we want the R packages installed
