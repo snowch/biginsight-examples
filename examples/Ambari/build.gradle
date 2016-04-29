@@ -47,84 +47,20 @@ if (project.hasProperty('service')) {
 }
 
 // task to run the Example.groovy script
-task('ListServices', type: JavaExec) {
+['ListServices', 'ShowMaster', 'AlertServices', 'HdfsServiceCheck', 'ServiceCheck', 'RestartService'].each { taskName ->
+   task "$taskName" (type: JavaExec) {
 
-    // if running this task with clean, ensure clean runs first
-    mustRunAfter clean 
+      // if running this task with clean, ensure clean runs first
+      mustRunAfter clean 
 
-    environment 'ambariUrl', props.ambariUrl
-    environment 'ambariUsername', props.ambariUsername
-    environment 'ambariPassword', props.ambariPassword
+      environment 'ambariUrl', props.ambariUrl
+      environment 'ambariUsername', props.ambariUsername
+      environment 'ambariPassword', props.ambariPassword
+      environment 'service_name', service_name
 
-    main = 'ListServices'
-    classpath = sourceSets.main.runtimeClasspath
-}
-
-task('ShowMaster', type: JavaExec) {
-
-    // if running this task with clean, ensure clean runs first
-    mustRunAfter clean 
-
-    environment 'ambariUrl', props.ambariUrl
-    environment 'ambariUsername', props.ambariUsername
-    environment 'ambariPassword', props.ambariPassword
-
-    main = 'ShowMaster'
-    classpath = sourceSets.main.runtimeClasspath
-}
-
-task('AlertServices', type: JavaExec) {
-
-    // if running this task with clean, ensure clean runs first
-    mustRunAfter clean 
-
-    environment 'ambariUrl', props.ambariUrl
-    environment 'ambariUsername', props.ambariUsername
-    environment 'ambariPassword', props.ambariPassword
-
-    main = 'AlertServices'
-    classpath = sourceSets.main.runtimeClasspath
-}
-
-task('HdfsServiceCheck', type: JavaExec) {
-
-    // if running this task with clean, ensure clean runs first
-    mustRunAfter clean 
-
-    environment 'ambariUrl', props.ambariUrl
-    environment 'ambariUsername', props.ambariUsername
-    environment 'ambariPassword', props.ambariPassword
-
-    main = 'HdfsServiceCheck'
-    classpath = sourceSets.main.runtimeClasspath
-}
-
-task('ServiceCheck', type: JavaExec) {
-
-    // if running this task with clean, ensure clean runs first
-    mustRunAfter clean 
-
-    environment 'ambariUrl', props.ambariUrl
-    environment 'ambariUsername', props.ambariUsername
-    environment 'ambariPassword', props.ambariPassword
-    environment 'service_name', service_name
-  
-    main = 'ServiceCheck'
-    classpath = sourceSets.main.runtimeClasspath
-}
-
-task('RestartService', type: JavaExec) {
-
-    // if running this task with clean, ensure clean runs first
-    mustRunAfter clean 
-
-    environment 'ambariUrl', props.ambariUrl
-    environment 'ambariUsername', props.ambariUsername
-    environment 'ambariPassword', props.ambariPassword
-    environment 'service_name', service_name
-  
-    main = 'RestartService'
-    classpath = sourceSets.main.runtimeClasspath
+      main = taskName
+      classpath = sourceSets.main.runtimeClasspath
+   }
 }
 
 task('Example') {
