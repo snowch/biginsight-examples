@@ -70,22 +70,25 @@ task ('installPackages', type:Exec) {
     commandLine 'Rscript', "--verbose", "--vanilla", "${projectDir}/install_packages.r"
 }
 
+['Connect'].each { taskName ->
+    task "$taskName" (dependsOn: installPackages, type: Exec) {
 
-// task to run a R script
-task('Connect', dependsOn: installPackages, type: Exec) {
+        // pass environment variables to the R script
+        environment 'libdir',   "${projectDir}/lib"
+        environment 'hostname', getMasters(props)['BIGSQL_HEAD'][0]
+        environment 'username', props.username
+        environment 'password', props.password
+        environment 'projdir',  projectDir
 
-    // BigR service listens on master-2 node
-    hostname = hostname.replace('mastermanager', 'master-2')
+        if (project.hasProperty('debugExample')) {
+            environment 'debug', "TRUE"
+        } else {
+            environment 'debug', "FALSE"
+        }
 
-    // pass environment variables to the R script
-    environment 'libdir',   "${projectDir}/lib"
-    environment 'hostname', hostname
-    environment 'gateway',  props.gateway
-    environment 'username', props.username
-    environment 'password', props.password
-
-    // execute R script - inpect example.r for details
-    commandLine "Rscript", "--verbose", "--vanilla", "${projectDir}/example.r"
+        // execute R script - inpect example.r for details
+        commandLine "Rscript", "--verbose", "--vanilla", "${projectDir}/${taskName.toLowerCase()}.r"
+    }
 }
 
 task('Example') {
