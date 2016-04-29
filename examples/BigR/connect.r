@@ -1,9 +1,13 @@
+################################################################################
+# Replace these settings with the output from ../../gradlew GenerateConfig
+################################################################################
 libdir   <- Sys.getenv("libdir")
 hostname <- Sys.getenv("hostname")
 username <- Sys.getenv("username")
 password <- Sys.getenv("password")
 projdir  <- Sys.getenv("projdir")
 debug    <- Sys.getenv("debug")
+################################################################################
 
 .libPaths(libdir)
 
@@ -12,7 +16,7 @@ bigr:::bigr.debug(toupper(debug))
 
 # truststore is created by the build.gradle script
 
-bigr.connect(
+connected <- bigr.connect(
     host = hostname, 
     user = username,
     password = password,
@@ -22,5 +26,6 @@ bigr.connect(
     keyManager = "SunX509"
     )
 
-is.bigr.connected()  
-
+if (connected) {
+    print("Successfully connected to BigR")
+}
