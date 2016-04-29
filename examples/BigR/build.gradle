@@ -80,11 +80,15 @@ task ('installPackages', type:Exec) {
     }
 }
 
-task('GenerateConfig') << {
+task('GenerateSampleScript') << {
 
-println """
-################################################################################
-# Paste these settings info connnect.r overwriting the Sys.getenv(...) values
+    def f = file('./connect_template.r')
+
+    if (f.exists()) {
+        throw new GradleException('File connect_template.r already exists, delete it and retry this task.')
+    }
+
+    f.text = """
 ################################################################################
 libdir   <- "${projectDir}/lib"
 hostname <- "${getMasters(props)['BIGSQL_HEAD'][0]}"
@@ -93,7 +97,29 @@ password <- "${props.password}"
 projdir  <- "${projectDir}"
 debug    <- FALSE
 ################################################################################
+
+.libPaths(libdir)
+
+library(bigr)
+bigr:::bigr.debug(toupper(debug))
+
+# truststore is created by the build.gradle script
+
+connected <- bigr.connect(
+    host = hostname,
+    user = username,
+    password = password,
+    ssl = TRUE,
+    trustStorePath = paste(projdir, "/truststore.jks", sep=""),
+    trustStorePassword = "mypassword",
+    keyManager = "SunX509"
+    )
+
+if (connected) {
+    print("Successfully connected to BigR")
+}
 """
+    println "Created file connect_template.r"
 }
 
 task('Example') {
