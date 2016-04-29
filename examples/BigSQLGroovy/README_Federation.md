@@ -5,7 +5,7 @@ BIGSQL should be setup such that federation is on and appropriate library are in
 
 ## Setup client keystore for SSL
 
-Make sure to get the CA certificate file from DASHDB and copy it to /home/bigsql/sqllib/security/keystore/DigiCertGlobalRootCA.crt.
+Make sure to get the CA certificate file from DASHDB and copy it to `/home/bigsql/sqllib/security/keystore/DigiCertGlobalRootCA.crt` on the BigSQL host.
 
 Go to keystory directory:
 
@@ -26,10 +26,13 @@ Update database manager configuration to use key and stash file:
 db2 update dbm cfg using SSL_CLNT_KEYDB /home/bigsql/sqllib/security/keystore/dashclient.kdb 
 db2 update dbm cfg using SSL_CLNT_STASH /home/bigsql/sqllib/security/keystore/dashclient.sth 
 ```
+**NOTE:** *On BigInsights on Cloud clusters, the above operations need to be requested via a support ticket:*
 
 ## Catalog remote database
 
 You need DBADM privilege to perform following. As bigsql on master-2 (Big SQL Head Node). Do the following.
+
+**NOTE:** *All of the commands in this section need to be requested via a support ticket *On BigInsights on Cloud clusters*
 
 Uncatalog if needed:
 ```
