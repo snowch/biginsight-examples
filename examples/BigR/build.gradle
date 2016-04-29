@@ -2,6 +2,9 @@ plugins {
   id 'org.hidetake.ssh' version '1.5.0'
 }
 
+// load some common helper methods
+apply from: "${projectDir}/../../shared/common-helpers.gradle"
+
 // get the cluster connection details
 Properties props = new Properties()
 props.load(new FileInputStream("$projectDir/../../connection.properties"))
@@ -26,13 +29,15 @@ ssh.settings {
     }
 }
 
-task('clean') << {
+task('customClean') << {
     delete "${projectDir}/Rhistory"
     delete "${projectDir}/truststore.jks"
     delete "${projectDir}/bigr.tar.gz"
     delete "${projectDir}/lib"
 }
 
+// ensure clean n shared/common-helpers.gradle executes our customClean target
+clean.dependsOn customClean
 
 task ('installPackages', type:Exec) {
 
