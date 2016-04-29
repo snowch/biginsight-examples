@@ -75,7 +75,7 @@ task ('installPackages', type:Exec) {
     commandLine 'Rscript', "--verbose", "--vanilla", "${projectDir}/install_packages.r"
 }
 
-['Connect'].each { taskName ->
+['Connect', 'UploadData'].each { taskName ->
     task "$taskName" (dependsOn: installPackages, type: Exec) {
 
         // pass environment variables to the R script
@@ -97,5 +97,5 @@ task ('installPackages', type:Exec) {
 }
 
 task('Example') {
-    dependsOn Connect
+    dependsOn Connect, UploadData
 }
