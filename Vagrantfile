@@ -58,7 +58,7 @@ Vagrant.configure(2) do |config|
 
      git clone https://github.com/snowch/biginsight-examples.git
 
-     cp -f /vagrant/downloads/*.jar biginsight-examples/downloads/
+     cp -f /vagrant/downloads/*.jar ~/biginsight-examples/downloads/
 
      # provide details for connecting to a BigInsights cluster
      ln -sf /vagrant/certificate ~/biginsight-examples/certificate
