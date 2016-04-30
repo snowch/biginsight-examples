@@ -471,7 +471,8 @@ task baseTest(dependsOn: testSetup) << {
     .each() { 
         println "Test skipped ./examples/${it} [interactive examples are not tested]"
     }
-   
+  
+    /* 
     // examples not implemented due to upstream dependencies not being met 
     [
       'Flume',
@@ -482,6 +483,7 @@ task baseTest(dependsOn: testSetup) << {
     .each() { 
         println "Test skipped ./examples/${it} [example not implemented due to known issue with BIoC clusters]"
     }
+    */
 }
 
 // TODO split this by module
