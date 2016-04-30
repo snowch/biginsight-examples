@@ -29,16 +29,16 @@ air <- bigr.persist(air, dataSource="DEL",
 # Once uploaded, one merely needs to instantiate a big.frame object,
 # commonly referenced as "air" in the examples, to access the dataset via
 # the Big R API.
-air_hdfs <- bigr.frame(dataPath = "/user/bigr/examples/airline_demo.csv",
+air <- bigr.frame(dataPath = "/user/bigr/examples/airline_demo.csv",
                   dataSource = "DEL",
                   delimiter=",", header = T,
                   coltypes = ifelse(1:29 %in% c(9,11,17,18,23), "character", "integer"),
                   useMapReduce = T)
 
-air_hdfs_rows <- nrow(air_hdfs)
+air_rows <- nrow(air_hdfs)
 
 # verify we have saved some data to hdfs
-if (air_hdfs_rows != 128790) {
+if (air_rows != 128790) {
     stop(paste("Expecting ", 128790, " rows, but found ", air_hdfs_rows, sep=""))
 }
 
@@ -46,6 +46,7 @@ if (air_hdfs_rows != 128790) {
 # 3. Machine Learning example: building a Linear Regression model
 #################################################################
 
+# TODO: use randomly generated filenames
 # Remove files from previous executions (if any)
 invisible(bigr.rmfs("/user/bigr/examples/airline.sample.* /user/bigr/examples/lm.airline*"))
 
