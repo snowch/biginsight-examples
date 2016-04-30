@@ -12,6 +12,8 @@ Run this example by changing into the current directory then executing:
 ../../gradlew.bat Example
 ```
 
+NOTE: See [Federation README](./README_Federation.md)
+
 *********************************************************************
 
 Note: you can run this script from the top level project folder using the gradle `-p` argument:
