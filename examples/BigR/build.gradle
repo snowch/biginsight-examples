@@ -102,7 +102,7 @@ if (connected) {
     println "Created file connect_template.r"
 }
 
-['Connect', 'UploadData', 'LinearRegression'].each { taskName ->
+['Connect', 'UploadData', 'LinearRegression', 'KMeans'].each { taskName ->
     task "$taskName" (dependsOn: installPackages, type: Exec) {
 
         // pass environment variables to the R script
@@ -124,10 +124,12 @@ if (connected) {
 }
 
 // The examples are progressive, we should run them in the order of most simple first
-// There isn't any point trying to run LinearRegression if Connect fails.
+// There isn't any point trying to run LinearRegression if Connect or UploadData fail.
+
 UploadData.mustRunAfter Connect
 LinearRegression.mustRunAfter UploadData
+KMeans.mustRunAfter Connect
 
 task('Example') {
-    dependsOn Connect, UploadData, LinearRegression
+    dependsOn Connect, UploadData, LinearRegression, KMeans
 }
