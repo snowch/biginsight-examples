@@ -22,3 +22,7 @@ km <- bigr.kmeans(irisBM, centers=10, directory="/user/bigr/examples/km", writeY
 
 # Use the existing model to cluster a different dataset
 p <- predict(km, irisBM, "/user/bigr/examples/km.preds")
+
+if (nrow(p$stats) != 9) {
+    stop("'p' doesn't appear to be a valid response from predict")
+}
