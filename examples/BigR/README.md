@@ -12,11 +12,13 @@ The second part is a R script [./install_packages.r](./install_packages.r) that:
 - installs prerequisite packages for BigR
 - installs the `bigr_*.tar.gz` file downloaded from the cluster
 
-The third part is a R script [./example.r](./example.r) that:
+The third part is a R script, e.g. [./connect.r](./connect.r) that:
 
 - loads the bigr library
 - attempts to connect to the cluster
 - verifies the connection was successful
+
+Also, see the other example r scripts in this folder.
 
 *********************************************************************
 ### Instructions
