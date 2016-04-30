@@ -42,6 +42,8 @@ def services = [
    'MAPREDUCE2':'MAPREDUCE2_SERVICE_CHECK',
    'HBASE':'HBASE_SERVICE_CHECK',
    'HIVE':'HIVE_SERVICE_CHECK',
+   'BIGSQL':'BIGSQL_SERVICE_CHECK',
+   'BIGR':'BIGR_SERVICE_CHECK',
 //   'WEBHCAT':'WEBHCAT_SERVICE_CHECK',
    'PIG':'PIG_SERVICE_CHECK',
    'OOZIE':'OOZIE_SERVICE_CHECK',
@@ -74,7 +76,7 @@ println "\nRequest id is: " + requestId
 println "\nPolling up to 60s for job completion..."
 status = "IN_PROGRESS";
 count = 0;
-while( status == "IN_PROGRESS" && count++ < 60 ) {
+while( status == "IN_PROGRESS" && count++ < 120 ) {
   sleep( 1000 )
   def check_request = client.get( path : 'api/v1/clusters/' + clusterName + '/requests/' + requestId )
   request_status = jsonSlurper.parseText(check_request.data.text)
