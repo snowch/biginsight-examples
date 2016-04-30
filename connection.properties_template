@@ -113,3 +113,13 @@ elasticsearch_host:changeme
 elasticsearch_port:changeme
 elasticsearch_user:changeme
 elasticsearch_pass:changeme
+
+
+################################################################################
+# Big SQL Federation Example : dashdb host details
+################################################################################
+dashUser:changeme
+dashPassword:changeme
+dashHost:changeme
+dashPort:changeme
+

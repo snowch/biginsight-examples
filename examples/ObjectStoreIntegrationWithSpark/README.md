@@ -10,7 +10,7 @@ The [build.gradle](./build.gradle) script contains two main tasks for the above 
 *********************************************************************
 #### Instructions
 
-Make sure your connection.properties file has values set to point to the bluemix swift account where you want the results saved:
+Ensure you have followed the Setup Instructions on the [project home page README](https://github.com/snowch/biginsight-examples), then edit your connection.properties file so that it has the following properties that point to your Objectstore container:
 
 ```bash
 ### auth url ###

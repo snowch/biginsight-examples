@@ -26,10 +26,10 @@ db = [ url:url, user:env.username, password:env.password, driver:'com.ibm.db2.jc
 
 sql = Sql.newInstance(db.url, db.user, db.password, db.driver)
 
-dash_user = 'dash6590'
-dash_password = 'SPbOJTC8wVhm'
-dash_host = 'dashdb-entry-yp-dal09-07.services.dal.bluemix.net'
-dash_port = '50001'
+dash_user = env.dashUser
+dash_password = env.dashPassword
+dash_host = env.dashHost
+dash_port = env.dashPort
 
 // Create wrapper
 println "Create wrapper"
@@ -40,7 +40,7 @@ sql.execute("CREATE WRAPPER drda")
 println "Create server mapping"
 sql.execute """
    CREATE SERVER DASHDB TYPE DB2/UDB VERSION 10.7 WRAPPER DRDA
-   AUTHORIZATION "${env.username}" PASSWORD "${env.password}"
+   AUTHORIZATION "${dash_user}" PASSWORD "${dash_password}"
    OPTIONS (DBNAME 'BLUDB', COLLATING_SEQUENCE 'N')
 """.toString()
 
@@ -56,7 +56,7 @@ println "Create nickname"
 sql.execute("CREATE NICKNAME LANGUAGE FOR DASHDB.SAMPLES.LANGUAGE")
 
 // Select from table
-def select_statment = "select language_code, language_desc from $tableName"
+def select_statment = "select language_code, language_desc from language"
 println "Select from table: $select_statment"
 sql.eachRow(select_statment.toString()) { row ->
   println "$row.language_code : $row.language_desc"

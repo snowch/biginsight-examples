@@ -1,5 +1,5 @@
 ################################################################################
-# Replace these settings with the output from ../../gradlew GenerateConfig
+# environment variables
 ################################################################################
 libdir   <- Sys.getenv("libdir")
 hostname <- Sys.getenv("hostname")

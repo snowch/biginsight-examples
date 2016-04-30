@@ -61,94 +61,30 @@ task ('CreateTrustStore', type:Exec) {
     commandLine "keytool -import -trustcacerts -alias biginsights -file ${projectDir}/../../certificate -keystore ./truststore.jks -storepass mypassword -noprompt".split()
 }
 
+// task to run groovy script
+['Connect', 'Insert', 'Load', 'Hbase', 'Federation'].each { taskName ->
+   task "$taskName" (type: JavaExec) {
 
-// task to run the Example.groovy script
-task('Connect', type: JavaExec) {
+      // if running this task with clean, ensure clean runs first
+      mustRunAfter clean 
 
-    // if running this task with clean, ensure clean runs first
-    mustRunAfter clean 
+      dependsOn CreateTrustStore
+      dependsOn SetupLibs
 
-    dependsOn CreateTrustStore
-    dependsOn SetupLibs
+      environment 'hostname', getMasters(props)['BIGSQL_HEAD'][0]
+      environment 'username', props.username
+      environment 'password', props.password
+      environment 'dashUser', props.dashUser
+      environment 'dashPassword', props.dashPassword
+      environment 'dashHost', props.dashHost
+      environment 'dashPort', props.dashPort
 
-    environment 'hostname', getMasters(props)['BIGSQL_HEAD'][0]
-    environment 'username', props.username
-    environment 'password', props.password
-
-    main = 'Connect'
-    classpath = sourceSets.main.runtimeClasspath
+      main = taskName
+      classpath = sourceSets.main.runtimeClasspath
+   }
 }
 
-// task to run the ExampleInsert.groovy script
-task('Insert', type: JavaExec) {
-
-    // if running this task with clean, ensure clean runs first
-    mustRunAfter clean 
-
-    dependsOn CreateTrustStore
-    dependsOn SetupLibs
-
-    environment 'hostname', getMasters(props)['BIGSQL_HEAD'][0]
-    environment 'username', props.username
-    environment 'password', props.password
-
-    main = 'Insert'
-    classpath = sourceSets.main.runtimeClasspath
-}
-
-task('Hbase', type: JavaExec) {
-
-    // if running this task with clean, ensure clean runs first
-    mustRunAfter clean 
-
-    dependsOn CreateTrustStore
-    dependsOn SetupLibs
-
-    environment 'hostname', getMasters(props)['BIGSQL_HEAD'][0]
-    environment 'username', props.username
-    environment 'password', props.password
-
-    main = 'Hbase'
-    classpath = sourceSets.main.runtimeClasspath
-}
-
-// task to run the ExampleInsert.groovy script
-task('Load', type: JavaExec) {
-
-    // if running this task with clean, ensure clean runs first
-    mustRunAfter clean 
-
-    dependsOn CreateTrustStore
-    dependsOn SetupLibs
-
-    environment 'hostname', getMasters(props)['BIGSQL_HEAD'][0]
-    environment 'gateway', props.gateway
-    environment 'username', props.username
-    environment 'password', props.password
-
-    main = 'Load'
-    classpath = sourceSets.main.runtimeClasspath
-}
-
-// Federation example
-task('Federation', type: JavaExec) {
-
-    // if running this task with clean, ensure clean runs first
-    mustRunAfter clean 
-
-    dependsOn CreateTrustStore
-    dependsOn SetupLibs
-
-    environment 'hostname', getMasters(props)['BIGSQL_HEAD'][0]
-    environment 'gateway', props.gateway
-    environment 'username', props.username
-    environment 'password', props.password
-
-    main = 'Federation'
-    classpath = sourceSets.main.runtimeClasspath
-}
-
+// Main example task
 task('Example') {
      dependsOn Connect, Insert, Load
 }
-

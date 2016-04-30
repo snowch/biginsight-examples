@@ -41,26 +41,17 @@ Properties props = new Properties()
 props.load(new FileInputStream("$projectDir/../../connection.properties"))
 
 
-// task to run the groovy script
-task('Connect', type: JavaExec) {
+// task to run groovy script
+['Connect', 'ManipulateSchemaAndPerformCRUD'].each { taskName ->
+   task "$taskName" (type: JavaExec) {
 
     environment 'gateway', props.gateway
     environment 'username', props.username
     environment 'password', props.password
 
-    main = 'Connect'
+    main = taskName
     classpath = sourceSets.main.runtimeClasspath
-}
-
-// task to run the groovy script
-task('ManipulateSchemaAndPerformCRUD', type: JavaExec) {
-
-    environment 'gateway', props.gateway
-    environment 'username', props.username
-    environment 'password', props.password
-
-    main = 'ManipulateSchemaAndPerformCRUD'
-    classpath = sourceSets.main.runtimeClasspath
+   }
 }
 
 task('Example') {
