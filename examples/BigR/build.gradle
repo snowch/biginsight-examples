@@ -59,27 +59,6 @@ task ('installPackages', type:Exec) {
     commandLine 'Rscript', "--verbose", "--vanilla", "${projectDir}/install_packages.r"
 }
 
-['Connect', 'UploadData'].each { taskName ->
-    task "$taskName" (dependsOn: installPackages, type: Exec) {
-
-        // pass environment variables to the R script
-        environment 'libdir',   "${projectDir}/lib"
-        environment 'hostname', getMasters(props)['BIGSQL_HEAD'][0]
-        environment 'username', props.username
-        environment 'password', props.password
-        environment 'projdir',  projectDir
-
-        if (project.hasProperty('debugBigR')) {
-            environment 'debug', "TRUE"
-        } else {
-            environment 'debug', "FALSE"
-        }
-
-        // execute R script - inpect example.r for details
-        commandLine "Rscript", "--verbose", "--vanilla", "${projectDir}/${taskName.toLowerCase()}.r"
-    }
-}
-
 task('GenerateSampleScript') << {
 
     def f = file('./connect_template.r')
@@ -123,6 +102,32 @@ if (connected) {
     println "Created file connect_template.r"
 }
 
+['Connect', 'UploadData', 'LinearRegression'].each { taskName ->
+    task "$taskName" (dependsOn: installPackages, type: Exec) {
+
+        // pass environment variables to the R script
+        environment 'libdir',   "${projectDir}/lib"
+        environment 'hostname', getMasters(props)['BIGSQL_HEAD'][0]
+        environment 'username', props.username
+        environment 'password', props.password
+        environment 'projdir',  projectDir
+
+        if (project.hasProperty('debugBigR')) {
+            environment 'debug', "TRUE"
+        } else {
+            environment 'debug', "FALSE"
+        }
+
+        // execute R script - inpect example.r for details
+        commandLine "Rscript", "--verbose", "--vanilla", "${projectDir}/${taskName.toLowerCase()}.r"
+    }
+}
+
+// The examples are progressive, we should run them in the order of most simple first
+// There isn't any point trying to run LinearRegression if Connect fails.
+UploadData.mustRunAfter Connect
+LinearRegression.mustRunAfter UploadData
+
 task('Example') {
-    dependsOn Connect, UploadData
+    dependsOn Connect, UploadData, LinearRegression
 }
