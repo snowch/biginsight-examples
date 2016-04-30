@@ -27,9 +27,14 @@ NOTE: The cURL examples require a Unix like environment (e.g. cygwin on Windows)
 
 *********************************************************************
 
-#### BigR 
+#### BigR
 
-- Connect to BigR (requires R installed locally) [[BigR](./BigR)]
+- Connect to BigR [[BigR](./BigR)]
+- Upload data to HDFS using BigR [[BigR](./BigR)]
+- Upload data, fit a linear model and calculate predictions [[BigR](./BigR)]
+- Fit a kmeans model to example dataset and calculate clusters [[BigR](./BigR)]
+
+NOTE: The BigR examples require R installed locally.
 
 *********************************************************************
 
