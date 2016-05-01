@@ -340,7 +340,7 @@ task('QueryAmbariServices') {
 def buildProject(proj, services=[]) {
     
     if (!project.ext.get('ambari_services').containsAll(services)) {
-        println "Test skipped ./examples/${proj} [Required service(s) '${services.join(', ')}' not installed]"
+        println "Test skipped ${proj} [Required service(s) '${services.join(', ')}' not installed]"
     } else {
 
         if (project.hasProperty('summaryOutput')) {
@@ -375,11 +375,11 @@ def buildProjectSummary(proj, services=[]) {
         writer.close()
 
     } catch (Exception e) { 
-        println "Test failed  ./examples/${proj}"
+        println "Test failed  ${proj}"
         return
     }
 
-    println "Test passed  ./examples/${proj}"
+    println "Test passed  ${proj}"
 }
 
 def buildProjectDetailed(proj, services=[]) {
@@ -417,10 +417,10 @@ def buildProjectDetailed(proj, services=[]) {
                     .build()
             writer.close()
         } catch (Exception e) { 
-            println "Test failed  ./examples/${proj}:${subTask.name}"
+            println "Test failed  ${proj}::${subTask.name}"
             return
         }
-        println "Test passed  ./examples/${proj}:${subTask.name}"
+        println "Test passed  ${proj}::${subTask.name}"
     }
 }
 
@@ -469,7 +469,7 @@ task baseTest(dependsOn: testSetup) << {
       'Knoxshell',
     ]
     .each() { 
-        println "Test skipped ./examples/${it} [interactive examples are not tested]"
+        println "Test skipped ${it} [interactive examples are not tested]"
     }
   
     /* 
@@ -481,7 +481,7 @@ task baseTest(dependsOn: testSetup) << {
       'Kafka',
     ]
     .each() { 
-        println "Test skipped ./examples/${it} [example not implemented due to known issue with BIoC clusters]"
+        println "Test skipped ${it} [example not implemented due to known issue with BIoC clusters]"
     }
     */
 }
