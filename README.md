@@ -44,7 +44,7 @@ See the 5 minute demo at the end of the README to see these steps in action.
 - Run `./gradlew DownloadLibs` (unix) `gradlew.bat DownloadLibs` (windows) to download libraries from the cluster
 - Run `./gradlew test` (unix) `gradlew.bat test` (windows) to run the whole set of examples as a test (detailed output for the tests can be found in the folder `./build/test/`)
 
-Next, see the next section for details on running an example script.
+Next, see the section below for details of running an example script.
 
 *********************************************************************
 ### Running the scripts
