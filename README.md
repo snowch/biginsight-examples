@@ -12,10 +12,19 @@ See the 5 minute demo at the end of the README to watch an example of setting up
 
 ### Pre-requisites
 
+#### Mandatory
+
 - A BigInsights cluster
 - Java 8 JDK installed
 - Git client installed
 - You are comfortable running commands in the terminal or console
+
+#### Optional
+
+- Cloudant account details (e.g. Free tier on Bluemix)
+- dashDB account details (e.g. Free tier on Bluemix)
+- Objectstore container details (e.g. Free tier on Bluemix)
+- Elasticsearch cluster (e.g. Free trial on Compose.io)
 
 NOTE: You do NOT need to install gradle, the gradlew scripts mentioned below will install gradle for you
 
