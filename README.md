@@ -12,10 +12,19 @@ See the 5 minute demo at the end of the README to watch an example of setting up
 
 ### Pre-requisites
 
+#### Mandatory
+
 - A BigInsights cluster
 - Java 8 JDK installed
 - Git client installed
 - You are comfortable running commands in the terminal or console
+
+#### Optional
+
+- Cloudant account details (e.g. Free tier on Bluemix)
+- dashDB account details (e.g. Free tier on Bluemix)
+- Objectstore container details (e.g. Free tier on Bluemix)
+- Elasticsearch cluster (e.g. Free trial on Compose.io)
 
 NOTE: You do NOT need to install gradle, the gradlew scripts mentioned below will install gradle for you
 
@@ -34,6 +43,8 @@ See the 5 minute demo at the end of the README to see these steps in action.
   - Save the certificate in this folder with the filename `certificate`
 - Run `./gradlew DownloadLibs` (unix) `gradlew.bat DownloadLibs` (windows) to download libraries from the cluster
 - Run `./gradlew test` (unix) `gradlew.bat test` (windows) to run the whole set of examples as a test (detailed output for the tests can be found in the folder `./build/test/`)
+
+Next, see the section below for details of running an example script.
 
 *********************************************************************
 ### Running the scripts
