@@ -71,6 +71,7 @@ task ('CreateTrustStore', type:Exec) {
       dependsOn CreateTrustStore
       dependsOn SetupLibs
 
+      environment 'gateway',  props.gateway
       environment 'hostname', getMasters(props)['BIGSQL_HEAD'][0]
       environment 'username', props.username
       environment 'password', props.password
