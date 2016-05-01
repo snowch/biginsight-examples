@@ -18,25 +18,13 @@ dependencies {
     compile 'org.apache.spark:spark-core_2.11:1.5.2'
 }
 
+// load some common helper methods
+apply from: "${projectDir}/../../shared/common-helpers.gradle"
+
+// get the cluster connection details
 Properties props = new Properties()
 props.load(new FileInputStream("$projectDir/../../connection.properties"))
 
-// setup the connection details for ssh
-remotes {
-    bicluster {
-       // extract the hostname from the gateway url
-       host = (props.gateway =~ /^(https?:\/\/)([^:^\/]*)(:\d*)?(.*)?.*$/)[0][2]
-       user = props.username
-       password = props.password
-    }
-}
-
-ssh.settings {
-    if (props.known_hosts == 'allowAnyHosts') {
-        // disable ssh host key verification 
-        knownHosts = allowAnyHosts
-    }
-}
 
 task PythonWordCount << {
 
@@ -47,6 +35,7 @@ task PythonWordCount << {
     // ssh plugin documentation: https://gradle-ssh-plugin.github.io/docs/
     
     ssh.run {
+        // remotes.bicluster is defined in shared/common-helpers.gradle
         session(remotes.bicluster) {
 
             try {
@@ -103,6 +92,7 @@ task ScalaWordCount {
         // ssh plugin documentation: https://gradle-ssh-plugin.github.io/docs/
         
         ssh.run {
+            // remotes.bicluster is defined in shared/common-helpers.gradle
             session(remotes.bicluster) {
 
                 try {
