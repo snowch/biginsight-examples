@@ -1,13 +1,16 @@
-apply plugin: 'groovy'
+plugins {
+  id 'groovy'
+  id 'org.hidetake.ssh' version '1.5.0'
+}
 
 Properties props = new Properties()
 props.load(new FileInputStream("$projectDir/../../connection.properties"))
 
-def matcher = props.gateway =~ /^(https?:\/\/)([^:^\/]*)(:\d*)?(.*)?.*$/
-def hostname = matcher[0][2] 
+// load some common helper methods
+apply from: "${projectDir}/../../shared/common-helpers.gradle"
 
-// Hive listens on the master-2 node
-hostname = hostname.replace('mastermanager', 'master-2')
+// Get Big SQL head hostname
+def hostname = getMasters(props)['BIGSQL_HEAD'][0]
 
 task('DownloadJsqsh', type:Copy) {
 
