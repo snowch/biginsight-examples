@@ -80,24 +80,20 @@ task('SetupJsqsh') {
     dependsOn DownloadJsqsh, CreateConfig
 
     doLast {
-        println "*****************************************************************"
-        println "Jsqsh has been successfully setup.  Execute with:"
+        println "*******************************************************************"
+        println "Run jsqsh session with:"
         println ""
-        println "./jsqsh-2.2/bin/jsqsh biginsights -C config [other jsqsh options]"
-        println "*****************************************************************"
+        println "  ./jsqsh-2.2/bin/jsqsh biginsights -C config [other jsqsh options]"
+        println ""
+        println "Run script:" 
+        println ""
+        println "  ./jsqsh-2.2/bin/jsqsh biginsights -C config -e -i foo.sql"
+        println "*******************************************************************"
     }
 }
 
 task('Help') {
-    dependsOn DownloadJsqsh, CreateConfig
-
-    doLast {
-        println "*****************************************************************"
-        println "Execute Jsqsh with:"
-        println ""
-        println "./jsqsh-2.2/bin/jsqsh biginsights -C config [other jsqsh options]"
-        println "*****************************************************************"
-    }
+    dependsOn SetupJsqsh
 }
 
 task('RunJsqsh', type:Exec) {
