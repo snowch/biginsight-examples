@@ -88,6 +88,18 @@ task('SetupJsqsh') {
     }
 }
 
+task('Help') {
+    dependsOn DownloadJsqsh, CreateConfig
+
+    doLast {
+        println "*****************************************************************"
+        println "Execute Jsqsh with:"
+        println ""
+        println "./jsqsh-2.2/bin/jsqsh biginsights -C config [other jsqsh options]"
+        println "*****************************************************************"
+    }
+}
+
 task('RunJsqsh', type:Exec) {
 
     dependsOn DownloadJsqsh, CreateConfig
