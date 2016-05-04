@@ -467,6 +467,7 @@ task baseTest(dependsOn: testSetup) << {
     [
       'HiveBeeline',
       'Knoxshell',
+      'Jsqsh',
     ]
     .each() { 
         println "Test skipped ${it} [interactive examples are not tested]"
