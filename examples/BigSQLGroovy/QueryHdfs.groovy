@@ -32,6 +32,8 @@ sql = Sql.newInstance(db.url, db.user, db.password, db.driver)
 
 def tableName = "test_${new Date().getTime()}"
 
+def hdfsFolder = "/tmp/${tableName}/"
+
 // Drop table - note this will delete the 'external' folder in hdfs 
 println 'Drop table'
 sql.execute """
@@ -45,8 +47,8 @@ dataFile = """1|Pierre
 """
 
 println "Copy data to tmp"
-rmData = Hdfs.rm( session ).file( "/tmp/${tableName}.csv" ).now()
-putData = Hdfs.put( session ).text( dataFile ).to( "/tmp/${tableName}.csv" ).now()
+rmData = Hdfs.rm( session ).file( hdfsFolder ).now()
+putData = Hdfs.put( session ).text( dataFile ).to( "${hdfsFolder}/data.csv").now()
 
 // Create table
 println 'Create table'
@@ -55,7 +57,7 @@ sql.execute """
   row format delimited
   fields terminated by '|'
   lines terminated by '\\n'
-  location '/tmp/${tableName}.csv'
+  location '${hdfsFolder}'
 """.toString()
 
 // Select from table
