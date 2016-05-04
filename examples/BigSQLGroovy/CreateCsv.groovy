@@ -19,6 +19,8 @@
 import groovy.sql.Sql
 import org.apache.hadoop.gateway.shell.Hadoop
 import org.apache.hadoop.gateway.shell.hdfs.Hdfs
+import groovy.json.JsonSlurper
+
 
 env = System.getenv()
 
@@ -30,7 +32,7 @@ dataFile = """1|Pierre
 """
 
 // Put data file in HDFS
-println "Copy data to tmp"
+println "\nCopy data to tmp"
 rmData = Hdfs.rm( session ).file( "/tmp/data.csv" ).now()
 putData = Hdfs.put( session ).text( dataFile ).to( "/tmp/data.csv" ).now()
 
@@ -43,39 +45,52 @@ sql = Sql.newInstance(db.url, db.user, db.password, db.driver)
 def tableName = "test_${new Date().getTime()}"
 
 // Drop table
-println 'Drop table ' + tableName
+println '\nDrop table ' + tableName
 sql.execute ("drop table if exists " + tableName)
-sql.execute ("drop table if exists csv_table")
 
 // Create table
-println 'Create table ' + tableName
+println '\nCreate table ' + tableName
 sql.execute """
   create hadoop table if not exists $tableName(id int, name varchar(30))
 """.toString()
 
 // Load data
-println 'Load into table ' + tableName
+println '\nLoad into table ' + tableName
 sql.execute """
    load hadoop using file url '/tmp/data.csv' with source properties ('field.delimiter'='|', 'ignore.extra.fields'='true') into table $tableName append
 """.toString()
 
 // Let's create CSV (comma) file in HDFS
-println 'Create CSV table csv_table'
+println '\nCreate CSV table csv_table'
 sql.execute """
-  create hadoop table csv_table
+  create hadoop table csv_$tableName
   row format delimited fields terminated by ','
+  location '/tmp/csv_$tableName'
   as select * from $tableName
 """.toString()
 
 // Select from table
-def select_statment = "select id, name from csv_table"
-println "Select from table: $select_statment"
+def select_statment = "select id, name from csv_" + tableName
+println "\nSelect from table: $select_statment"
 sql.eachRow(select_statment.toString()) { row ->
   println "ID: $row.id NAME: $row.name"
 }
 
+// See content of csv_table data
+println "\nGet content of csv_table data file from hdfs"
+text = Hdfs.ls( session ).dir( "/tmp/csv_${tableName}/" ).now().string
+json = (new JsonSlurper()).parseText( text )
+
+// Let's get the file name created under the CSV table
+def fileName = json.FileStatuses.FileStatus.pathSuffix[1]
+println "\nGet file hdfs:/tmp/" + fileName + " into local file TABLE.csv"
+
+Hdfs.get( session ).file( "TABLE.csv" ).from( "/tmp/csv_${tableName}/${fileName}" ).now()
+
+println "\nContent of TABLE.csv is:"
+println 'cat TABLE.csv'.execute().text
+
 // Drop tables
 sql.execute ("drop table if exists " + tableName)
-sql.execute ("drop table if exists csv_table")
 
 println "\n>> Create CSV test was successful."
