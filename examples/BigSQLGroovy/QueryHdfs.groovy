@@ -55,7 +55,7 @@ sql.execute """
   row format delimited
   fields terminated by '|'
   lines terminated by '\\n'
-  location '/tmp/data.csv'
+  location '/tmp/${tableName}.csv'
 """.toString()
 
 // Select from table
