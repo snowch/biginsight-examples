@@ -35,7 +35,7 @@ def tableName = "test_${new Date().getTime()}"
 def hdfsFolder = "/tmp/${tableName}/"
 
 // Drop table - note this will delete the 'external' folder in hdfs 
-println 'Drop table'
+println '\nDrop table'
 sql.execute """
   drop table if exists $tableName
 """.toString()
@@ -46,12 +46,12 @@ dataFile = """1|Pierre
 3|Jane
 """
 
-println "Copy data to tmp"
+println "\nCopy data to tmp"
 rmData = Hdfs.rm( session ).file( hdfsFolder ).now()
 putData = Hdfs.put( session ).text( dataFile ).to( "${hdfsFolder}/data.csv").now()
 
 // Create table
-println 'Create table'
+println '\nCreate external table on ' + hdfsFolder
 sql.execute """
   create external hadoop table if not exists $tableName (id int, name varchar(30))
   row format delimited
@@ -65,18 +65,25 @@ def select_statement = "select id, name from $tableName".toString()
 def rows = sql.rows(select_statement)
 def rowCount = rows.size()
 
-println "Select from table: $select_statement"
+println "\nSelect from table: $select_statement"
 rows.each { row ->
   println "ID: $row.id NAME: $row.name"
 }
 
+println "\nDrop external table"
 sql.execute """
   drop table if exists $tableName
 """.toString()
 
+println "\nCheck file still present in hdfs location"
+println Hdfs.ls( session ).dir( hdfsFolder ).now().string
+
+println "\nDelete file ${hdfsFolder}"
 rmData = Hdfs.rm( session ).file( hdfsFolder ).recursive().now()
 
 // verify we had three rows
 assert rowCount == 3
+
+session.shutdown()
 
 println "\n>> Query from Hdfs was successful."
