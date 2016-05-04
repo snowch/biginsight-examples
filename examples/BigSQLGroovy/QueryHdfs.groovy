@@ -61,9 +61,12 @@ sql.execute """
 """.toString()
 
 // Select from table
-def select_statment = "select id, name from $tableName"
-println "Select from table: $select_statment"
-sql.eachRow(select_statment.toString()) { row ->
+def select_statement = "select id, name from $tableName".toString()
+def rows = sql.rows(select_statement)
+def rowCount = rows.size()
+
+println "Select from table: $select_statement"
+rows.each { row ->
   println "ID: $row.id NAME: $row.name"
 }
 
@@ -71,4 +74,9 @@ sql.execute """
   drop table if exists $tableName
 """.toString()
 
-println "\n>> Connectivity test was successful."
+rmData = Hdfs.rm( session ).file( hdfsFolder ).recursive().now()
+
+// verify we had three rows
+assert rowCount == 3
+
+println "\n>> Query from Hdfs was successful."
