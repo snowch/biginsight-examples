@@ -9,3 +9,4 @@ samples/
 *.swp
 **/userHome/
 **/.DS_Store
+.idea/
