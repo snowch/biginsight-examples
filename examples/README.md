@@ -44,6 +44,8 @@ NOTE: The BigR examples require R installed locally.
 - Insert/Select with Big SQL from Groovy [[BigSQLGroovy](./BigSQLGroovy)]
 - Load/Select with Big SQL from Groovy [[BigSQLGroovy](./BigSQLGroovy)]
 - Connect to Big SQL from Java [[BigSQLJava](./BigSQLJava)]
+- Create external table on existing HDFS data [[BigSQLGroovy](./BigSQLGroovy)]
+- Export data as CSV to HDFS from SQL [[BigSQLGroovy](./BigSQLGroovy)]
 
 *********************************************************************
 
