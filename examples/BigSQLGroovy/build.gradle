@@ -62,7 +62,7 @@ task ('CreateTrustStore', type:Exec) {
 }
 
 // task to run groovy script
-['Connect', 'Insert', 'Load', 'QueryHdfs', 'Hbase', 'Federation'].each { taskName ->
+['Connect', 'Insert', 'Load', 'QueryHdfs', 'CreateCsv', 'Hbase', 'Federation'].each { taskName ->
    task "$taskName" (type: JavaExec) {
 
       // if running this task with clean, ensure clean runs first
