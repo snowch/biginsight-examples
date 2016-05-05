@@ -290,7 +290,8 @@ task('ClusterDetails') {
     if (bigsql_head) {
     println "BigSQL Host SSH URL :  ssh://${props.username}@${bigsql_head}"
     }
-    println "                       * cmd or ctrl clicking one of the above links will open the link is most terminals *"
+    println ""
+    println "                       * cmd+click or ctrl+click on one of the above links will open a browser or ssh session in most terminals *"
     printSep()
 }
 
