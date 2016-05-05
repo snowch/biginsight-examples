@@ -283,7 +283,7 @@ task('ClusterDetails') {
     println "Ambari URL          :  https://${mastermanager_hostname}:9443/"
     println "BigInsights URL     :  https://${mastermanager_hostname}:8443/gateway/default/BigInsightsWeb/index.html"
     println "YARN URL            :  https://${mastermanager_hostname}:8443/gateway/yarnui/yarn/apps"
-    println "HDFS Exmplorer URL  :  https://${mastermanager_hostname}:8443/gateway/default/hdfs/explorer.html"
+    println "HDFS Explorer URL  :  https://${mastermanager_hostname}:8443/gateway/default/hdfs/explorer.html"
     println "Master Mgr SSH URL  :  ssh://${props.username}@${mastermanager_hostname}"
 
     def bigsql_head = getMasters(props)['BIGSQL_HEAD']?.get(0)
