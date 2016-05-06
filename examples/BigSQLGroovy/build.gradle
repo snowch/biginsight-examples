@@ -87,5 +87,5 @@ task ('CreateTrustStore', type:Exec) {
 
 // Main example task
 task('Example') {
-     dependsOn Connect, Insert, Load, Hbase, CreateExternal, Federation
+     dependsOn Connect, Insert, Load, Hbase, CreateExternal, CreateCsv, Federation
 }
