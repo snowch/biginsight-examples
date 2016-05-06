@@ -3,7 +3,7 @@
 
 BIGSQL should be setup such that federation is on and appropriate library are in place to allow wrapper to function beetween BIGSQL and data source.
 
-**NOTE:** *On BigInsights on Cloud clusters, 'db2 ...' commands need to be requested via a support ticket:*
+**NOTE:** *Federation is not yet available on BigInsights on Cloud clusters*
 
 ## Setup client keystore for SSL
 
