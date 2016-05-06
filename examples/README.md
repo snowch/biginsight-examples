@@ -46,6 +46,7 @@ NOTE: The BigR examples require R installed locally.
 - Connect to Big SQL from Java [[BigSQLJava](./BigSQLJava)]
 - Create external table on existing HDFS data [[BigSQLGroovy](./BigSQLGroovy)]
 - Export data as CSV to HDFS from SQL [[BigSQLGroovy](./BigSQLGroovy)]
+- Federated query to dashDB [[BigSQLGroovy](./BigSQLGroovy)] see [Federation README](.//BigSQLGroovy/README_Federation.md)
 
 *********************************************************************
 
@@ -121,6 +122,7 @@ NOTE: OozieWorkflowCurl requires a Unix like environment (e.g. cygwin on Windows
 - Pull data from a dashDB database to HDFS using Spark [[DashDBIntegrationWithSpark](./DashDBIntegrationWithSpark)]
 - Push data to dashDB database using Spark [[DashDBIntegrationWithSpark](./DashDBIntegrationWithSpark)] 
 - Pull data from a dashDB database using Big SQL [[DashDBPullWithBigSQL](./DashDBPullWithBigSQL)]
+- Federated query to dashDB [[BigSQLGroovy](./BigSQLGroovy)] see [Federation README](.//BigSQLGroovy/README_Federation.md)
 
 *********************************************************************
 
