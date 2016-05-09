@@ -35,8 +35,9 @@ browser.drive {
     println "Check for Data Server Manager for Big SQL"
     assert $("div", class: "comp-name ng-binding").eq(2).text() == "Data Server Manager for Big SQL"
 
+    // Check that all services are available
+    println "Check there are no unavailable service"
+    assert $("div", class: "header").has(".ng-scope").size() == 0
 }
 
 browser.close()
-
-
