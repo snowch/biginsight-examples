@@ -24,6 +24,7 @@ NOTE: The cURL examples require a Unix like environment (e.g. cygwin on Windows)
 
 - Get cluster name and then services installed on cluster [[Ambari](./Ambari)]
 - Perform HDFS Service Check via Ambari REST [[Ambari](./Ambari)]
+- Show hosts for services (BIGSQL, KNOX, BIGR, etc)  [[Ambari](./Ambari)]
 
 *********************************************************************
 
