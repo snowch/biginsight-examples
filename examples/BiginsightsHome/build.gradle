@@ -1,3 +1,5 @@
+import org.apache.tools.ant.taskdefs.condition.Os
+
 // set the dependencies for running the groovy script
 buildscript {
     repositories {
@@ -12,6 +14,8 @@ plugins {
   id 'groovy'
 }
 
+apply from: "osSpecificDownloads.gradle"
+
 // set the dependencies for compiling the groovy script
 repositories {
     mavenCentral()
@@ -21,6 +25,9 @@ dependencies {
     compile 'org.codehaus.groovy:groovy-all:latest.release'
     compile 'org.codehaus.geb:geb-core:latest.release'
     compile 'org.seleniumhq.selenium:selenium-firefox-driver:2.53.0'
+    compile('com.codeborne:phantomjsdriver:1.3.0') {
+        transitive = false
+    }
 }
 
 // tell gradle the groovy script is in the same folder as the build.gradle file
@@ -45,8 +52,23 @@ task('CheckHome', type: JavaExec) {
     classpath = sourceSets.main.runtimeClasspath
 }
 
+task('CheckHomePhantomJS', type: JavaExec) {
+
+    dependsOn unzipPhantomJs
+
+    def phantomJsFilename = Os.isFamily(Os.FAMILY_WINDOWS) ? "phantomjs.exe" : "bin/phantomjs"
+
+    environment 'phantomjspath', new File(unzipPhantomJs.outputs.files.singleFile, phantomJsFilename).absolutePath
+
+    environment 'driver', 'phantomjs'
+    environment 'gateway', props.gateway
+    environment 'username', props.username
+    environment 'password', props.password
+
+    main = 'CheckHomePhantomJS'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
 task('Example') {
     dependsOn CheckHome
 }
-
-
