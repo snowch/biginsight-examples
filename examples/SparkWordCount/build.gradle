@@ -119,7 +119,7 @@ task ScalaWordCount {
                 def clz = "--class \"org.apache.spark.examples.WordCount\""
 
                 // execute spark workcount job against the LICENSE file in hdfs
-                execute "spark-submit ${clz} ${tmpDir}/scala-examples.jar ${tmpHdfsDir}/LICENSE"
+                execute "spark-submit --master yarn-cluster --num-executors 3 --executor-cores 1 --executor-memory 1G ${clz} ${tmpDir}/scala-examples.jar ${tmpHdfsDir}/LICENSE"
 
                 // remove temporary hdfs dir
                 execute "hadoop fs -rm -r ${tmpHdfsDir}"
