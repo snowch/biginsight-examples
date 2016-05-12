@@ -50,6 +50,8 @@ if __name__ == "__main__":
     sc._jsc.hadoopConfiguration().set(prefix + ".username",     os_username)
     sc._jsc.hadoopConfiguration().set(prefix + ".password",     os_password)
     sc._jsc.hadoopConfiguration().set(prefix + ".auth.method",  os_auth_method)
+
+    # Softlayer objectstore
     if (os_auth_method != 'swiftauth'):
         sc._jsc.hadoopConfiguration().set(prefix + ".region",       os_region)
 
@@ -65,16 +67,7 @@ if __name__ == "__main__":
     # Create a sql dataframe from the counts dataframe
     hhdf = sqlContext.createDataFrame(counts,['letter', 'count'])
 
-    # destination url
-    if (os_auth_method == 'swiftauth'):
-        # E.g. SoftLayer
-        url = os_auth_url.replace('https://', '')
-        url = re.sub('\/$', '', url) # remove trailing forward slash if exists
-
-        swift_file_url = "swift2d://{0}/counts".format(url)
-    else:
-        # E.g. Bluemix
-        swift_file_url = "swift2d://{0}.{1}/counts".format(os_container, os_region)
+    swift_file_url = "swift2d://{0}.{1}/counts".format(os_container, os_region)
 
     print(swift_file_url)
 

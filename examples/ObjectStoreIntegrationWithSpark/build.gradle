@@ -100,13 +100,7 @@ def deleteContainer(os_auth_url, os_tenant, os_username, os_password, os_region,
         throw new GradleException("Unable to delete ${path}")
     }
 
-    def client
-    // delete container
-    if (os_auth_method == 'swiftauth') {
-        // what does the URI look like?
-    } else {
-        client = new SwiftAPIClient(URI.create(publicURL), mConf)
-    }
+    def client = new SwiftAPIClient(URI.create(publicURL), mConf)
     client.account.getContainer(os_container_name).delete()
 
 }

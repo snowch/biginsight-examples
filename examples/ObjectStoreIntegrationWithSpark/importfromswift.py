@@ -50,7 +50,10 @@ if __name__ == "__main__":
     sc._jsc.hadoopConfiguration().set(prefix + ".username",     os_username)
     sc._jsc.hadoopConfiguration().set(prefix + ".password",     os_password)
     sc._jsc.hadoopConfiguration().set(prefix + ".auth.method",  os_auth_method)
-    sc._jsc.hadoopConfiguration().set(prefix + ".region",       os_region)
+
+    # Softlayer objectstore
+    if (os_auth_method != 'swiftauth'):
+        sc._jsc.hadoopConfiguration().set(prefix + ".region",       os_region)
 
     sqlContext = SQLContext(sc)
     
@@ -60,14 +63,7 @@ if __name__ == "__main__":
     # counts/_SUCCESS                                         04/18/2016 8:21 PM        0 KB
     # counts/part-00000-attempt_201604181921_0003_m_000000_2  04/18/2016 8:21 PM        6 KB
 
-    if (os_auth_method == 'swiftauth'):
-        # E.g. SoftLayer
-        swift_file_url = "swift2d://{0}/counts".format(os_auth_url.replace('https://', '').replace('/auth/v1.0/', ''))
-    else:
-        # E.g. Bluemix
-        swift_file_url = "swift2d://{0}.{1}/counts".format(os_container, os_region)
-
-    print(swift_file_url)
+    swift_file_url = "swift2d://{0}.{1}/counts".format(os_container, os_region)
 
     # import the data
     imported_data = sc.textFile(swift_file_url)
