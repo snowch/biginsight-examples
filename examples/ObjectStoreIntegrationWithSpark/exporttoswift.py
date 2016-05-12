@@ -50,7 +50,8 @@ if __name__ == "__main__":
     sc._jsc.hadoopConfiguration().set(prefix + ".username",     os_username)
     sc._jsc.hadoopConfiguration().set(prefix + ".password",     os_password)
     sc._jsc.hadoopConfiguration().set(prefix + ".auth.method",  os_auth_method)
-    sc._jsc.hadoopConfiguration().set(prefix + ".region",       os_region)
+    if (os_auth_method != 'swiftauth'):
+        sc._jsc.hadoopConfiguration().set(prefix + ".region",       os_region)
 
     sqlContext = SQLContext(sc)
 
@@ -67,7 +68,10 @@ if __name__ == "__main__":
     # destination url
     if (os_auth_method == 'swiftauth'):
         # E.g. SoftLayer
-        swift_file_url = "swift2d://{0}/counts".format(os_auth_url.replace('https://', '').replace('/auth/v1.0/', ''))
+        url = os_auth_url.replace('https://', '')
+        url = re.sub('\/$', '', url) # remove trailing forward slash if exists
+
+        swift_file_url = "swift2d://{0}/counts".format(url)
     else:
         # E.g. Bluemix
         swift_file_url = "swift2d://{0}.{1}/counts".format(os_container, os_region)
