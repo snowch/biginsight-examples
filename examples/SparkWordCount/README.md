@@ -17,6 +17,7 @@ The [./build.gradle](./build.gradle) script does all the work using a ssh plugin
 - using scp, copy samples/scala-examples.jar and [./LICENSE](./LICENSE) files to the BigInsights cluster
 - from the ssh session, use the `hadoop fs` command to add the LICENSE to hdfs
 - from the ssh session, execute the WordCount class with the `spark-submit` command
+- job is submitted against YARN cluster (BigInsights). You can retrieve log via `yarn logs -applicationID <application id>`
 
 Output from the command will contain the wordcounts:
 
