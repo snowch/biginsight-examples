@@ -13,41 +13,47 @@ The [build.gradle](./build.gradle) script contains two main tasks for the above 
 Ensure you have followed the Setup Instructions on the [project home page README](https://github.com/snowch/biginsight-examples), then edit your connection.properties file so that it has the following properties that point to your Objectstore container:
 
 ```bash
+################################################################################
+# Spark Object Store Integration Example : object store details
+################################################################################
+
+# These properties are optional
+
 ### auth url ###
 
-# SoftLayer Dallas    > E.g. https://dal05.objectstorage.softlayer.net/auth/v1.0/
+# SoftLayer           > E.g. https://dal05.objectstorage.softlayer.net/auth/v1.0/
 # Bluemix Keystone V3 > https://identity.open.softlayer.com/v3/auth/tokens
 objectstore_auth_url:https://identity.open.softlayer.com/v3/auth/tokens
 
 ### tenant ###
 
+# SoftLayer           > tenant (take the part before the ':' in the username in account credentials) 
 # Bluemix Keystone V3 > use project_id
 objectstore_tenant:changeme
 
 ### username ###
 
-# SoftLayer Dallas    > username
+# SoftLayer           > username (take the part after the ':' in the username in account credentials) 
 # Bluemix Keystone V3 > user_id
 objectstore_username:changeme
 
 ### password ###
 
-# SoftLayer Dallas    > API key
+# SoftLayer           > API key
 # Bluemix Keystone V3 > Password
 objectstore_password:changeme
 
 ### region ###
 
-# SoftLayer Dallas    > E.g. dal05
+# SoftLayer           > E.g. dal05
 # Bluemix Keystone V3 > dallas
 objectstore_region:dallas
 
 ### auth method ###
 
-# SoftLayer Dallas    > swiftauth
+# SoftLayer           > swiftauth
 # Bluemix Keystone V3 > keystoneV3
 objectstore_auth_method:keystoneV3
-
 ```
 
 See the [setup instructions](https://github.com/snowch/biginsight-examples) for more information on creating the connection.propertie file.
