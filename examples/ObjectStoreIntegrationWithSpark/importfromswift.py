@@ -60,7 +60,14 @@ if __name__ == "__main__":
     # counts/_SUCCESS                                         04/18/2016 8:21 PM        0 KB
     # counts/part-00000-attempt_201604181921_0003_m_000000_2  04/18/2016 8:21 PM        6 KB
 
-    swift_file_url = "swift2d://{0}.{1}/counts".format(os_container, os_region)
+    if (os_auth_method == 'swiftauth'):
+        # E.g. SoftLayer
+        swift_file_url = "swift2d://{0}/counts".format(os_auth_url.replace('https://', '').replace('/auth/v1.0/', ''))
+    else:
+        # E.g. Bluemix
+        swift_file_url = "swift2d://{0}.{1}/counts".format(os_container, os_region)
+
+    print(swift_file_url)
 
     # import the data
     imported_data = sc.textFile(swift_file_url)

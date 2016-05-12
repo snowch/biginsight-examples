@@ -65,7 +65,14 @@ if __name__ == "__main__":
     hhdf = sqlContext.createDataFrame(counts,['letter', 'count'])
 
     # destination url
-    swift_file_url = "swift2d://{0}.{1}/counts".format(os_container, os_region)
+    if (os_auth_method == 'swiftauth'):
+        # E.g. SoftLayer
+        swift_file_url = "swift2d://{0}/counts".format(os_auth_url.replace('https://', '').replace('/auth/v1.0/', ''))
+    else:
+        # E.g. Bluemix
+        swift_file_url = "swift2d://{0}.{1}/counts".format(os_container, os_region)
+
+    print(swift_file_url)
 
     # save to swift
     counts.saveAsTextFile(swift_file_url)
