@@ -15,8 +15,8 @@ See the 5 minute demo at the end of the README to watch an example of setting up
 #### Mandatory
 
 - A BigInsights cluster
-- Java 8 JDK installed
-- Git client installed
+- Java 8 JDK installed on your local machine
+- Git client installed on your local macine
 - You are comfortable running commands in the terminal or console
 
 #### Optional
