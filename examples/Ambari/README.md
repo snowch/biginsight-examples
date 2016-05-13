@@ -32,7 +32,7 @@ You can run individual example via:
 ../../gradlew ListService
 ```
 
-ServiceCheck will check HDFS by default. You can check other services with -Pservice=<name>. For Example:
+ServiceCheck will check HDFS by default. You can check other services with -Pservice=name. For Example:
 
 ```
 ../../gradlew ServiceCheck -Pservice=YARN
