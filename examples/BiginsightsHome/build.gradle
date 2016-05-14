@@ -70,5 +70,5 @@ task('CheckHomePhantomJS', type: JavaExec) {
 }
 
 task('Example') {
-    dependsOn CheckHome
+    dependsOn CheckHomePhantomJS
 }

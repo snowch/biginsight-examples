@@ -470,6 +470,7 @@ task baseTest(dependsOn: testSetup) << {
       'DashDBIntegrationWithBigSQL':['BIGSQL'],
       'HBaseGroovy':['KNOX', 'HBASE'],
       'HBaseJava':['KNOX', 'HBASE'],
+      'BiginsightsHome':['BIGSQL'],
       // These will not be fixed until 4.2:
       //'OozieWorkflowMapReduce':['KNOX', 'OOZIE', 'MAPREDUCE2'],
       //'OozieWorkflowSpark':['KNOX', 'OOZIE', 'SPARK'],
