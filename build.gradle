@@ -7,7 +7,6 @@ import javax.net.ssl.*
 import groovyx.net.http.RESTClient
 import groovy.json.JsonSlurper
 
-ext.build_failed = false
 
 buildscript {
     repositories {
@@ -24,6 +23,9 @@ buildscript {
 plugins {
   id 'org.hidetake.ssh' version '1.5.0'
 }
+
+# global variable for build status
+ext.build_failed = false
 
 // get the cluster connection details
 Properties props = new Properties()
