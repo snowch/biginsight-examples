@@ -7,6 +7,7 @@ import javax.net.ssl.*
 import groovyx.net.http.RESTClient
 import groovy.json.JsonSlurper
 
+ext.build_failed = false
 
 buildscript {
     repositories {
@@ -421,6 +422,7 @@ def buildProjectDetailed(proj, services=[]) {
             writer.close()
         } catch (Exception e) { 
             println "Test failed  ${proj}::${subTask.name}"
+            project.build_failed = true
             return
         }
         println "Test passed  ${proj}::${subTask.name}"
@@ -504,10 +506,17 @@ task xTest(dependsOn: baseTest) << {
 }
 
 task test(dependsOn: xTest) << {
+
+    if (project.build_failed) {
+        throw new GradleException("One or more tests failed.")
+    }
     println "Finished running tests."
     println "*** Test output can be found in '${projectDir}/build/test/' ***"
 }
 
+task check(dependsOn: test) << {
+
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -522,3 +531,5 @@ task ssh(type: Exec) {
     standardOutput = System.out
     commandLine "ssh", "-t", "-t", "${props.username}@${mastermanager_hostname}"
 }
+
+
