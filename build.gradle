@@ -281,22 +281,24 @@ def printCenter(text) {
 
 task('ClusterDetails') {
 
-    printSep()
-    printCenter("\033[1mCLUSTER DETAILS\033[0m")
-    printSep()
-    println "Ambari URL          :  https://${mastermanager_hostname}:9443/"
-    println "BigInsights URL     :  https://${mastermanager_hostname}:8443/gateway/default/BigInsightsWeb/index.html"
-    println "YARN URL            :  https://${mastermanager_hostname}:8443/gateway/yarnui/yarn/apps"
-    println "HDFS Explorer URL  :  https://${mastermanager_hostname}:8443/gateway/default/hdfs/explorer.html"
-    println "Master Mgr SSH URL  :  ssh://${props.username}@${mastermanager_hostname}"
+    if (!System.getenv().TRAVIS) {
+        printSep()
+        printCenter("\033[1mCLUSTER DETAILS\033[0m")
+        printSep()
+        println "Ambari URL          :  https://${mastermanager_hostname}:9443/"
+        println "BigInsights URL     :  https://${mastermanager_hostname}:8443/gateway/default/BigInsightsWeb/index.html"
+        println "YARN URL            :  https://${mastermanager_hostname}:8443/gateway/yarnui/yarn/apps"
+        println "HDFS Explorer URL  :  https://${mastermanager_hostname}:8443/gateway/default/hdfs/explorer.html"
+        println "Master Mgr SSH URL  :  ssh://${props.username}@${mastermanager_hostname}"
 
-    def bigsql_head = getMasters(props)['BIGSQL_HEAD']?.get(0)
-    if (bigsql_head) {
-    println "BigSQL Host SSH URL :  ssh://${props.username}@${bigsql_head}"
+        def bigsql_head = getMasters(props)['BIGSQL_HEAD']?.get(0)
+        if (bigsql_head) {
+        println "BigSQL Host SSH URL :  ssh://${props.username}@${bigsql_head}"
+        }
+        println ""
+        println "                       * cmd+click or ctrl+click on one of the above links will open a browser or ssh session in most terminals *"
+        printSep()
     }
-    println ""
-    println "                       * cmd+click or ctrl+click on one of the above links will open a browser or ssh session in most terminals *"
-    printSep()
 }
 
 ////////////////////////////////////////////////////////////////////////////////
