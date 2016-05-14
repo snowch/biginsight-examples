@@ -469,11 +469,12 @@ task baseTest(dependsOn: testSetup) << {
       'DashDBIntegrationWithSpark':['SPARK'],
       'DashDBIntegrationWithBigSQL':['BIGSQL'],
       'OozieWorkflowMapReduce':['KNOX', 'OOZIE', 'MAPREDUCE2'],
-      'OozieWorkflowSpark':['KNOX', 'OOZIE', 'SPARK'],
-      'OozieWorkflowCurl':['KNOX', 'OOZIE', 'MAPREDUCE2'],
-      'WebHCatGroovy':['KNOX', 'MAPREDUCE2', 'PIG', 'HIVE'],
       'HBaseGroovy':['KNOX', 'HBASE'],
       'HBaseJava':['KNOX', 'HBASE'],
+      // These will not be fixed until 4.2:
+      //'OozieWorkflowSpark':['KNOX', 'OOZIE', 'SPARK'],
+      //'OozieWorkflowCurl':['KNOX', 'OOZIE', 'MAPREDUCE2'],
+      //'WebHCatGroovy':['KNOX', 'MAPREDUCE2', 'PIG', 'HIVE'],
     ]
     .each() { proj, service -> buildProject(proj, service) }
 
