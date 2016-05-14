@@ -10,6 +10,6 @@ before_install:
       - gpg --keyserver keyserver.ubuntu.com --recv-key E084DAB9
       - gpg -a --export E084DAB9 | sudo apt-key add -
       - sudo apt-get -qq update
-      - sudo apt-get -y install r-base
+      - sudo apt-get -qq -y install r-base
       - sudo R CMD javareconf
 
