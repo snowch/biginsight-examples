@@ -8,6 +8,8 @@ The core idea is that you can run an example project to see it working against y
 
 See the 5 minute demo at the end of the README to watch an example of setting up the biginsight-examples project and then run 'ls /' on the cluster using the Knox webHdfs API.
 
+Also see [this repository](https://github.com/snowch/bluemix-spark-submit-examples/blob/master/README.md) for example projects for Apache Spark on Bluemix.
+
 *********************************************************************
 
 ### Pre-requisites
