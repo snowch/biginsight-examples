@@ -1,3 +1,6 @@
+sudo: required
+dist: trusty
+
 language: java
 
 before_install:
@@ -8,4 +11,5 @@ before_install:
       - gpg -a --export E084DAB9 | sudo apt-key add -
       - sudo apt-get -qq update
       - sudo apt-get install r-base
+      - sudo R CMD javareconf
 
