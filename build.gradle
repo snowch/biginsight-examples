@@ -186,12 +186,14 @@ task verifySshConnectivity << {
     try {
         ssh.run {
             session(remotes.bicluster) {
-                execute "echo successfully connected to ${mastermanager_hostname} over ssh"
+                execute "echo successfully connected to mastermanager host over ssh"
             }
         }
     } catch (JSchException e) {
-        System.err.println "** SSH error: ${e.message} - some tests will fail **"
-        System.err.println "   Resolution: ssh into ${mastermanager_hostname} or set known_hosts:allowAnyHosts in connection.properties"
+        if (!System.getenv().TRAVIS) {
+            System.err.println "** SSH error: ${e.message} - some tests will fail **"
+            System.err.println "   Resolution: ssh into ${mastermanager_hostname} or set known_hosts:allowAnyHosts in connection.properties"
+        }
     }
 
     def bigsql_head = getMasters(props)['BIGSQL_HEAD']?.get(0)
@@ -199,12 +201,14 @@ task verifySshConnectivity << {
         try {
             ssh.run {
                 session(remotes.bicluster_bigsql_head) {
-                    execute "echo successfully connected to ${bigsql_head} over ssh"
+                    execute "echo successfully connected to bigsql_head over ssh"
                 }
             }
         } catch (JSchException e) {
-            System.err.println "** SSH error: ${e.message} - some tests will fail **"
-            System.err.println "   Resolution: ssh into ${bigsql_head} or set known_hosts:allowAnyHosts in connection.properties"
+            if (!System.getenv().TRAVIS) {
+                System.err.println "** SSH error: ${e.message} - some tests will fail **"
+                System.err.println "   Resolution: ssh into ${bigsql_head} or set known_hosts:allowAnyHosts in connection.properties"
+            }
         }
     }
 }
