@@ -508,7 +508,7 @@ task xTest(dependsOn: baseTest) << {
     .each() { proj, service -> buildProject(proj, service) }
 }
 
-task test(dependsOn: xTest) << {
+task test(dependsOn: xTest, overwrite: true) << {
 
     if (project.build_failed) {
         throw new GradleException("One or more tests failed.")
@@ -517,7 +517,7 @@ task test(dependsOn: xTest) << {
     println "*** Test output can be found in '${projectDir}/build/test/' ***"
 }
 
-task check(dependsOn: test) << {
+task check(dependsOn: test, overwrite: true) << {
 
 }
 
