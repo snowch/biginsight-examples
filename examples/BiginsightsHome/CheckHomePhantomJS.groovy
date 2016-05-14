@@ -20,6 +20,8 @@ if (env.driver == 'phantomjs') {
     def caps = DesiredCapabilities.phantomjs()
     caps.setCapability(
         PhantomJSDriverService.PHANTOMJS_EXECUTABLE_PATH_PROPERTY, env.phantomjspath)
+    caps.setCapability(PhantomJSDriverService.PHANTOMJS_CLI_ARGS, ['--web-security=false', '--ignore-ssl-errors=yes', '--ssl-protocol=any'])
+    caps.setCapability("acceptSslCerts", true)
     driver = new PhantomJSDriver(caps)
 } else {
     driver = new FirefoxDriver()
