@@ -424,11 +424,11 @@ def buildProjectDetailed(proj, services=[]) {
         // do we need to skip this test?
         def tests_to_skip = System.getenv().TESTS_TO_SKIP?.split(',')
         if (tests_to_skip.contains("${proj}")) {
-            println "Test skipped ${proj}::${subTask.name} - skipped because TESTS_TO_SKIP variable contains ${proj}"
+            println "Test skipped ${proj}::${subTask.name} - skipped because TESTS_TO_SKIP variable contains '${proj}'"
             return
         }
         if (tests_to_skip.contains("${proj}::${subTask.name}")) {
-            println "Test skipped ${proj}::${subTask.name} - skipped because TESTS_TO_SKIP variable contains ${proj}::${subTask.name}"
+            println "Test skipped ${proj}::${subTask.name} - skipped because TESTS_TO_SKIP variable contains '${proj}::${subTask.name}'"
             return
         }
 
