@@ -406,6 +406,12 @@ def buildProjectDetailed(proj, services=[]) {
 
     subTasks.each { subTask ->
 
+        def tests_to_skip = System.getenv().TRAVIS_TESTS_TO_SKIP?.split(',')
+        if (tests_to_skip.contains("${proj}") || tests_to_skip.contains("${proj}::${subTask.name}")) {
+            
+            return
+        }
+
         // ensure we have a clean environment for each test
         try {
             GradleRunner.create()

@@ -13,3 +13,5 @@ before_install:
       - sudo apt-get -qq -y install r-base
       - sudo R CMD javareconf
 
+env:
+      - TESTS_TO_SKIP=BigSQLGroovy::Federation,BigR
