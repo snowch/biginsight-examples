@@ -14,4 +14,4 @@ before_install:
       - sudo R CMD javareconf
 
 env:
-      - TESTS_TO_SKIP=BigSQLGroovy::Federation
+    - TESTS_TO_SKIP=BigSQLGroovy::Federation,BigR::LinearRegression
