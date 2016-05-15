@@ -406,12 +406,6 @@ def buildProjectDetailed(proj, services=[]) {
 
     subTasks.each { subTask ->
 
-        def tests_to_skip = System.getenv().TESTS_TO_SKIP?.split(',')
-        if (tests_to_skip.contains("${proj}") || tests_to_skip.contains("${proj}::${subTask.name}")) {
-            
-            return
-        }
-
         // ensure we have a clean environment for each test
         try {
             GradleRunner.create()
@@ -426,6 +420,18 @@ def buildProjectDetailed(proj, services=[]) {
             // if this isn't a task, continue looping
             return false
         }
+
+        // do we need to skip this test?
+        def tests_to_skip = System.getenv().TESTS_TO_SKIP?.split(',')
+        if (tests_to_skip.contains("${proj}")) {
+            println "Test skipped ${proj}::${subTask.name} - skipped because TESTS_TO_SKIP variable contains ${proj}"
+            return
+        }
+        if (tests_to_skip.contains("${proj}::${subTask.name}")) {
+            println "Test skipped ${proj}::${subTask.name} - skipped because TESTS_TO_SKIP variable contains ${proj}::${subTask.name}"
+            return
+        }
+
         try {
             FileWriter writer = new FileWriter("build/test/${proj}-${subTask.name}.txt")
             GradleRunner.create()
