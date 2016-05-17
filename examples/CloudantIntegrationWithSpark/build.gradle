@@ -82,6 +82,7 @@ task('ExamplePush') << {
 
 task('ExamplePull') << {
 
+
     def tmpDir = "test-${new Date().getTime()}"
 
     def tmpHdfsDir = "/user/${props.username}/${tmpDir}"
@@ -126,6 +127,10 @@ task('ExamplePull') << {
     }
 }
 
+// Disable task if some props not set
+( props.cl_push_hostname =~ /changeme/ || props.cl_push_hostname == null ) ? ( ExamplePush.enabled = false ) : ( ExamplePush.enabled = true )
+
 task('Example') {
     dependsOn ExamplePush, ExamplePull
 }
+

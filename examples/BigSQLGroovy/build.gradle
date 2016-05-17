@@ -85,6 +85,9 @@ task ('CreateTrustStore', type:Exec) {
    }
 }
 
+// Disable task if some props not set
+( props.dashHost =~ /changeme/ || props.dashHost == null ) ? ( Federation.enabled = false ) : ( Federation.enabled = true )
+
 // Main example task
 task('Example') {
      dependsOn Connect, Insert, Load, Hbase, CreateExternal, CreateCsv, Federation

@@ -77,6 +77,9 @@ task('Load', type: JavaExec) {
     classpath = sourceSets.main.runtimeClasspath
 }
 
+// Disable task if some props not set
+( props.dashdb_pull_jdbc_url =~ /changeme/ || props.dashdb_pull_jdbc_url == null ) ? ( Load.enabled = false ) : ( Load.enabled = true )
+
 task('Example') {
     dependsOn Load
 }
