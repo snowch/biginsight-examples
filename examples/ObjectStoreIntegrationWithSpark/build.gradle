@@ -250,6 +250,10 @@ task('ExamplePull', dependsOn: SetupLibs) {
         }
     }
 }
+
+( props.objectstore_tenant =~ /changeme/ || props.objectstore_tenant == null ) ? ( ExamplePush.enabled = false ) : ( ExamplePush.enabled = true )
+( props.objectstore_tenant =~ /changeme/ || props.objectstore_tenant == null ) ? ( ExamplePull.enabled = false ) : ( ExamplePull.enabled = true )
+
 task('Example') {
     dependsOn ExamplePush, ExamplePull
 }
