@@ -10,3 +10,4 @@ samples/
 **/userHome/
 **/.DS_Store
 .idea/
+secrets.tar
