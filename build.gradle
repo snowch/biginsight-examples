@@ -342,13 +342,23 @@ task('QueryAmbariServices') {
     def object_services = jsonSlurper.parseText(respServices.data.text)
 
     def object_service_list = []
+    def object_service_list_state = []
     object_services.items.eachWithIndex { serviceName,  index ->
         object_service_list << serviceName.ServiceInfo.service_name
-    } 
+
+        def respServiceInfo = client.get( path : 'api/v1/clusters/' + clusterName + "/services/" + serviceName.ServiceInfo.service_name )
+
+        def objectServiceInfo = jsonSlurper.parseText(respServiceInfo.data.text)
+        def serviceState = objectServiceInfo.ServiceInfo.state
+        def criticalAlert = objectServiceInfo.alerts_summary.CRITICAL
+        def warningAlert = objectServiceInfo.alerts_summary.WARNING
+
+        object_service_list_state << ['name':serviceName.ServiceInfo.service_name, 'state':serviceState, 'critical':criticalAlert, 'warning':warningAlert]
+
+    }
 
     project.ext.set('ambari_services',  object_service_list)
 }
-
 
 def buildProject(proj, services=[]) {
     
