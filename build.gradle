@@ -64,6 +64,24 @@ ssh.settings {
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+ext.gradleVersion = '2.9'
+
+task wrapper(type: Wrapper) {
+    gradleVersion = gradleVersion
+}
+
+// utility task to setup wrapper in top level project and sub projects
+task setupWrapper (dependsOn: wrapper) << {
+
+    new File("${projectDir}/examples").traverse( maxDepth: 0, type: groovy.io.FileType.DIRECTORIES ){ dir ->
+        println "Wrapping examples directory ${dir.absolutePath}"
+        exec {
+            workingDir dir
+            commandLine "${projectDir}/gradlew", "wrapper", "--gradle-version", gradleVersion
+        }
+    }
+}
+////////////////////////////////////////////////////////////////////////////////
 
 def isURLValid(url) {
     try {

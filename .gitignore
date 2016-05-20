@@ -11,3 +11,4 @@ samples/
 **/.DS_Store
 .idea/
 secrets.tar
+bin/
