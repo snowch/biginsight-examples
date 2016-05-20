@@ -16,16 +16,34 @@ client.headers['X-Requested-By'] = 'ambari'
 
 println ""
 
+def jsonSlurper = new JsonSlurper()
+def user_privileges = []
+
+// Identify user privileges
+def respPrivileges = client.get( path : 'api/v1/users/' + ambariUser + '/privileges')
+def privileges = jsonSlurper.parseText(respPrivileges.data.text)
+
+privileges.items.each { items ->
+    def respPrivilege = client.get( path: 'api/v1/users/' + ambariUser + '/privileges/' + items.PrivilegeInfo.privilege_id )
+    def privilege = jsonSlurper.parseText(respPrivilege.data.text)
+    user_privileges << privilege.PrivilegeInfo.permission_name
+}
+
+// Check if you have CLUSTER.OPERATE
+if ( !user_privileges.contains('CLUSTER.OPERATE') ) {
+    println "You don't have CLUSTER OPERATE privilege to run service check."
+    println "You have the following privileges: ${user_privileges}"
+    System.exit(0)
+}
+
 // Make REST call to get cluster
 print "Get cluster info: "
 def resp = client.get( path : 'api/v1/clusters' )
-
 println resp.status
 
 assert resp.status == 200  // HTTP response code; 404 means not found, etc.
 
 // Parse output to JSON
-def jsonSlurper = new JsonSlurper()
 def object = jsonSlurper.parseText(resp.data.text)
 
 // Get Cluster Name
@@ -66,3 +84,4 @@ println ""
 
 println "Job status  is: ${request_status.Requests.request_status}"
 println "Job failed tasks is: ${request_status.Requests.failed_task_count}"
+
