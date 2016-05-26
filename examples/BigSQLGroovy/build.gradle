@@ -61,6 +61,43 @@ task ('CreateTrustStore', type:Exec) {
     commandLine "keytool -import -trustcacerts -alias biginsights -file ${projectDir}/../../certificate -keystore ./truststore.jks -storepass mypassword -noprompt".split()
 }
 
+// Create helper scripts
+task ('SetupFederation') {
+
+    def hostIP, hostPort, keyPassword, certificate
+
+    project.hasProperty('dashIP') ? (hostIP = dashIP) : (hostIP = props.dashIP)
+    project.hasProperty('dashPort') ? (hostPort = dashPort) : (hostPort = props.dashPort)
+    project.hasProperty('kdbPassword') ? (keyPassword = kdbPassword) : (keyPassword = 'myCli3ntPassw0rd')
+    project.hasProperty('dashDBCertificate') ? (certificate = dashDBCertificate) : (certificate = 'DigiCertGlobalRootCA.crt')
+
+    mkdir ('scripts')
+
+    def certificateFile = '/home/bigsql/sqllib/security/keystore/' + certificate
+
+    def configSsl = """# Create keystore db
+cd /home/bigsql/sqllib/security/keystore
+/home/bigsql/sqllib/gskit/bin/gsk8capicmd_64 -keydb -create -db "dashclient.kdb" -pw "${keyPassword}" -stash
+/home/bigsql/sqllib/gskit/bin/gsk8capicmd_64 -cert -add -db "dashclient.kdb" -pw "${keyPassword}" -label "DigiCert" -file "${certificateFile}" -format ascii -fips
+
+# Update database manager configuration to use key and stash file
+db2 update dbm cfg using SSL_CLNT_KEYDB /home/bigsql/sqllib/security/keystore/dashclient.kdb
+db2 update dbm cfg using SSL_CLNT_STASH /home/bigsql/sqllib/security/keystore/dashclient.sth"""
+
+    def catalogDb = """# Uncatalog if needed
+db2 UNCATALOG DATABASE BLUDB
+db2 UNCATALOG NODE DASHNODE
+
+# Catalog the remote server
+db2 CATALOG TCPIP NODE DASHNODE REMOTE ${hostIP} SERVER ${hostPort} SECURITY SSL
+
+# Catalog the remote database
+db2 CATALOG DATABASE BLUDB AS BLUDB AT NODE DASHNODE"""
+
+    file('scripts/configSSL.sh').text = configSsl
+    file('scripts/catalogDB.sh').text = catalogDb
+}
+
 // task to run groovy script
 ['Connect', 'Insert', 'Load', 'CreateExternal', 'CreateCsv', 'Hbase', 'Federation'].each { taskName ->
    task "$taskName" (type: JavaExec) {
