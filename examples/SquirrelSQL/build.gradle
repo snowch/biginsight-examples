@@ -111,6 +111,10 @@ task('RunSquirrel', type:Exec) {
 
     dependsOn DownloadSquirrel, CreateConfig
 
-    commandLine "java", "-jar", "${projectDir}/squirrelsql-3.7.1-optional/squirrel-sql.jar", "-userdir","${projectDir}/config/"
+    commandLine "java", 
+                "-jar", "${projectDir}/squirrelsql-3.7.1-optional/squirrel-sql.jar", 
+                "-userdir", "${projectDir}/config/",
+                "-home", "${projectDir}/squirrelsql-3.7.1-optional",
+                "-nos"
 }
 
