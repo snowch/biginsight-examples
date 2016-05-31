@@ -104,6 +104,12 @@ NOTE: OozieWorkflowCurl requires a Unix like environment (e.g. cygwin on Windows
 
 *********************************************************************
 
+####  SquirrelSQL
+
+- Run SquirrelSQL SQL IDE with BigSQL session [[SquirrelSQL](./SquirrelSQL)]
+
+*********************************************************************
+
 #### Cloudant
 
 - Pull data from a Cloudant database to HDFS using Spark [[CloudantIntegrationWithSpark](./CloudantIntegrationWithSpark)]
