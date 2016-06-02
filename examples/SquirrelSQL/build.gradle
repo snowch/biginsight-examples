@@ -190,3 +190,14 @@ task('RunSquirrel', type:Exec) {
                 "-nos"
 }
 
+clean.doFirst {
+    delete "${projectDir}/truststore.jks"
+    println "${projectDir}/truststore.jks"
+    delete "${projectDir}/config"
+    println "${projectDir}/config"
+    delete "${projectDir}/squirrelsql-3.7.1-optional.zip"
+    println "${projectDir}/squirrelsql-3.7.1-optional.zip"
+    delete "${projectDir}/squirrelsql-3.7.1-optional"
+    println "${projectDir}/squirrelsql-3.7.1-optional"
+}
+
