@@ -107,6 +107,7 @@ NOTE: OozieWorkflowCurl requires a Unix like environment (e.g. cygwin on Windows
 ####  SquirrelSQL
 
 - Run SquirrelSQL SQL IDE with BigSQL session [[SquirrelSQL](./SquirrelSQL)]
+- Run SquirrelSQL SQL IDE with Hive session [[SquirrelSQL](./SquirrelSQL)]
 
 *********************************************************************
 
