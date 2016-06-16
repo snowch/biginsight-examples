@@ -38,4 +38,12 @@ Run `bash ./exporttoswift.sh`.
 
 If you have no errors, verify that you have a new Object Store container in bluemix with the wordcounts.
 
+![Data in Swift](./docs/spark_data_in_swift.png)
 
+Next open a notebook that has the Object Storage attached, and perform the following (replacing for your container name):
+
+```
+data = sc.textFile("swift://1466091594.spark/counts/")
+```
+
+![Read Data](./docs/spark_swift_output.png)
