@@ -47,3 +47,5 @@ data = sc.textFile("swift://1466091594.spark/counts/")
 ```
 
 ![Read Data](./docs/spark_swift_output.png)
+
+When you have successfully executed `bash ./exporttoswift.sh`, try `bash ./exporttoswiftlarge.sh` which uses a much bigger dataset.
