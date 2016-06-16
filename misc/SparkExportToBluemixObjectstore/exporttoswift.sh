@@ -48,10 +48,10 @@ URL=${USER}@${HOST}
 ssh-copy-id ${USER}@${HOST}
 
 # update kerberos tokens
-ssh $URL kinit -k -t ${USER}.keytab ${USER}@IBM.COM
+ssh $URL "kinit -k -t ${USER}.keytab ${USER}@IBM.COM"
 
 # create a directory on the cluster for our spark script if required
-ssh $URL [ -d /home/${USER}/swift_export ] || mkdir /home/${USER}/swift_export
+ssh $URL "[ -d /home/${USER}/swift_export ] || mkdir /home/${USER}/swift_export"
 
 # copy our script to the cluster
 scp exporttoswift.py $URL:/home/${USER}/swift_export/
@@ -60,10 +60,10 @@ scp exporttoswift.py $URL:/home/${USER}/swift_export/
 scp LICENSE $URL:/home/${USER}/swift_export/
 
 # create a directory in hdfs for spark
-ssh $URL hadoop fs -test -d /user/${USER}/swift_export || hadoop fs -mkdir /user/${USER}/swift_export
+ssh $URL "hadoop fs -test -d /user/${USER}/swift_export || hadoop fs -mkdir /user/${USER}/swift_export"
 
 # add the LICENSE file to hdfs
-ssh $URL hadoop fs -put -f /home/${USER}/swift_export/LICENSE /user/${USER}/LICENSE
+ssh $URL "hadoop fs -put -f /home/${USER}/swift_export/LICENSE /user/${USER}/LICENSE"
 
 # run the spark script
 ssh $URL pyspark  --packages com.ibm.stocator:stocator:1.0.3 \
