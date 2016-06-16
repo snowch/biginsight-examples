@@ -44,6 +44,12 @@ objectstore_container=$(date +%s)
 # ssh url
 URL=${USER}@${HOST}
 
+# directory on the cluster where we will upload LICENSE and spark script
+UNIXDIR=/home/${USER}/swift_export
+
+# directory in hdfs where we will upload the LICENSE file
+HDFSDIR=/user/${USER}/swift_export
+
 # Copy your ssh public key to the server to enable secure passwordless ssh
 ssh-copy-id ${USER}@${HOST}
 
@@ -51,24 +57,24 @@ ssh-copy-id ${USER}@${HOST}
 ssh $URL "kinit -k -t ${USER}.keytab ${USER}@IBM.COM"
 
 # create a directory on the cluster for our spark script if required
-ssh $URL "[ -d /home/${USER}/swift_export ] || mkdir /home/${USER}/swift_export"
+ssh $URL "[ -d ${UNIXDIR} ] || mkdir ${UNIXDIR}"
 
 # copy our script to the cluster
-scp exporttoswift.py $URL:/home/${USER}/swift_export/
+scp exporttoswift.py $URL:${UNIXDIR}
 
 # copy the LICENSE file we want to word count
-scp LICENSE $URL:/home/${USER}/swift_export/
+scp LICENSE $URL:${UNIXDIR}
 
 # create a directory in hdfs for spark
-ssh $URL "hadoop fs -test -d /user/${USER}/swift_export || hadoop fs -mkdir /user/${USER}/swift_export"
+ssh $URL "hadoop fs -test -d ${HDFSDIR} || hadoop fs -mkdir ${HDFSDIR}"
 
 # add the LICENSE file to hdfs
-ssh $URL "hadoop fs -put -f /home/${USER}/swift_export/LICENSE /user/${USER}/LICENSE"
+ssh $URL "hadoop fs -put -f ${UNIXDIR}/LICENSE ${HDFSDIR}/LICENSE"
 
 # run the spark script
 ssh $URL pyspark  --packages com.ibm.stocator:stocator:1.0.3 \
-    /home/${USER}/swift_export/exporttoswift.py \
-    /user/${USER}/LICENSE \
+    ${UNIXDIR}/exporttoswift.py \
+    ${HDFSDIR}/LICENSE \
     "${objectstore_auth_url}" \
     "${objectstore_tenant}" \
     "${objectstore_username}" \
