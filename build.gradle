@@ -169,13 +169,13 @@ task('DownloadJdbcJars') {
             ssh.run {
                 session(remotes.bicluster_bigsql_head) {
 
-                    get from: "/usr/ibmpacks/bigsql/4.1/db2/java/db2jcc.jar",
+                    get from: "/usr/ibmpacks/current/bigsql/db2/java/db2jcc.jar",
                         into: "${projectDir}/downloads/db2jcc.jar"
                     
-                    get from: "/usr/ibmpacks/bigsql/4.1/db2/java/db2jcc4.jar",
+                    get from: "/usr/ibmpacks/current/bigsql/db2/java/db2jcc4.jar",
                         into: "${projectDir}/downloads/db2jcc4.jar"
 
-                    get from: "/usr/ibmpacks/bigsql/4.1/db2/java/db2jcc_license_cu.jar",
+                    get from: "/usr/ibmpacks/current/bigsql/db2/java/db2jcc_license_cu.jar",
                         into: "${projectDir}/downloads/db2jcc_license_cu.jar"
                 }
             }
