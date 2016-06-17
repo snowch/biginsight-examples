@@ -26,14 +26,14 @@ objectstore_tenant=
 objectstore_username=
 
 # password
-objectstore_password=
+objectstore_password=''
 
 # region
 objectstore_region=
 
 # don't change these
-objectstore_auth_url=
-objectstore_auth_method=
+objectstore_auth_url=https://identity.open.softlayer.com/v3/auth/tokens
+objectstore_auth_method=keystoneV3
 
 # create a new container each time we run so we don't get an error that
 # the container already exists
@@ -78,7 +78,7 @@ ssh ${URL} pyspark  --packages com.ibm.stocator:stocator:1.0.3 \
     "${objectstore_auth_url}" \
     "${objectstore_tenant}" \
     "${objectstore_username}" \
-    "${objectstore_password}" \
+    "'${objectstore_password}'" \
     "${objectstore_region}" \
     "${objectstore_auth_method}" \
     "${objectstore_container}"
