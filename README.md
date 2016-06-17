@@ -46,7 +46,7 @@ See the 5 minute demo at the end of the README to see these steps in action.
   - In the Certificate Viewer, select the Details tab and then click Export.
   - Save the certificate in this folder with the filename `certificate`
 - Run `./gradlew DownloadLibs` (unix) `gradlew.bat DownloadLibs` (windows) to download libraries from the cluster
-- Run `./gradlew test` (unix) `gradlew.bat test` (windows) to run the whole set of examples as a test (detailed output for the tests can be found in the folder `./build/test/`)
+- Run `./gradlew test` (unix) `gradlew.bat test` (windows) to run the whole set of examples as a test (detailed output for the tests can be found in the folder `./build/test/`).  Note: running all of the tests takes approximately 40 mins on my cluster.
 
 Next, see the section below for details of running an example script.
 
