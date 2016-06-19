@@ -141,14 +141,14 @@ while( status == "RUNNING" && count++ < 300 ) {
 println ""
 println "Job status: " + status
 
-if( status == "SUCCEEDED" ) {
-  text = Hdfs.ls( session ).dir( jobDir + "/output" ).now().string
-  json = (new JsonSlurper()).parseText( text )
-  println json.FileStatuses.FileStatus.pathSuffix
+assert status == "SUCCEEDED"
 
-  println "Spark output:"
-  println Hdfs.get( session ).from( jobDir + "/output/part-00000" ).now().string
-  println Hdfs.get( session ).from( jobDir + "/output/part-00001" ).now().string
-}
+text = Hdfs.ls( session ).dir( jobDir + "/output" ).now().string
+json = (new JsonSlurper()).parseText( text )
+println json.FileStatuses.FileStatus.pathSuffix
+
+println "Spark output:"
+println Hdfs.get( session ).from( jobDir + "/output/part-00000" ).now().string
+println Hdfs.get( session ).from( jobDir + "/output/part-00001" ).now().string
 
 session.shutdown()
