@@ -1,4 +1,11 @@
 libdir   <- Sys.getenv("libdir")
+debug    <- Sys.getenv("debug")
+
+quiet=TRUE
+
+if (debug) {
+  quiet=FALSE
+}
 
 .libPaths(libdir)
 
@@ -6,10 +13,12 @@ libdir   <- Sys.getenv("libdir")
 dir.create(libdir)
 
 # install libraries
-install.packages('rJava',      repos='http://cran.us.r-project.org', lib=libdir, quiet=TRUE)
-install.packages('base64enc',  repos='http://cran.us.r-project.org', lib=libdir, quiet=TRUE)
-install.packages('data.table', repos='http://cran.us.r-project.org', lib=libdir, quiet=TRUE)
+install.packages('rJava',      repos='http://cran.us.r-project.org', lib=libdir, quiet=quiet)
+install.packages('base64enc',  repos='http://cran.us.r-project.org', lib=libdir, quiet=quiet)
+install.packages('data.table', repos='http://cran.us.r-project.org', lib=libdir, quiet=quiet)
 
 # The BigR package is downloaded for you by the build.gradle script
-install.packages('bigr.tar.gz', type="source", repos=NULL, lib=libdir, quiet=FALSE)
+install.packages('bigr.tar.gz', type="source", repos=NULL, lib=libdir, quiet=quiet)
+
+print(.jclassPath())
 
