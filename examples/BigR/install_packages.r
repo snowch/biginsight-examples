@@ -20,5 +20,6 @@ install.packages('data.table', repos='http://cran.us.r-project.org', lib=libdir,
 # The BigR package is downloaded for you by the build.gradle script
 install.packages('bigr.tar.gz', type="source", repos=NULL, lib=libdir, quiet=quiet)
 
+library(rJava)
 print(.jclassPath())
 
