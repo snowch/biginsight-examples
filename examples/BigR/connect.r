@@ -11,6 +11,10 @@ debug    <- Sys.getenv("debug")
 
 .libPaths(libdir)
 
+library(rJava)
+.jinit()
+print(paste(">> .jclassPath() ", .jclassPath()))
+
 library(bigr)
 bigr:::bigr.debug(toupper(debug))
 
