@@ -55,6 +55,12 @@ task ('installPackages', type:Exec) {
 
     // set where we want the R packages installed
     environment 'libdir',   "${projectDir}/lib"
+    
+    if (project.hasProperty('debugBigR')) {
+      environment 'debug', "TRUE"
+    } else {
+      environment 'debug', "FALSE"
+    }
 
     commandLine 'Rscript', "--verbose", "--vanilla", "${projectDir}/install_packages.r"
 }
