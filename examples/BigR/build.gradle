@@ -81,7 +81,7 @@ hostname <- "${getMasters(props)['BIGSQL_HEAD'][0]}"
 username <- "${props.username}"
 password <- "${props.password}"
 projdir  <- "${projectDir}"
-debug    <- FALSE
+debug    <- TRUE
 ################################################################################
 
 quiet=TRUE
