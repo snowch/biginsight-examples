@@ -79,13 +79,14 @@ Vagrant.configure(2) do |config|
      ssh-keyscan $bimastermanager >> ~/.ssh/known_hosts
      ssh-keyscan $bimaster2 >> ~/.ssh/known_hosts
 
-     # Now lets run the tests
-     cd ~/biginsight-examples/
-
-     ./gradlew -q test
-
+     # create sample script for connecting to BigR
      cd ~/biginsight-examples/examples/BigR
      ./gradlew GenerateSampleScript
+
+     # Now lets run the tests
+     cd ~/biginsight-examples/
+     ./gradlew -q test
+
    SHELL
 
 end
