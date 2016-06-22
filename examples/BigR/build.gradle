@@ -109,7 +109,7 @@ if (!"data.table" %in% rownames(installed.packages())) {
 
 # The BigR package is downloaded for you by the build.gradle script
 if (!"bigr" %in% rownames(installed.packages())) {
-    install.packages('bigr.tar.gz', type="source", repos=NULL, lib=libdir, quiet=quiet)
+    install.packages(paste(projdir, '/bigr.tar.gz', sep=""), type="source", repos=NULL, lib=libdir, quiet=quiet)
 }
 
 
