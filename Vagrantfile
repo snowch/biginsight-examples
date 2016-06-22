@@ -47,9 +47,9 @@ Vagrant.configure(2) do |config|
      sudo apt-get update
      sudo apt-get install -y git r-base oracle-java8-installer
 
-     sudo apt-get install gdebi-core
+     sudo apt-get install gdebi-core -y
      wget https://download2.rstudio.org/rstudio-server-0.99.902-amd64.deb
-     sudo gdebi rstudio-server-0.99.902-amd64.deb
+     sudo gdebi rstudio-server-0.99.902-amd64.deb 
 
      # copy the jdk to a non volatile folder so we can grab it from here
      # on the next clean `vagrant up`
