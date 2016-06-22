@@ -83,6 +83,9 @@ Vagrant.configure(2) do |config|
      cd ~/biginsight-examples/
 
      ./gradlew -q test
+
+     cd ~/biginsight-examples/examples/BigR
+     ./gradlew GenerateSampleScript
    SHELL
 
 end
