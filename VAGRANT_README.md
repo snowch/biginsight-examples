@@ -43,4 +43,10 @@ Finished running tests
 BUILD SUCCESSFUL
 ```
 
+Command to get private network address of host:
+
+```
+vagrant ssh -c "hostname -I | cut -d' ' -f2-"
+```
+
 *********************************************************************
