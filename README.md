@@ -1,7 +1,6 @@
 *********************************************************************
 ### README 
 
-[![Build Status](https://travis-ci.org/snowch/biginsight-examples.png)](https://travis-ci.org/snowch/biginsight-examples) (click this icon to view the build output and the test results)
 *********************************************************************
 
 This repository contains example projects to help you quickly get started with BigInsights. Following the steps below on your client machine, it should take you less than 5 minutes to run any of the example projects against a BigInsights cluster. The projects are tested on BigInsights on Cloud (bluemix) but they should also work for BigInsights on-premise.
