@@ -33,9 +33,11 @@ Properties props = new Properties()
 props.load(new FileInputStream("$projectDir/connection.properties"))
 
 // extract BigInsights hostname from the gateway url
-def matcher = props.gateway =~ /^(https?:\/\/)([^:^\/]*)(:\d*)?(.*)?.*$/
+def matcher = props.gateway =~ /^(https?:\/\/)([^:^\/]*):(\d*)?(.*)?.*$/
 
 def mastermanager_hostname = matcher[0][2]
+
+def mastermanager_port = matcher[0][3]
 
 // setup the connection details for ssh
 remotes {
@@ -61,6 +63,41 @@ ssh.settings {
         // disable ssh host key verification 
         knownHosts = allowAnyHosts
     }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+task('DownloadCertificates') << {
+
+    def host = mastermanager_hostname
+    def port = mastermanager_port
+    def certs = []
+
+    def trustManager = [
+        checkClientTrusted: { chain, authType ->  },
+        checkServerTrusted: { chain, authType -> certs.push(chain[0]) },
+        getAcceptedIssuers: { null }
+    ] as X509TrustManager
+
+    def context = SSLContext.getInstance("TLS")
+    context.init(null, [trustManager] as TrustManager[], null)
+    context.socketFactory.createSocket(host, port as int).with {
+        addHandshakeCompletedListener( 
+            [ 
+                handshakeCompleted: { event -> certs.addAll(event.getPeerCertificates()) }   
+            ] as HandshakeCompletedListener
+        )
+        startHandshake()
+        close()
+    }
+
+    // This is required to prevent a ConcurrentModificationException when iterating
+    certs = certs.asImmutable()
+
+    (new File("${projectDir}/certificate")).text = 
+               "-----BEGIN CERTIFICATE-----\n" + 
+               "${certs[0].encoded.encodeBase64(true)}" +
+               "-----END CERTIFICATE-----"
 }
 
 ////////////////////////////////////////////////////////////////////////////////
