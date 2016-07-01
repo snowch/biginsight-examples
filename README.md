@@ -39,7 +39,7 @@ See the 5 minute demo at the end of the README to see these steps in action.
 - Copy `connection.properties_template` to `connection.properties`
 - Edit `connection.properties` to add your connection details for BigInsights and other optional services such as dashDB
 - In `connection.properties` uncomment the line `# known_hosts:allowAnyHosts`
-- Run `./gradlew DownloadCertificate' (unix) `gradlew.bat DownloadCertificate` (windows) to download the ssl certificate - you may want to visually verify this certificate
+- Run `./gradlew DownloadCertificate` (unix) `gradlew.bat DownloadCertificate` (windows) to download the ssl certificate - you may want to visually verify this certificate
 - Run `./gradlew DownloadLibs` (unix) `gradlew.bat DownloadLibs` (windows) to download libraries from the cluster
 - Run `./gradlew test` (unix) `gradlew.bat test` (windows) to run the whole set of examples as a test (detailed output for the tests can be found in the folder `./build/test/`).  
 
