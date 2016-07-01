@@ -274,7 +274,7 @@ task verifyCertificate << {
 
     if (!certfile.exists()) {
         System.err.println "** ${certfile.absolutePath} not found - some tests will fail **"
-        System.err.println "   Resolution: save the server's certificate as per the biginsight-examples project README"
+        System.err.println "   Resolution: run `./gradlew DownloadCertificate`"
         return
     }
 
@@ -305,7 +305,7 @@ task verifyCertificate << {
 
     if (certtext.replaceAll("\\s", "") != certfiletext.replaceAll("\\s", "")) {
         System.err.println "** Certificate error:  SSL Certificate of server does not match ${certfile.absolutePath} - some tests will fail **"
-        System.err.println "   Resolution: save the server's certificate as per the biginsight-examples project README"
+        System.err.println "   Resolution: run `./gradlew DownloadCertificate`"
     }
 }
 
