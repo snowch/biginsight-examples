@@ -41,11 +41,13 @@ See the 5 minute demo at the end of the README to see these steps in action.
 - In `connection.properties` uncomment the line `# known_hosts:allowAnyHosts`
 - Run `./gradlew DownloadCertificate' (unix) `gradlew.bat DownloadCertificate` (windows) to download the ssl certificate - you may want to visually verify this certificate
 - Run `./gradlew DownloadLibs` (unix) `gradlew.bat DownloadLibs` (windows) to download libraries from the cluster
+
+Now run the WebHdfsGroovy example to list the folders in hdfs:
+- Run `./gradlew -p examples/WebHdfsGroovy Ls` (unix) `gradlew.bat -p examples\WebHdfsGroovy Ls` (windows)
+- if you receive errors like 'Could not download XXX' retry a few times
+
+Optional: run tests (this takes approximately 40 mins on my cluster)
 - Run `./gradlew test` (unix) `gradlew.bat test` (windows) to run the whole set of examples as a test (detailed output for the tests can be found in the folder `./build/test/`).  
-
-Note: 
-
-- running all of the tests takes approximately 40 mins on my cluster
 - if you receive errors like 'Could not download XXX' retry a few times
 
 Next, see the section below for details of running an example script.
