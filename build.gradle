@@ -199,32 +199,45 @@ task('DownloadJdbcJars') {
     mustRunAfter clean 
 
     doLast {
-
+    
         def bigsql_head = getMasters(props)['BIGSQL_HEAD']
-        if (bigsql_head) {
+        
+        def isEhaas = mastermanager_hostname.startsWith('ehaasp-')
 
-            ssh.run {
+        ssh.run {
+            if (isEhaas) {
+                def libdir = '/usr/ibmpacks/current/bigsql/db2/java'
                 session(remotes.bicluster_bigsql_head) {
 
-                    get from: "/usr/ibmpacks/current/bigsql/db2/java/db2jcc.jar",
+                    get from: "${libdir}/db2jcc.jar",
                         into: "${projectDir}/downloads/db2jcc.jar"
                     
-                    get from: "/usr/ibmpacks/current/bigsql/db2/java/db2jcc4.jar",
+                    get from: "${libdir}/db2jcc4.jar",
                         into: "${projectDir}/downloads/db2jcc4.jar"
 
-                    get from: "/usr/ibmpacks/current/bigsql/db2/java/db2jcc_license_cu.jar",
-                        into: "${projectDir}/downloads/db2jcc_license_cu.jar"
+                    if (bigsql_head) {
+                        get from: "${libdir}/db2jcc_license_cu.jar",
+                            into: "${projectDir}/downloads/db2jcc_license_cu.jar"
+                    }
+                }
+            } else {
+                def libdir = '/usr/iop/current/sqoop-client/lib'
+                session(remotes.bicluster) {
+
+                    get from: "${libdir}/db2jcc.jar",
+                        into: "${projectDir}/downloads/db2jcc.jar"
+                    
+                    get from: "${libdir}/db2jcc4.jar",
+                        into: "${projectDir}/downloads/db2jcc4.jar"
                 }
             }
+        }
 
-        } else {
-            if (!file("${projectDir}/downloads/db2jcc.jar").exists() ||
-                !file("${projectDir}/downloads/db2jcc4.jar").exists() ||
-                !file("${projectDir}/downloads/db2jcc_license_cu.jar")) {
+        if (!file("${projectDir}/downloads/db2jcc.jar").exists() ||
+            !file("${projectDir}/downloads/db2jcc4.jar").exists()) {
 
-                println "Unable to download db2jcc.jar, db2jcc4.jar, db2jcc_license_cu.jar from the cluster\n"
-                println "Maybe this is a basic cluster?  If so, manually obtain the above files and place them in the downloads folder"
-            }
+            println "Unable to download db2jcc.jar, db2jcc4.jar from the cluster\n"
+            println "Maybe this is a basic cluster?  If so, manually obtain the above files and place them in the downloads folder"
         }
     }
 }
