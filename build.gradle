@@ -116,9 +116,6 @@ task('DownloadCertificates') << {
         close()
     }
 
-    // This is required to prevent a ConcurrentModificationException when iterating
-    certs = certs.asImmutable()
-
     (new File("${projectDir}/certificate")).text = 
                "-----BEGIN CERTIFICATE-----\n" + 
                "${certs[0].encoded.encodeBase64(true)}" +
