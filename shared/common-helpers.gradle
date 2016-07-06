@@ -94,10 +94,10 @@ def getMasterManagerHost(props) {
 
 def getBigSqlHeadHost(props) {
     def bigSqlHeadMaster = getMasters(props)
-    if (bigSqlHeadMaster == null) {
+    if (bigSqlHeadMaster == null || bigSqlHeadMaster['BIGSQL_HEAD'] == null) {
         return null
     } else {
-        return bigSqlHeadMaster[0]
+        return bigSqlHeadMaster['BIGSQL_HEAD'][0]
     }
 }
 

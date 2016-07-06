@@ -30,6 +30,9 @@ if (hostname == null) {
 
 task('DownloadSquirrel', type:Copy) {
 
+    // always run this task - don't let gradle decide when to run it
+    outputs.upToDateWhen { false }
+
     def url = 'http://downloads.sourceforge.net/project/squirrel-sql/1-stable/3.7.1-plainzip/squirrelsql-3.7.1-optional.zip?r=https%3A%2F%2Fsourceforge.net%2Fprojects%2Fsquirrel-sql%2Ffiles%2F1-stable%2F3.7.1-plainzip%2F&ts=1464716393&use_mirror=netcologne'
 
     def f = file('squirrelsql-3.7.1-optional.zip')
@@ -64,8 +67,14 @@ task('CreateConfig') {
 </Bean>"""
     }
 
-    file('config/SQLDrivers.xml').text = """
+    def sqlDrivers = file('config/SQLDrivers.xml')
+
+    sqlDrivers.text = """
     <Beans>
+    """
+
+    if (getBigSqlHeadHost(props) != null) {
+        sqlDrivers << """
         <Bean Class="net.sourceforge.squirrel_sql.fw.sql.SQLDriver">
             <driverClassName>com.ibm.db2.jcc.DB2Driver</driverClassName>
             <identifier Class="net.sourceforge.squirrel_sql.fw.id.UidIdentifier">
@@ -87,6 +96,9 @@ task('CreateConfig') {
             <url>jdbc:db2://hostname:51000/bigsql:sslConnection=true;sslTrustStoreLocation=${projectDir}/truststore.jks;Password=mypassword;</url>
             <websiteUrl/>
         </Bean>
+        """
+    }
+    sqlDrivers << """
         <Bean Class="net.sourceforge.squirrel_sql.fw.sql.SQLDriver">
             <driverClassName>org.apache.hive.jdbc.HiveDriver</driverClassName>
             <identifier Class="net.sourceforge.squirrel_sql.fw.id.UidIdentifier">
@@ -103,8 +115,14 @@ task('CreateConfig') {
     </Beans>"""
 
 
-    file('config/SQLAliases23.xml').text = """
+    def sqlAliases = file('config/SQLAliases23.xml')
+
+    sqlAliases.text = """
         <Beans>
+        """
+
+    if (getBigSqlHeadHost(props) != null) {
+        sqlAliases << """
             <Bean Class="net.sourceforge.squirrel_sql.client.gui.db.SQLAlias">
                 <autoLogon>false</autoLogon>
                 <colorProperties Class="net.sourceforge.squirrel_sql.client.gui.db.SQLAliasColorProperties">
@@ -141,6 +159,9 @@ task('CreateConfig') {
                 <userName>${props.username}</userName>
                 <password>${props.password}</password>
             </Bean>
+            """
+    }
+    sqlAliases << """
             <Bean Class="net.sourceforge.squirrel_sql.client.gui.db.SQLAlias">
                 <autoLogon>false</autoLogon>
                 <colorProperties Class="net.sourceforge.squirrel_sql.client.gui.db.SQLAliasColorProperties">
