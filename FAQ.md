@@ -44,3 +44,19 @@ This probably means that you have changed your connection.properties to point to
 - change to the directory containing connection.properties (this is the top level folder)
 - run `./gradlew DownloadCertificate` to download the new certificate
 - remove the old truststore.jks files.  From the top level folder, you can run `./gradlew DeleteTruststores` to do this
+
+## Could not resolve all dependencies for / Could not download ...
+
+You may sometimes see an error like this:
+
+```
+  > Could not resolve all dependencies for configuration ':classpath'.
+     > Could not download commons-codec.jar (commons-codec:commons-codec:1.6)
+        > Could not get resource 'https://repo1.maven.org/maven2/commons-codec/commons-codec/1.6/commons-codec-1.6.jar'.
+           > Could not GET 'https://repo1.maven.org/maven2/commons-codec/commons-codec/1.6/commons-codec-1.6.jar'.
+              > Read timed out
+```
+
+This is due to gradle not being able to download some dependencies from a remote repository.  
+
+Try rerunning the gradle task to fix this.  You may need to do this several times.
