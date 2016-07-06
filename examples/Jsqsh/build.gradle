@@ -9,8 +9,10 @@ props.load(new FileInputStream("$projectDir/../../connection.properties"))
 // load some common helper methods
 apply from: "${projectDir}/../../shared/common-helpers.gradle"
 
-// Get Big SQL head hostname
-def hostname = getMasters(props)['BIGSQL_HEAD'][0]
+def hostname = getBigSqlHeadHost(props)
+if (hostname == null) {
+    hostname = getMasterManagerHost(props)
+}
 
 task('DownloadJsqsh', type:Copy) {
 
@@ -66,7 +68,7 @@ task('CreateConfig') {
           <catalog><![CDATA[bigsql]]></catalog>
           <properties>
               <property name="sslConnection"><![CDATA[True]]></property>
-              <property name="sslTrustStoreLocation"><![CDATA[${projectDir}/truststore.jks]]></property>
+              <property name="sslTrustStoreLocation"><![CDATA[${projectDir.absolutePath.replaceAll(/\\+/, '/')}/truststore.jks]]></property>
               <property name="Password"><![CDATA[mypassword]]></property>
           </properties>
        </connection>
