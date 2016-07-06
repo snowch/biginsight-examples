@@ -70,11 +70,25 @@ ssh.settings {
 
 task('DeleteTruststores') << {
 
+    def truststoreCount = 0
     new File('.').eachFileRecurse(FILES) {
         if (it.name == 'truststore.jks') {
-            println "Deleting: ${it}" 
-            it.delete()
+            println ">> ${it}"
+            truststoreCount++
         }
+    }
+
+    if (truststoreCount == 0) {
+        println "No truststores found"
+    } else {
+        println "Confirm you would like to delete the above truststores (y|n)"
+        if (System.console().readLine().toLowerCase() == 'y') {
+            new File('.').eachFileRecurse(FILES) {
+                if (it.name == 'truststore.jks') {
+                    it.delete()
+                }
+            }
+        } 
     }
 }
 
