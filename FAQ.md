@@ -41,6 +41,6 @@ $ ../gradlew.bat --project-cache-dir ../ RunSquirrel
 
 This probably means that you have changed your connection.properties to point to a different cluster and you are still using the old cluster's certificate.  To fix this:
 
-- change to the directory containing connection.properties
+- change to the directory containing connection.properties (this is the top level folder)
 - run `./gradlew DownloadCertificate` to download the new certificate
-- remove the truststore.jks files in the example folder
+- remove the old truststore.jks files.  From the top level folder, you can run `./gradlew DeleteTruststores` to do this
