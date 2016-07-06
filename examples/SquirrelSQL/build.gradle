@@ -23,8 +23,10 @@ props.load(new FileInputStream("$projectDir/../../connection.properties"))
 // load some common helper methods
 apply from: "${projectDir}/../../shared/common-helpers.gradle"
 
-// Get Big SQL head hostname
-def hostname = getMasters(props)['BIGSQL_HEAD'][0]
+def hostname = getBigSqlHeadHost(props)
+if (hostname == null) {
+    hostname = getMasterManagerHost(props)
+}
 
 task('DownloadSquirrel', type:Copy) {
 
@@ -46,7 +48,7 @@ task('CreateConfig') {
     }
 
     // import the BigInsights manager certificate
-    ant.exec(executable: 'keytool', dir:'./') {
+    ant.exec(executable: "${getJavaHome()}/bin/keytool", dir:'./') {
         arg(line: '-import -trustcacerts -alias biginsights -file ../../certificate -keystore ./truststore.jks -storepass mypassword -noprompt')
     }
 

@@ -1,8 +1,26 @@
 import groovyx.net.http.RESTClient
 import groovy.json.JsonSlurper
+import org.gradle.tooling.GradleConnector
+import org.gradle.tooling.model.build.BuildEnvironment
 
 Properties props = new Properties()
 props.load(new FileInputStream("$projectDir/../../connection.properties"))
+
+def getJavaHome() {
+    def connection = GradleConnector.newConnector()
+        .forProjectDirectory(new File("$projectDir/../../"))
+        .connect();
+
+    def javahome 
+
+    try {
+        def env = connection.getModel(BuildEnvironment.class);
+        javahome = env.getJava().getJavaHome();
+    } finally {
+        connection.close();
+    }
+    return javahome 
+}
 
 // setup the connection details for ssh
 remotes {
@@ -52,6 +70,22 @@ def isURLValid(url) {
         return false
     }
 } 
+
+def getMasterManagerHost(props) {
+    // extract BigInsights hostname from the gateway url
+    def matcher = props.gateway =~ /^(https?:\/\/)([^:^\/]*):(\d*)?(.*)?.*$/
+
+    return matcher[0][2]
+}
+
+def getBigSqlHeadHost(props) {
+    def bigSqlHeadMaster = getMasters(props)
+    if (bigSqlHeadMaster == null) {
+        return null
+    } else {
+        return bigSqlHeadMaster[0]
+    }
+}
 
 def getMasters(props) {
     return getMasters(props.ambariUrl, props.ambariUsername, props.ambariPassword)
@@ -117,6 +151,9 @@ def getMasters(ambariUrl, ambariUsername, ambariPassword) {
 ext{
     getHostnameFromUrl = this.&getHostnameFromUrl
     getMasters = this.&getMasters
+    getBigSqlHeadHost = this.&getBigSqlHeadHost
+    getMasterManagerHost = this.&getMasterManagerHost
+    getJavaHome = this.&getJavaHome
 }
 
 task('clean') << {
