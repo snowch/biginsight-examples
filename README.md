@@ -33,6 +33,8 @@ NOTE: You do NOT need to install gradle, the gradlew scripts mentioned below wil
 
 ### Setup Instructions
 
+See the [FAQ](./FAQ.md) for common issues and their resolution.
+
 See the 5 minute demo at the end of the README to see these steps in action.
 
 - Clone this repository `git clone https://github.com/snowch/biginsight-examples.git`
