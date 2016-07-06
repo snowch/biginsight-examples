@@ -73,6 +73,8 @@ task('CreateConfig') {
     <Beans>
     """
 
+    def truststoreDir = projectDir.absolutePath.replaceAll(/\\+/, '/')
+
     if (getBigSqlHeadHost(props) != null) {
         sqlDrivers << """
         <Bean Class="net.sourceforge.squirrel_sql.fw.sql.SQLDriver">
@@ -93,7 +95,7 @@ task('CreateConfig') {
                 </Bean>
             </jarFileNames>
             <name>bigsql</name>
-            <url>jdbc:db2://hostname:51000/bigsql:sslConnection=true;sslTrustStoreLocation=${projectDir}/truststore.jks;Password=mypassword;</url>
+            <url>jdbc:db2://hostname:51000/bigsql:sslConnection=true;sslTrustStoreLocation=${truststoreDir}/truststore.jks;Password=mypassword;</url>
             <websiteUrl/>
         </Bean>
         """
@@ -154,7 +156,7 @@ task('CreateConfig') {
                     <globalState>0</globalState>
                     <schemaDetails Indexed="true"/>
                 </schemaProperties>
-                <url>jdbc:db2://${hostname}:51000/bigsql:sslConnection=true;sslTrustStoreLocation=${projectDir}/truststore.jks;Password=mypassword;</url>
+                <url>jdbc:db2://${hostname}:51000/bigsql:sslConnection=true;sslTrustStoreLocation=${truststoreDir}/truststore.jks;Password=mypassword;</url>
                 <useDriverProperties>false</useDriverProperties>
                 <userName>${props.username}</userName>
                 <password>${props.password}</password>
@@ -193,7 +195,7 @@ task('CreateConfig') {
                     <globalState>0</globalState>
                     <schemaDetails Indexed="true"/>
                 </schemaProperties>
-                <url>jdbc:hive2://${hostname}:10000/default;ssl=true;sslTrustStore=${projectDir}/truststore.jks;trustStorePassword=mypassword;</url>
+                <url>jdbc:hive2://${hostname}:10000/default;ssl=true;sslTrustStore=${truststoreDir}/truststore.jks;trustStorePassword=mypassword;</url>
                 <useDriverProperties>false</useDriverProperties>
                 <userName>${props.username}</userName>
                 <password>${props.password}</password>
