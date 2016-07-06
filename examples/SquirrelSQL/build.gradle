@@ -48,7 +48,7 @@ task('CreateConfig') {
     }
 
     // import the BigInsights manager certificate
-    ant.exec(executable: "${getJavaHome()}/bin/keytool", dir:'./') {
+    ant.exec(executable: "${getKeytoolPath()}", dir:'./') {
         arg(line: '-import -trustcacerts -alias biginsights -file ../../certificate -keystore ./truststore.jks -storepass mypassword -noprompt')
     }
 

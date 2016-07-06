@@ -22,6 +22,14 @@ def getJavaHome() {
     return javahome 
 }
 
+def getKeytoolPath() {
+    def path = "${getJavaHome()}/bin/keytool"
+    if (!file(path).exists()) {
+        throw new GradleException("Cannot find java keytool in ${getJavaHome()}/bin")
+    }
+    return path
+}
+
 // setup the connection details for ssh
 remotes {
     bicluster {
@@ -154,6 +162,7 @@ ext{
     getBigSqlHeadHost = this.&getBigSqlHeadHost
     getMasterManagerHost = this.&getMasterManagerHost
     getJavaHome = this.&getJavaHome
+    getKeytoolPath = this.&getKeytoolPath
 }
 
 task('clean') << {
