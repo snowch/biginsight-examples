@@ -2,6 +2,7 @@ import groovyx.net.http.RESTClient
 import groovy.json.JsonSlurper
 import org.gradle.tooling.GradleConnector
 import org.gradle.tooling.model.build.BuildEnvironment
+import org.apache.tools.ant.taskdefs.condition.Os
 
 Properties props = new Properties()
 props.load(new FileInputStream("$projectDir/../../connection.properties"))
@@ -23,7 +24,12 @@ def getJavaHome() {
 }
 
 def getKeytoolPath() {
-    def path = "${getJavaHome()}/bin/keytool"
+    def path 
+    if (Os.isFamily(Os.FAMILY_WINDOWS)) {
+        path = "${getJavaHome()}\\bin\\keytool.exe"
+    } else {
+        path = "${getJavaHome()}/bin/keytool"
+    }
     if (!file(path).exists()) {
         throw new GradleException("Cannot find java keytool in ${getJavaHome()}/bin")
     }
