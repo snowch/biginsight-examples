@@ -13,19 +13,19 @@ set -o verbose
 source exporttocloudant.properties
 
 # ssh url
-URL=${USER}@${HOST}
+URL=${BI_USER}@${BI_HOST}
 
 # directory on the cluster where we will download datafiles from the internet
-UNIXDIR=/home/${USER}/cloudant_export
+UNIXDIR=/home/${BI_USER}/cloudant_export
 
 # directory in hdfs where we will upload the datafiles
-HDFSDIR=/user/${USER}/cloudant_export
+HDFSDIR=/user/${BI_USER}/cloudant_export
 
 # Copy your ssh public key to the server to enable secure passwordless ssh
-ssh-copy-id ${USER}@${HOST}
+ssh-copy-id ${BI_USER}@${BI_HOST}
 
 # update kerberos tokens
-ssh ${URL} "kinit -k -t ${USER}.keytab ${USER}@IBM.COM"
+ssh ${URL} "kinit -k -t ${BI_USER}.keytab ${BI_USER}@IBM.COM"
 
 # create a directory on the cluster for our spark script if required
 ssh ${URL} "[ -d ${UNIXDIR} ] || mkdir ${UNIXDIR}"
@@ -34,7 +34,8 @@ ssh ${URL} "[ -d ${UNIXDIR} ] || mkdir ${UNIXDIR}"
 scp exporttocloudant.py ${URL}:${UNIXDIR}/
 
 ssh ${URL} "[ -f ${UNIXDIR}/data_berka.zip ] || " \
-           "curl http://sorry.vse.cz/~berka/challenge/pkdd1999/data_berka.zip | unzip -d ."
+           "curl -o ${UNIXDIR}/data_berka.zip http://sorry.vse.cz/~berka/challenge/pkdd1999/data_berka.zip && " \
+           "unzip -o -d ${UNIXDIR}/ data_berka.zip"
 
 # create a directory in hdfs for spark
 ssh ${URL} "hadoop fs -test -d ${HDFSDIR} || hadoop fs -mkdir ${HDFSDIR}"
