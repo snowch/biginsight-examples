@@ -1,0 +1,47 @@
+plugins {
+  id 'org.hidetake.ssh' version '1.5.0'
+}
+
+// set the dependencies for compiling the groovy script
+//repositories {
+//    mavenCentral()
+//}
+//
+//dependencies {
+//	// required to build the spark example
+//    compile 'org.apache.spark:spark-core_2.11:1.5.2'
+//}
+
+// load some common helper methods
+apply from: "${projectDir}/../../shared/common-helpers.gradle"
+
+// get the cluster connection details
+Properties props = new Properties()
+props.load(new FileInputStream("$projectDir/../../connection.properties"))
+
+
+task HBaseShellCommands << {
+
+    // ssh plugin documentation: https://gradle-ssh-plugin.github.io/docs/
+    
+    ssh.run {
+        // remotes.bicluster is defined in shared/common-helpers.gradle
+        session(remotes.bicluster) {
+
+            try {
+                // initialise kerberos
+                execute "kinit -k -t ${props.username}.keytab ${props.username}@IBM.COM"
+            } 
+            catch (Exception e) {
+                println "problem running kinit - maybe this is a Basic cluster?"
+            }
+
+            execute """echo "describe 'test1'\nexit\n" > hbase_step1.txt"""
+            execute """hbase shell ./hbase_step1.txt"""
+        }
+    }
+}
+
+task Example {
+	dependsOn HBaseShellCommands
+}
