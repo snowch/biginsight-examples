@@ -2,16 +2,6 @@ plugins {
   id 'org.hidetake.ssh' version '1.5.0'
 }
 
-// set the dependencies for compiling the groovy script
-//repositories {
-//    mavenCentral()
-//}
-//
-//dependencies {
-//	// required to build the spark example
-//    compile 'org.apache.spark:spark-core_2.11:1.5.2'
-//}
-
 // load some common helper methods
 apply from: "${projectDir}/../../shared/common-helpers.gradle"
 
