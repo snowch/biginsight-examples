@@ -1,0 +1,3 @@
+create 'reviews', 'summary', 'reviewer', 'details'
+describe 'reviews'
+exit

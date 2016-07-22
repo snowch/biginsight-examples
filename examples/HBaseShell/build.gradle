@@ -36,8 +36,15 @@ task HBaseShellCommands << {
                 println "problem running kinit - maybe this is a Basic cluster?"
             }
 
+            // example script created on the fly
             execute """echo "describe 'test1'\nexit\n" > hbase_step1.txt"""
             execute """hbase shell ./hbase_step1.txt"""
+
+            // example with pre-created script
+            put from: "${projectDir}/hbase_step2.txt", 
+                into: "/home/${props.username}/hbase_step2.txt"
+
+            execute """hbase shell ./hbase_step2.txt"""
         }
     }
 }
