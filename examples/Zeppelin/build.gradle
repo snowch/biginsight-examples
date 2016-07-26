@@ -34,9 +34,19 @@ task Install << {
 }
 
 task Run {
-	dependsOn ZeppelinInstall
-    def port = 1212 // TODO check this is available
-    // TODO ssh port forwarding, e.g.
-    // ssh -L 1212:localhost:8080 snowch@bi-hadoop-prod-4005.bi.services.us-south.bluemix.net
-    print "Open a browser with URL: http://localhost:${port}"
+    ssh.run {
+        session(remotes.bicluster) {
+            def port = forwardLocalPort hostPort: 8080
+            def console = System.console()
+            if (console) {
+                def output = "\n\n" +
+                    "SSH forwarding localhost:${port} -> BigInsights zeppelin\n" +
+                    "Access zeppelin at: http://localhost:${port}.\n" +
+                    "Press ENTER to quit.\n\n"
+                console.readLine(output)
+            } else {
+                logger.error "Cannot get console."
+            }
+        }
+    }
 }
