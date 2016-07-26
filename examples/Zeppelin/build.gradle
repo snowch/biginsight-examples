@@ -33,7 +33,7 @@ task Install << {
     }
 }
 
-task Run {
+task Run << {
     ssh.run {
         session(remotes.bicluster) {
             def port = forwardLocalPort hostPort: 8080
