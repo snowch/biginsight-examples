@@ -79,8 +79,9 @@ First run Zeppelin.  In the brower window, you should see a list of notebooks:
 
 ![Pyspark Test Notebook](./Pyspark_Test.png)
 
-- Click on the Pyspark_Test notebook to open it
+- Click on the 'Pyspark Test' notebook to open it
 - Click on the run button in the notebook windows to execute the notebook code 
+- Verify the row count output from spark equals the expected row count
 
 
 ## Limitations
