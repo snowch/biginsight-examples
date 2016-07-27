@@ -79,9 +79,26 @@ First run Zeppelin.  In the brower window, you should see a list of notebooks:
 
 ![Pyspark Test Notebook](./Pyspark_Test.png)
 
+- Click on the drop down arrow at the top right
+  - Select Interpreter
+      - Search for 'spark'
+          - Navigate to the 'livy' section
+              - Click edit
+              - Change 'livy.spark.master' to 'yarn-client'
+              - Click Save
+              - Click OK to save and restart the interpreter
+          - Navigate to the 'spark' section
+              - Click edit
+              - Change 'master' to 'yarn-client'
+              - Click Save
+              - Click OK to save and restart the interpreter
 - Click on the 'Pyspark Test' notebook to open it
 - Click on the run button in the notebook windows to execute the notebook code 
 - Verify the row count output from spark equals the expected row count
+
+You should also be able to see the above spark job running on the spark cluster.  While the notebook is running, you could ssh into the cluster and run the command `yarn application -list`.  
+
+
 
 
 ## Limitations
