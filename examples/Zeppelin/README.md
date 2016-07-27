@@ -75,9 +75,9 @@ Follow the instructions output by the Run command.
 
 ### Test Zeppelin with Pyspark
 
-First run Zeppelin.  In the brower window, you should see a list of notebooks:
+First run Zeppelin.  In the brower window, you should see an option for configuring interpreters by clicking on the drop down menu button at the top right of the window:
 
-![Pyspark Test Notebook](./Pyspark_Test.png)
+![Configure Interpreters](./ConfigureInterpreters.png)
 
 - Click on the drop down arrow at the top right
   - Select Interpreter
@@ -92,6 +92,11 @@ First run Zeppelin.  In the brower window, you should see a list of notebooks:
               - Change 'master' to 'yarn-client'
               - Click Save
               - Click OK to save and restart the interpreter
+
+Click on the Notebook dropdown menu from the main toolbar and click on the Pyspark Test notebook:
+
+![Pyspark Test Notebook](./Pyspark_Test.png)
+
 - Click on the 'Pyspark Test' notebook to open it
 - Click on the run button in the notebook windows to execute the notebook code 
 - Verify the row count output from spark equals the expected row count
