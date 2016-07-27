@@ -1,4 +1,5 @@
 plugins {
+  // ssh plugin documentation: https://gradle-ssh-plugin.github.io/docs/
   id 'org.hidetake.ssh' version '1.5.0'
 }
 
@@ -9,14 +10,10 @@ apply from: "${projectDir}/../../shared/common-helpers.gradle"
 Properties props = new Properties()
 props.load(new FileInputStream("$projectDir/../../connection.properties"))
 
-task Install << {
-
-    // ssh plugin documentation: https://gradle-ssh-plugin.github.io/docs/
-    
+task Uninstall << {
     ssh.run {
         // remotes.bicluster is defined in shared/common-helpers.gradle
         session(remotes.bicluster) {
-
             try {
                 // initialise kerberos
                 execute "kinit -k -t ${props.username}.keytab ${props.username}@IBM.COM"
@@ -24,7 +21,29 @@ task Install << {
             catch (Exception e) {
                 println "problem running kinit - maybe this is a Basic cluster?"
             }
+            put from: "${projectDir}/zeppelin_uninstall.sh", 
+                into: "./zeppelin_uninstall.sh"
 
+            put from: "${projectDir}/Pyspark_Test.json", 
+                into: "./Pyspark_Test.json"
+
+            execute "bash ./zeppelin_uninstall.sh"
+        }
+    }
+}
+
+task Install << {
+
+    ssh.run {
+        // remotes.bicluster is defined in shared/common-helpers.gradle
+        session(remotes.bicluster) {
+            try {
+                // initialise kerberos
+                execute "kinit -k -t ${props.username}.keytab ${props.username}@IBM.COM"
+            } 
+            catch (Exception e) {
+                println "problem running kinit - maybe this is a Basic cluster?"
+            }
             put from: "${projectDir}/zeppelin_install.sh", 
                 into: "./zeppelin_install.sh"
 
