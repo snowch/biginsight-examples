@@ -50,6 +50,9 @@ task Install << {
             put from: "${projectDir}/zeppelin_install.sh", 
                 into: "./zeppelin_install.sh"
 
+            put from: "${projectDir}/configure_zeppelin_interpreters.py", 
+                into: "./configure_zeppelin_interpreters.py"
+
             execute "bash ./zeppelin_install.sh"
         }
     }
@@ -60,7 +63,16 @@ task Run << {
         session(remotes.bicluster) {
             
             // make sure zeppelin is running
-            execute "[[ -d ./${ZEPPELIN} ]] && ./${ZEPPELIN}/bin/zeppelin-daemon.sh status || ./${ZEPPELIN}/bin/zeppelin-daemon.sh start"
+            try {
+                execute "[[ -d ./${ZEPPELIN} ]]"
+            } 
+            catch (Exception e) {
+                throw new GradleException(
+                    "Couldn't find the Zeppelin installation.  Try running './gradlew Install'."
+                    )
+            }
+
+            execute "./${ZEPPELIN}/bin/zeppelin-daemon.sh status || ./${ZEPPELIN}/bin/zeppelin-daemon.sh start"
  
             def port = forwardLocalPort hostPort: 8080
             def console = System.console()

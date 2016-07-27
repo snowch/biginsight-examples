@@ -62,8 +62,7 @@ sed -i '/# export SPARK_HOME.*/a export SPARK_HOME=/usr/iop/current/spark-client
 # TODO poll for service by checking with curl
 sleep 30
 
-# curl -s http://localhost:8080/api/interpreter > /dev/null
-sed -i 's/"master": "local\[\*\]"/"master": "yarn-client"/' ./${ZEPPELIN}/conf/interpreter.json
+python ./configure_zeppelin_interpreters.py
 
 curl -X POST http://localhost:8080/api/notebook \
      -H "Content-Type: application/json" \
