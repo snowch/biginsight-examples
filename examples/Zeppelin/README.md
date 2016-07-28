@@ -16,6 +16,7 @@ Users will gain the most from these examples if they are:
 
 - You meet the [pre-requisites](../../README.md#pre-requisites) in the top level [README](../../README.md)
 - You have followed the [setup instructions](../../README.md#setup-instructions) in the top level [README](../../README.md)
+- You need to ensure you have the appropriate services running on your cluster for the interpreters you wish to use (e.g. Spark)
 
 ## Run the example
 
@@ -107,6 +108,5 @@ You should also be able to see the above spark job running on the spark cluster.
 
 ## Limitations
 
-- currently zeppelin binds to a fixed port on the cluster mastermanager node (8080) this means only one user can run zeppelin.  this will be fixed in future releases
 - current only the spark and bash interpreters are configured
 - currently only basic zeppelin spark configuration is performed: see [zeppelin_install.sh](./zeppelin_install.sh) for details

@@ -46,25 +46,21 @@ fi
 
 tar xzf ${ZEPPELIN}.tgz
 
-export SPARK_HOME=/usr/iop/current/spark-client
-export HADOOP_CONF_DIR=/usr/iop/current/hadoop-client/conf
-export SPARK_SUBMIT_OPTIONS=
+# copy the zeppelin environment variable script to the conf folder
+cp ./zeppelin_env.sh ./${ZEPPELIN}/conf/zeppelin-env.sh
 
-# SPARK_SUBMIT_OPTIONS - What we set here will depend on what we are planning to give to user as default installation. Check out the ones we have for our installation in zeppelin-env.sh in/home/biadmin/spark-enablement/installs/zepplein-with-r-grp2/conf in our cluster
-
-cp ./${ZEPPELIN}/conf/zeppelin-env.sh.template ./${ZEPPELIN}/conf/zeppelin-env.sh
-
-sed -i '/# export SPARK_HOME.*/a export SPARK_HOME=/usr/iop/current/spark-client' ./${ZEPPELIN}/conf/zeppelin-env.sh
-
+# load the zeppelin envivonment variables
+source ./${ZEPPELIN}/conf/zeppelin-env.sh
 
 ./${ZEPPELIN}/bin/zeppelin-daemon.sh start
+
 
 # TODO poll for service by checking with curl
 sleep 30
 
 python ./configure_zeppelin_interpreters.py
 
-curl -X POST http://localhost:8080/api/notebook \
+curl -X POST http://localhost:${ZEPPELIN_PORT}/api/notebook \
      -H "Content-Type: application/json" \
      -d @Pyspark_Test.json
 

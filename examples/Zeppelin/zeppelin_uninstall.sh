@@ -53,4 +53,5 @@ rm -f ${ZEPPELIN}.tgz
 rm -f ${ZEPPELIN}.tgz.*
 rm -f zeppelin_install.sh
 rm -f zeppelin_uninstall.sh
+rm -f zeppelin_env.sh
 
