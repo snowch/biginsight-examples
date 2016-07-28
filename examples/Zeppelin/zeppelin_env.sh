@@ -16,6 +16,6 @@
 # limitations under the License.
 #
 
-export ZEPPELIN_PORT=8081
+export ZEPPELIN_PORT=8080
 export SPARK_HOME=/usr/iop/current/spark-client
 export HADOOP_CONF_DIR=/usr/iop/current/hadoop-client/conf
