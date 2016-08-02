@@ -3,6 +3,10 @@
 
 *********************************************************************
 
+**NOTE: the examples in this repository are being migrated to https://github.com/IBM-Bluemix/BigInsights-on-Apache-Hadoop.  Please head over to that URL to see if the example you wish to try has been migrated.**
+
+*********************************************************************
+
 This repository contains example projects to help you quickly get started with BigInsights. Following the steps below on your client machine, it should take you less than 5 minutes to run any of the example projects against a BigInsights cluster. The projects are tested on BigInsights on Cloud (bluemix) but they should also work for BigInsights on-premise.
 
 The core idea is that you can run an example project to see it working against your BigInsights cluster. You can then copy the project and adapt it to add your own custom logic.  Think of the example projects as working blueprints.  A design decision was taken that the build scripts should be as independent as possible to allow developers to take a standalone example script project and reuse it with minimal effort.
