@@ -1,5 +1,0 @@
-<Beans>
-    <Bean Class="net.sourceforge.squirrel_sql.fw.datasetviewer.cellcomponent.DTProperties">
-        <dataArray Indexed="true"/>
-    </Bean>
-</Beans>

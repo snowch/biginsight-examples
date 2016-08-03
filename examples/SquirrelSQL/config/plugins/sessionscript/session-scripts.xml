@@ -1,8 +1,0 @@
-<Beans>
-    <Bean Class="net.sourceforge.squirrel_sql.plugins.sessionscript.AliasScript">
-        <SQL/>
-        <identifier Class="net.sourceforge.squirrel_sql.fw.id.UidIdentifier">
-            <string>1cc2465a:15507ffc69c:-7fc1</string>
-        </identifier>
-    </Bean>
-</Beans>

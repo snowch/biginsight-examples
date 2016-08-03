@@ -1,8 +1,0 @@
-Saved Queries Plugin (FAVS)
-===========================
- 
-
-0.1
-====
-- initial release
-
