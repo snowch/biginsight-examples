@@ -1,0 +1,77 @@
+<html>
+<head>
+<title>Command-line Usage</title>
+</head>
+
+<body>
+
+<p>
+
+As of version 1.15 of the DBCopy Plugin, a new command-line interface is available for 
+copying tables.  This can be useful for scripts in cases where copying is to be done 
+in an automated way without a user present.  Aliases that are configured in the SQuirreL SQL Client
+can be referenced using command-line parameters.  This alias re-use keeps the amount of configuration to 
+a minimum.  
+
+</p><p>
+
+There is a super-jar available for 
+download here: 
+
+<br>
+
+<a href="http://repo1.maven.org/maven2/net/sf/squirrel-sql/cli/dbcopy-cli/1.0.2/dbcopy-cli-1.0.2.jar">
+http://repo1.maven.org/maven2/net/sf/squirrel-sql/cli/dbcopy-cli/1.0.2/dbcopy-cli-1.0.2.jar</a>
+
+</p><p>
+
+Once the jar file is downloaded, it can be run with this command:
+
+java -jar dbcopy-cli-1.0.2.jar
+
+This will display the following usage:
+
+<pre>
+usage: DBCopyCLI --dest-alias <arg> --dest-catalog <arg> | --dest-schema
+       <arg>  --source-alias <arg> --source-catalog <arg> |
+       --source-schema <arg>  --table-list <arg> | --table-pattern <arg>
+    --dest-alias <arg>       The name of the destination alias to copy
+                             tables to
+    --dest-catalog <arg>     The destination catalog to copy tables into
+    --dest-schema <arg>      The destination schema to copy tables into
+    --source-alias <arg>     The name of the source alias to copy tables
+                             from
+    --source-catalog <arg>   The source catalog to copy tables from
+    --source-schema <arg>    The source schema to copy tables from
+    --table-list <arg>       A comma-delimited list of tables to copy
+    --table-pattern <arg>    A regexp pattern to match source table names
+</pre>
+
+Examples:
+<p>
+To copy the tables employee, customer and address from an alias called "Derby (dbcopysrc)" to 
+a database with alias "DB2 (DBCPDST)", issue the following command with a comma-delimited list 
+of tables:
+<pre>
+java -jar dbcopy-cli-1.0.2.jar --source-alias "Derby (dbcopysrc)"  
+					--dest-alias "DB2 (DBCPDST)" 
+					--source-catalog "" 
+					--source-schema "DBCOPY" 
+					--dest-catalog "" 
+					--dest-schema "DBCPDST" 
+					--table-list employee,employer,customer,address
+</pre>
+</p>
+To copy all tables matching the pattern "emp*", use the --table-pattern argument instead of the 
+--table-list (wildcard is specified as "%", as it is in standard SQL) :
+<pre>
+java -jar dbcopy-cli-1.0.2.jar --source-alias "Derby (dbcopysrc)"  
+					--dest-alias "DB2 (DBCPDST)" 
+					--source-catalog "" 
+					--source-schema "DBCOPY" 
+					--dest-catalog "" 
+					--dest-schema "DBCPDST" 
+					--table-pattern "emp%"
+</pre>
+</body>
+</html>

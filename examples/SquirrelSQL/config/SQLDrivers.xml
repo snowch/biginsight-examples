@@ -1,0 +1,23 @@
+<Beans>
+    <Bean Class="net.sourceforge.squirrel_sql.fw.sql.SQLDriver">
+        <driverClassName>com.ibm.db2.jcc.DB2Driver</driverClassName>
+        <identifier Class="net.sourceforge.squirrel_sql.fw.id.UidIdentifier">
+            <string>-78e7a89e:15507f70947:-7f83</string>
+        </identifier>
+        <jarFileName/>
+        <jarFileNames Indexed="true">
+            <Bean Class="net.sourceforge.squirrel_sql.fw.util.beanwrapper.StringWrapper">
+                <string>/Users/pierreregazzoni/biginsight-examples/examples/SquirrelSQL/../../downloads/db2jcc.jar</string>
+            </Bean>
+            <Bean Class="net.sourceforge.squirrel_sql.fw.util.beanwrapper.StringWrapper">
+                <string>/Users/pierreregazzoni/biginsight-examples/examples/SquirrelSQL/../../downloads/db2jcc4.jar</string>
+            </Bean>
+            <Bean Class="net.sourceforge.squirrel_sql.fw.util.beanwrapper.StringWrapper">
+                <string>/Users/pierreregazzoni/biginsight-examples/examples/SquirrelSQL/../../downloads/db2jcc_license_cu.jar</string>
+            </Bean>
+        </jarFileNames>
+        <name>bigsql</name>
+        <url>jdbc:db2://hostname:51000/bigsql:sslConnection=true;sslTrustStoreLocation=/Users/pierreregazzoni/biginsight-examples/examples/SquirrelSQL/truststore.jks;Password=mypassword;</url>
+        <websiteUrl/>
+    </Bean>
+</Beans>

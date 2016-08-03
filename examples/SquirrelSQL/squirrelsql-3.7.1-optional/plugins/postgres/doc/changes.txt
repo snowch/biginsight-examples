@@ -1,0 +1,35 @@
+DB2 Plugin Change Log
+=====================
+
+0.21
+====
+
+Enhancements:
+ - Added support for PostgreSQL(8.3.x) new xml type.
+
+Bug-Fixes:
+
+1845987: PostgreSQL interval types are not displayed
+
+0.20 
+====
+
+Contributions from Daniel Regli and Yannick Winiger:
+
+- Menu: added a new "PostgreSQL" menu to the object tree and the session menu for
+  Postgres specific functionalities.
+- Vacuum: added visual (dialog) support for the PostgreSQL-specific VACUUM statement for
+  garbage-collecting a selection of tables or the whole database.
+- Explain: added an additional SQLResultExecuter to the sql panel that shows
+  the query plan of executed statements.
+
+0.11
+====
+- Added database locks display tab for PostgreSQL sessions.  Click on the top 
+node in the object tree and look for a "Locks" tab.  Code was adapted from Rocco
+Rutte's tab of the same name and purpose in the EclipseSQL project.
+
+0.10
+====
+
+- Initial release.

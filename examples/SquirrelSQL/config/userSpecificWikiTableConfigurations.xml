@@ -1,0 +1,5 @@
+<Beans>
+    <Bean Class="net.sourceforge.squirrel_sql.fw.gui.action.wikiTable.WikiTableConfigurationStorage">
+        <configurations Indexed="true"/>
+    </Bean>
+</Beans>

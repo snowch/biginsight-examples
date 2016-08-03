@@ -1,0 +1,38 @@
+<Beans>
+    <Bean Class="net.sourceforge.squirrel_sql.client.gui.db.SQLAlias">
+        <autoLogon>false</autoLogon>
+        <colorProperties Class="net.sourceforge.squirrel_sql.client.gui.db.SQLAliasColorProperties">
+            <objectTreeBackgroundColorRgbValue>0</objectTreeBackgroundColorRgbValue>
+            <overrideObjectTreeBackgroundColor>false</overrideObjectTreeBackgroundColor>
+            <overrideStatusBarBackgroundColor>false</overrideStatusBarBackgroundColor>
+            <overrideToolbarBackgroundColor>false</overrideToolbarBackgroundColor>
+            <statusBarBackgroundColorRgbValue>0</statusBarBackgroundColorRgbValue>
+            <toolbarBackgroundColorRgbValue>0</toolbarBackgroundColorRgbValue>
+        </colorProperties>
+        <connectAtStartup>false</connectAtStartup>
+        <connectionProperties Class="net.sourceforge.squirrel_sql.client.gui.db.SQLAliasConnectionProperties">
+            <enableConnectionKeepAlive>false</enableConnectionKeepAlive>
+            <keepAliveSleepTimeSeconds>120</keepAliveSleepTimeSeconds>
+            <keepAliveSqlStatement/>
+        </connectionProperties>
+        <driverIdentifier Class="net.sourceforge.squirrel_sql.fw.id.UidIdentifier">
+            <string>-78e7a89e:15507f70947:-7f83</string>
+        </driverIdentifier>
+        <driverProperties Class="net.sourceforge.squirrel_sql.fw.sql.SQLDriverPropertyCollection">
+            <driverProperties Indexed="true"/>
+        </driverProperties>
+        <identifier Class="net.sourceforge.squirrel_sql.fw.id.UidIdentifier">
+            <string>1cc2465a:15507ffc69c:-7fc1</string>
+        </identifier>
+        <name>pkshah-180-master-2.bicloud.com</name>
+        <password>9v_HX7WubouZR_dvkqcs</password>
+        <schemaProperties Class="net.sourceforge.squirrel_sql.client.gui.db.SQLAliasSchemaProperties">
+            <cacheSchemaIndependentMetaData>false</cacheSchemaIndependentMetaData>
+            <globalState>0</globalState>
+            <schemaDetails Indexed="true"/>
+        </schemaProperties>
+        <url>jdbc:db2://pkshah-180-master-2.bicloud.com:51000/bigsql:sslConnection=true;sslTrustStoreLocation=/Users/pierreregazzoni/biginsight-examples/examples/SquirrelSQL/truststore.jks;Password=mypassword;</url>
+        <useDriverProperties>false</useDriverProperties>
+        <userName>biadmin</userName>
+    </Bean>
+</Beans>

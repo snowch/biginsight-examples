@@ -1,0 +1,6 @@
+<Beans>
+    <Bean Class="net.sourceforge.squirrel_sql.fw.datasetviewer.CellImportExportInfoSaver">
+        <cmdList Indexed="true"/>
+        <data Indexed="true"/>
+    </Bean>
+</Beans>

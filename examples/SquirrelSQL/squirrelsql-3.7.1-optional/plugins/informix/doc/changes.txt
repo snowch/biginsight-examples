@@ -1,0 +1,25 @@
+Informix Plugin Change Log
+==========================
+
+0.03
+====
+- 1732161 (Source code of procedures and triggers) Fixed to work with 
+Informix version 7.31, which requires that "ORDER BY" columns also appear in the
+"SELECT" clause. 
+- When executing an SQL statement with a syntax error, the driver is now asked
+to provide the position of the error in the statement.  If it is available, the
+cursor is moved to the position of the incorrect syntax.
+
+0.02
+====
+- Fixed to work with IDS 9 - qualified references to all system views by 
+  prefixing them with the string 'informix.' (no quotes).
+- Fixed ordering segements within the body of Stored Procedures.  
+- Applied code formatting to triggers and view source.  
+- Fixed erroneous inclusion of extra whitespace which for some definitions made
+the SQL invalid.
+
+0.01
+====
+
+- Initial release.

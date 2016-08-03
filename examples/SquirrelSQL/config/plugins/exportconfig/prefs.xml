@@ -1,0 +1,12 @@
+<Beans>
+    <Bean Class="net.sourceforge.squirrel_sql.plugins.exportconfig.ExportConfigPreferences">
+        <aliasesFileName>/Users/pierreregazzoni/biginsight-examples/examples/SquirrelSQL/SQLAliases23.xml</aliasesFileName>
+        <driversFileName>/Users/pierreregazzoni/biginsight-examples/examples/SquirrelSQL/SQLDrivers.xml</driversFileName>
+        <exportAliases>true</exportAliases>
+        <exportDrivers>true</exportDrivers>
+        <exportPreferences>true</exportPreferences>
+        <includePasswords>true</includePasswords>
+        <includeUserNames>true</includeUserNames>
+        <preferencesFileName>/Users/pierreregazzoni/biginsight-examples/examples/SquirrelSQL/prefs.xml</preferencesFileName>
+    </Bean>
+</Beans>

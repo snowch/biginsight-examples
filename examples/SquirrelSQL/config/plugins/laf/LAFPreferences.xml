@@ -1,0 +1,43 @@
+<Beans>
+    <Bean Class="net.sourceforge.squirrel_sql.plugins.laf.PlasticLookAndFeelController$PlasticThemePreferences">
+        <identifier Class="net.sourceforge.squirrel_sql.fw.id.IntegerIdentifier"/>
+        <themeName>Silver</themeName>
+    </Bean>
+    <Bean Class="net.sourceforge.squirrel_sql.plugins.laf.MetalLookAndFeelController$MetalThemePreferences">
+        <identifier Class="net.sourceforge.squirrel_sql.fw.id.IntegerIdentifier"/>
+        <themeName>Ocean</themeName>
+    </Bean>
+    <Bean Class="net.sourceforge.squirrel_sql.plugins.laf.SubstanceLookAndFeelController$SubstancePreferences">
+        <identifier Class="net.sourceforge.squirrel_sql.fw.id.IntegerIdentifier"/>
+        <skinName/>
+    </Bean>
+    <Bean Class="net.sourceforge.squirrel_sql.plugins.laf.TonicLookAndFeelController$TonicPreferences">
+        <identifier Class="net.sourceforge.squirrel_sql.fw.id.IntegerIdentifier"/>
+        <useTabbedPaneThickBorders>false</useTabbedPaneThickBorders>
+    </Bean>
+    <Bean Class="net.sourceforge.squirrel_sql.plugins.laf.SkinLookAndFeelController$SkinPreferences">
+        <identifier Class="net.sourceforge.squirrel_sql.fw.id.IntegerIdentifier"/>
+        <themePackDirectory>/Users/pierreregazzoni/biginsight-examples/examples/SquirrelSQL/squirrelsql-3.7.1-optional/plugins/laf/skinlf-theme-packs</themePackDirectory>
+        <themePackName/>
+    </Bean>
+    <Bean Class="net.sourceforge.squirrel_sql.plugins.laf.LAFPreferences">
+        <canLAFSetBorder>false</canLAFSetBorder>
+        <id Class="net.sourceforge.squirrel_sql.fw.id.UidIdentifier">
+            <string>-7d6b0f40:1550a13b0c5:-8000</string>
+        </id>
+        <identifier/>
+        <lookAndFeelClassName>javax.swing.plaf.metal.MetalLookAndFeel</lookAndFeelClassName>
+        <menuFontEnabled>false</menuFontEnabled>
+        <menuFontInfo/>
+        <otherFontEnabled>false</otherFontEnabled>
+        <otherFontInfo/>
+        <staticFontEnabled>false</staticFontEnabled>
+        <staticFontInfo/>
+        <statusBarFontEnabled>false</statusBarFontEnabled>
+        <statusBarFontInfo/>
+    </Bean>
+    <Bean Class="net.sourceforge.squirrel_sql.plugins.laf.jtattoo.JTattooLookAndFeelController$JTattooPreferences">
+        <identifier Class="net.sourceforge.squirrel_sql.fw.id.IntegerIdentifier"/>
+        <skinName/>
+    </Bean>
+</Beans>

@@ -1,0 +1,158 @@
+<HTML>
+
+<HEAD>
+    <TITLE>Derby Plugin</TITLE>
+</HEAD>
+
+<BODY>
+<center><h1>Derby Plugin</h1></center>
+
+<h2>Author</h2>
+<ul>
+<li>Rob Manning</li>
+</ul>
+
+<H2>Introduction</H2>
+
+<P>The Derby plugin adds Derby-specific functionality to the SQuirreL SQL
+Client. Read access is required to the following system views in order for this
+additional functionality to work correctly:
+<UL>
+<li>SYS.SYSSCHEMAS</li>
+<LI>SYS.SYSTABLES</LI>
+<li>SYS.SYSTRIGGERS</li>
+<LI>SYS.SYSVIEWS</LI>
+</UL>
+
+<H2>New Tabs</H2>
+
+<P>Triggers and Views are shown in the object tree and have 
+a &quot;Source&quot; tab which displays the source of the selected object. 
+Triggers also have a &quot;Details&quot; tab which gives trigger-specific 
+information about the object.  
+
+
+<!-- TRIGGER SOURCE -->
+
+<h2>Trigger Source Tab</h2>
+The source tab for triggers displays the source for a table trigger and can
+be accessed by navigating to the &quot;TRIGGER&quot; folder beneath a table 
+object in the object tree.  An example of this is shown in the following 
+picture:
+<p>
+<center>
+<img src="images/trigger_source.jpg">
+</center>
+<p>
+The source code for triggers is derived from the following query:
+<p>
+<pre>
+	select 'CREATE TRIGGER ' || t.TRIGGERNAME||' \n' 
+	    ||(select 
+	         CASE 
+	         WHEN t3.FIRINGTIME='B' THEN 'BEFORE' 
+	         WHEN t3.FIRINGTIME='A' THEN 'AFTER' 
+	         END 
+	       from SYS.SYSTRIGGERS t3 
+	       where t.TRIGGERID = t3.TRIGGERID) 
+	    || ' ' 
+	    ||(select CASE 
+	         WHEN t2.EVENT='U' THEN 'UPDATE' 
+	         WHEN t2.EVENT='D' THEN 'DELETE' 
+	         WHEN t2.EVENT='I' THEN 'INSERT' 
+	         END 
+	       from SYS.SYSTRIGGERS t2 
+	       where t.TRIGGERID = t2.TRIGGERID) 
+	     ||' ON ' 
+	     || ta.TABLENAME || ' \n'
+	     ||(select 
+	        CASE 
+	          WHEN t4.REFERENCINGOLD = 0 THEN '' 
+	          WHEN t4.REFERENCINGOLD = 1 
+	            THEN ' REFERENCING OLD AS ' || t4.OLDREFERENCINGNAME || ' \n'
+	        END 
+	        from SYS.SYSTRIGGERS t4 
+	        where t.TRIGGERID = t4.TRIGGERID) 
+	     ||(select 
+	        CASE 
+	          WHEN t5.REFERENCINGNEW = 0 THEN '' 
+	          WHEN t5.REFERENCINGNEW = 1 
+	            THEN ' REFERENCING NEW AS ' || t5.NEWREFERENCINGNAME || ' \n'
+	        END 
+	        from SYS.SYSTRIGGERS t5 
+	        where t.TRIGGERID = t5.TRIGGERID) 
+	     ||' FOR EACH ROW MODE DB2SQL \n' 
+	     || t.triggerdefinition 
+	from SYS.SYSTRIGGERS t, SYS.SYSTABLES ta, SYS.SYSSCHEMAS s 
+	where t.TABLEID = ta.TABLEID 
+	and s.SCHEMAID = t.SCHEMAID 
+	and t.TRIGGERNAME = ? 
+	and s.SCHEMANAME = ? 
+</pre>
+<p>
+
+<!-- TRIGGER DETAILS -->
+
+<h2>Trigger Details Tab</h2>
+The details tab for triggers displays information about the selected trigger 
+according to the system catalog. An example of this is shown in the following 
+picture:
+<p>
+<center>
+<img src="images/trigger_details.jpg">
+</center>
+<p>
+The information in the details tab for a trigger is derived from the following
+query:
+<p>
+<pre>
+	select tr.TRIGGERNAME       AS name, 
+	       sc.SCHEMANAME        AS schemaname, 
+	       tr.CREATIONTIMESTAMP AS createtime, 
+	       CASE 
+	         WHEN tr.EVENT='U' THEN 'UPDATE' 
+	         WHEN tr.EVENT='D' THEN 'DELETE' 
+	         WHEN tr.EVENT='I' THEN 'INSERT' 
+	       END AS event, 
+	       CASE 
+	         WHEN tr.FIRINGTIME='B' THEN 'BEFORE' 
+	         WHEN tr.FIRINGTIME='A' THEN 'AFTER' 
+	       END AS firingtime, 
+	       CASE 
+	         WHEN tr.TYPE='R' THEN 'ROW' 
+	         WHEN tr.TYPE='S' THEN 'STATEMENT' 
+	       END AS type, 
+	       t.TABLENAME AS TABLENAME 
+	from SYS.SYSTRIGGERS tr, SYS.SYSSCHEMAS sc, SYS.SYSTABLES t 
+	where TRIGGERNAME = ? 
+	and sc.SCHEMANAME = ? 
+	and tr.SCHEMAID = sc.SCHEMAID 
+	and tr.TABLEID = t.TABLEID 
+</pre>
+
+<!-- VIEW SOURCE -->
+
+<h2>View Source Tab</h2>
+The source tab for views displays the source for a view and can
+be accessed by navigating to the &quot;VIEW&quot; folder beneath a schema 
+object in the object tree.  An example of this is shown in the following 
+picture:
+<p>
+<center>
+<img src="images/view_source.jpg">
+</center>
+<p>
+The source code for views is derived from the following query:
+<p>
+<pre>
+	select v.VIEWDEFINITION 
+	from sys.SYSVIEWS v, sys.SYSTABLES t, sys.SYSSCHEMAS s 
+	where v.TABLEID = t.TABLEID 
+	and s.SCHEMAID = t.SCHEMAID 
+	and t.TABLENAME = ? 
+	and s.SCHEMANAME = ? 
+</pre>
+<p>
+</BODY>
+</HTML>
+

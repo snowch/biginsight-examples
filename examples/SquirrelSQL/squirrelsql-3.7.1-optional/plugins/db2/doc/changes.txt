@@ -1,0 +1,38 @@
+DB2 Plugin Change Log
+=====================
+
+0.05
+====
+
+ - Cristiano Guadagnino contributed all of the SQL required for the DB2Plugin to properly support the DB2 z/OS 
+   platform. Many thanks to Cristiano Guadagnino.
+
+
+0.04
+====
+ - Lars Heller provided a patch to add support for XML column types in SQuirreL via the 
+   DB2 Plugin (tested against DB2 v9.5 LUW)
+
+0.03
+====
+- Added tab for displaying the source code for DB2 MQTs as well as DB2 tables.
+- Added support for OS/400 (trigger source and details not yet implemented). 
+  Special thanks goes to Tilmann Brenk for submitting OS/400 versions of all SQL 
+  statements required to support the plugin features.
+- Added support for showing user-defined functions in the object tree and the 
+  source code that is associated with them if it is available.
+- When the source tab of a C-language stored procedure is selected, we now 
+  show the user a nice informative message stating that the source code is 
+  unavailable instead of merely displaying the word "null".
+
+0.02
+====
+
+- Exceptions from DB2 Universal JDBC driver are now interpreted as DB2Diagnoseable
+  exceptions so that the cause of the exception can be printed (Thanks to 
+  Christoph Schmitz)
+
+0.01
+====
+
+- Initial release.

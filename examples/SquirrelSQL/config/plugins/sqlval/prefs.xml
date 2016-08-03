@@ -1,0 +1,9 @@
+<Beans>
+    <Bean Class="net.sourceforge.squirrel_sql.plugins.sqlval.WebServicePreferences">
+        <clientName>SQuirreL SQL Client/SQL Validator plugin</clientName>
+        <clientVersion>3.7.1/0.13</clientVersion>
+        <useAnonymousClient>false</useAnonymousClient>
+        <useAnonymousLogon>true</useAnonymousLogon>
+        <userName/>
+    </Bean>
+</Beans>

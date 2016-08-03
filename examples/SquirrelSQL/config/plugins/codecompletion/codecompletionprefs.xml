@@ -1,0 +1,9 @@
+<Beans>
+    <Bean Class="net.sourceforge.squirrel_sql.plugins.codecompletion.prefs.CodeCompletionPreferences">
+        <generalCompletionConfig>0</generalCompletionConfig>
+        <matchCamelCase>false</matchCamelCase>
+        <maxLastSelectedCompletionNames>1</maxLastSelectedCompletionNames>
+        <prefixedConfigs Indexed="true"/>
+        <showRemarksInColumnCompletion>false</showRemarksInColumnCompletion>
+    </Bean>
+</Beans>

@@ -1,0 +1,5 @@
+<Beans>
+    <Bean Class="net.sourceforge.squirrel_sql.plugins.dataimport.prefs.DataImportPreferenceBean">
+        <useTruncate>true</useTruncate>
+    </Bean>
+</Beans>
