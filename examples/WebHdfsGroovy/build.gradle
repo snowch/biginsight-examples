@@ -1,0 +1,9 @@
+task Ls << { 
+    println "\n\n"
+    println '*' * 80
+    println "!! IMPORTANT !!"
+    println "This project has been migrated to https://github.com/IBM-Bluemix/BigInsights-on-Apache-Hadoop"
+    println "Please clone this new repository and retry the 'Ls' example"
+    println '*' * 80
+    println "\n\n"
+}
