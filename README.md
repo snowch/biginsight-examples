@@ -41,7 +41,7 @@ See the [FAQ](./FAQ.md) for common issues and their resolution.
 
 See the 5 minute demo at the end of the README to see these steps in action.
 
-- Clone this repository `git clone https://github.com/snowch/biginsight-examples.git`
+- Clone this repository `git clone https://github.com/IBM-Bluemix/BigInsights-on-Apache-Hadoop`
 - Copy `connection.properties_template` to `connection.properties`
 - Edit `connection.properties` to add your connection details for BigInsights and other optional services such as dashDB
 - In `connection.properties` uncomment the line `# known_hosts:allowAnyHosts`
